@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the composer package buepro/typo3-easyconf.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file that was distributed with this source code.
+ */
+
 namespace Buepro\Easyconf\Mapper;
 
 use Buepro\Easyconf\Configuration\Service\TypoScriptService;
@@ -15,7 +22,7 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterface
 {
     public const FILE_NAME = 'Constants';
-    public const TEMPLATE_TOKEN = "# The following line has been added automatically by the extension easyconf";
+    public const TEMPLATE_TOKEN = '# The following line has been added automatically by the extension easyconf';
 
     protected TypoScriptService $typoScriptService;
     protected string $fileLocation = 'fileadmin/tx_easyconf/Configuration/TypoScript/';
