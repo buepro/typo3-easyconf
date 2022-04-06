@@ -20,13 +20,13 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 class TypoScriptService implements SingletonInterface
 {
     protected ?ExtendedTemplateService $templateService;
-    protected ?array $templateRow;
+    protected array $templateRow = [];
     protected array $constants = [];
 
     public function init(int $pageUid): self
     {
         $this->templateService = GeneralUtility::makeInstance(ExtendedTemplateService::class);
-        $this->templateRow = $this->templateService->ext_getFirstTemplate($pageUid);
+        $this->templateRow = $this->templateService->ext_getFirstTemplate($pageUid) ?? [];
         $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid);
         $rootLine = $rootlineUtility->get();
         $this->templateService->runThroughTemplates($rootLine);
@@ -39,7 +39,7 @@ class TypoScriptService implements SingletonInterface
         if ($this->constants !== []) {
             return $this->constants;
         }
-        if (is_array($this->templateService->setup_constants)) {
+        if ($this->templateService !== null) {
             $this->constants = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)
                 ->convertTypoScriptArrayToPlainArray($this->templateService->setup_constants);
         }
@@ -62,6 +62,6 @@ class TypoScriptService implements SingletonInterface
 
     public function getRootPageUid(): int
     {
-        return $this->templateService->getRootId();
+        return $this->templateService !== null ? $this->templateService->getRootId() : 0;
     }
 }

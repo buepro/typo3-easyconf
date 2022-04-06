@@ -22,5 +22,5 @@ abstract class AbstractMapper
         $this->buffer[$mapProperty] = $value;
     }
 
-    abstract public function persistProperties();
+    abstract public function persistProperties(): void;
 }

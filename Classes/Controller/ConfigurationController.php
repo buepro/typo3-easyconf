@@ -20,12 +20,9 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class ConfigurationController extends ActionController
 {
-    /** @var ModuleTemplateFactory  */
-    protected $moduleTemplateFactory;
-    /** @var ?int $pageUid */
-    protected $pageUid;
-    /** @var ?int $templateUid */
-    protected $templateUid;
+    protected ModuleTemplateFactory $moduleTemplateFactory;
+    protected ?int $pageUid;
+    protected ?int $templateUid;
 
     public function __construct(
         ModuleTemplateFactory $moduleTemplateFactory
@@ -33,7 +30,7 @@ class ConfigurationController extends ActionController
         $this->moduleTemplateFactory = $moduleTemplateFactory;
     }
 
-    public function initializeAction()
+    public function initializeAction(): void
     {
         parent::initializeAction();
         $databaseService = GeneralUtility::makeInstance(DatabaseService::class);

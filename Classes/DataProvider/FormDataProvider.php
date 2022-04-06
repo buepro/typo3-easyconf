@@ -47,6 +47,7 @@ class FormDataProvider implements FormDataProviderInterface
                     $result['databaseRow'][$columnName] = $mapper->getProperty($mapProperty);
                 }
             }
+            // @phpstan-ignore-next-line
             $result = $this->eventDispatcher->dispatch(new AfterReadingPropertiesEvent($result))->getFields();
         }
         return $result;

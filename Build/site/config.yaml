@@ -2,7 +2,7 @@ base: 'https://easyconf.ddev.site'
 easyconf:
   demo:
     agency:
-      company: 'Lainen GmbH'
+      company: 'Lainen Hyvää GmbH'
       contact: ''
       email: ''
       phone: ''

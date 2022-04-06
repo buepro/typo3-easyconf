@@ -38,13 +38,13 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
         return $this->typoScriptService->getConstantByPath($mapProperty);
     }
 
-    public function persistProperties()
+    public function persistProperties(): void
     {
         GeneralUtility::writeFile($this->getFileWithAbsolutePath(), $this->getBufferContent());
         $this->updateTemplateRecord();
     }
 
-    protected function getFileWithRelativePath(): string
+    protected function getFileWithRelativePath(): ?string
     {
         return PathUtility::getRelativePath(Environment::getPublicPath(), $this->getFileWithAbsolutePath());
     }
@@ -77,9 +77,12 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     protected function updateTemplateRecord(): void
     {
         $constants = $this->typoScriptService->getTemplateRow()['constants'];
-        if (!str_contains($constants, self::TEMPLATE_TOKEN)) {
+        if (
+            !str_contains($constants, self::TEMPLATE_TOKEN) &&
+            ($fileName = $this->getFileWithRelativePath()) !== null
+        ) {
             $constants .= "\r\n\r\n" . self::TEMPLATE_TOKEN . "\r\n";
-            $constants .= sprintf("@import '%s'\r\n", $this->getFileWithRelativePath());
+            $constants .= sprintf("@import '%s'\r\n", $fileName);
             $templateUid = (int)$this->typoScriptService->getTemplateRow()['uid'];
             GeneralUtility::makeInstance(ConnectionPool::class)
                 ->getConnectionForTable('sys_template')

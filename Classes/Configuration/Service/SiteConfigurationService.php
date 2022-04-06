@@ -21,7 +21,7 @@ class SiteConfigurationService implements SingletonInterface
 {
     protected ?SiteConfiguration $siteConfigurationManager;
     protected ?Site $site;
-    protected ?array $siteData;
+    protected array $siteData = [];
 
     public function init(int $pageUid): self
     {
@@ -46,7 +46,7 @@ class SiteConfigurationService implements SingletonInterface
         return $this->site;
     }
 
-    public function getSiteData(): ?array
+    public function getSiteData(): array
     {
         return $this->siteData;
     }
@@ -62,7 +62,7 @@ class SiteConfigurationService implements SingletonInterface
 
     public function writeSiteData(array $siteData): void
     {
-        if ($this->getSite() !== null) {
+        if ($this->siteConfigurationManager !== null && $this->getSite() !== null) {
             $this->siteConfigurationManager->write($this->getSite()->getIdentifier(), $siteData);
         }
     }

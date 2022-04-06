@@ -31,7 +31,7 @@ class SiteConfigurationMapper extends AbstractMapper implements SingletonInterfa
         return $this->siteConfigurationService->getPropertyByPath($mapProperty);
     }
 
-    public function persistProperties()
+    public function persistProperties(): void
     {
         $siteData = $this->siteConfigurationService->getSiteData();
         foreach ($this->buffer as $mapProperty => $value) {
