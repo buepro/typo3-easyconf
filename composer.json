@@ -31,15 +31,16 @@
 		"ergebnis/composer-normalize": "^2.15.0",
 		"friendsofphp/php-cs-fixer": "^3.0.0",
 		"friendsoftypo3/phpstan-typo3": "^0.8.1",
-		"helhum/typo3-console": "^6.6 || ^7.0.2",
+		"helhum/typo3-console": "^7.0.2",
 		"overtrue/phplint": "^2.3.5",
 		"phpstan/phpstan": "^0.12.87",
 		"phpstan/phpstan-deprecation-rules": "^0.12.6",
 		"phpstan/phpstan-phpunit": "^0.12.19",
 		"phpstan/phpstan-strict-rules": "^0.12.9",
-		"typo3/cms-base-distribution": "^10.4 || ^11.5",
-		"typo3/cms-lowlevel": "^10.4 || ^11.5",
-		"typo3/cms-recycler": "^10.4 || ^11.5"
+		"typo3/cms-base-distribution": "^11.5",
+		"typo3/cms-lowlevel": "^11.5",
+		"typo3/cms-recycler": "^11.5",
+		"typo3/testing-framework": "^6.4"
 	},
 	"suggest": {
 		"buepro/typo3-pizpalue": "Template to provide better structured and appealing content while optimizing speed and SEO performance."
@@ -100,11 +101,7 @@
 			"@ci:php:stan"
 		],
 		"ci:tests": [
-			"@ci:tests:unit",
-			"@ci:tests:functional"
-		],
-		"ci:tests:functional": [
-			"phpunit -c Build/phpunit-functional.xml"
+			"@ci:tests:unit"
 		],
 		"ci:tests:unit": [
 			"phpunit -c Build/phpunit-unit.xml"

@@ -12,7 +12,15 @@ mariadb_version: "10.3"
 mysql_version: ""
 use_dns_when_possible: true
 composer_version: ""
-web_environment: []
+timezone: Europe/Zurich
+web_environment:
+  - PATH=/var/www/html/.build/bin:$PATH
+  - TYPO3_CONTEXT=Development
+  - typo3DatabaseHost=db
+  - typo3DatabaseName=t3func
+  - typo3DatabasePassword=root
+  - typo3DatabaseUsername=root
+  - PHP_IDE_CONFIG=serverName=easyconf.ddev.site
 
 
 # This config.yaml was created with ddev version v1.17.7

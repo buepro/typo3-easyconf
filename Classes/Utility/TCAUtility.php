@@ -17,7 +17,7 @@ class TCAUtility
 {
     public const MAPPING_PROPERTY = 'txEasyconfMapping';
 
-    public static function getFieldsToPropertyMap(
+    public static function getPropertyMap(
         string $mapId,
         string $mapPath,
         string $propertyList,
@@ -30,7 +30,10 @@ class TCAUtility
             $properties
         );
         if ($fieldList !== '') {
-            $fields = array_replace($fields, GeneralUtility::trimExplode(',', $fieldList));
+            $fields = array_replace($fields, array_filter(
+                GeneralUtility::trimExplode(',', $fieldList),
+                static fn ($item): bool => $item !== ''
+            ));
         }
         if ($fieldPrefix !== '') {
             $fields = array_map(
@@ -51,8 +54,7 @@ class TCAUtility
         $result = [];
         foreach ($propertyMaps as $propertyMap) {
             foreach ($propertyMap['fieldPropertyMap'] as $field => $property) {
-                $column = $field;
-                $result[$column] = [
+                $result[$field] = [
                     'label' => $l10nFile . ':' . $field,
                     self::MAPPING_PROPERTY => $propertyMap['mapId'] . ':' . $propertyMap['mapPath'] . '.' . $property,
                     'config' => [
@@ -85,7 +87,7 @@ class TCAUtility
                 }
                 $fields[] = GeneralUtility::camelCaseToLowerCaseUnderscored($propertyOrPalette);
             }
-            $tabs[] = '--div--;' . $l10nFile . ':' . $tab . ',' . implode(', ', $fields);
+            $tabs[] = '--div--;' . $l10nFile . ':' . $tab . ', ' . implode(', ', $fields);
         }
         return ['showitem' => implode(', ', $tabs)];
     }

@@ -14,12 +14,12 @@ defined('TYPO3') or die('Access denied.');
 
 (static function () {
     $propertyMaps = [
-        TCAUtility::getFieldsToPropertyMap(
+        TCAUtility::getPropertyMap(
             MapperFactory::MAP_ID_TS_CONST,
             'easyconf.demo',
             'company, domain, firstName, lastName'
         ),
-        TCAUtility::getFieldsToPropertyMap(
+        TCAUtility::getPropertyMap(
             MapperFactory::MAP_ID_SITE_CONF,
             'easyconf.demo.agency',
             'company, contact, email, phone',
