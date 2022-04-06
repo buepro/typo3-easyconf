@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z"
+		  product-name="easyconf">
+		<header/>
+		<body>
+			<trans-unit id="tab.owner" resname="tab.owner">
+				<source>Owner</source>
+			</trans-unit>
+			<trans-unit id="company" resname="company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="domain" resname="domain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="first_name" resname="first_name">
+				<source>Firstname</source>
+			</trans-unit>
+			<trans-unit id="last_name" resname="last_name">
+				<source>Lastname</source>
+			</trans-unit>
+			<trans-unit id="tab.agency" resname="tab.agency">
+				<source>Agency</source>
+			</trans-unit>
+			<trans-unit id="agency_company" resname="agency_company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="agency_contact" resname="agency_contact">
+				<source>Contact</source>
+			</trans-unit>
+			<trans-unit id="agency_phone" resname="agency_phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="agency_email" resname="agency_email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="" resname="">
+				<source></source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

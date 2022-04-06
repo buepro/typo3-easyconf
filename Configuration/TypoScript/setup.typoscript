@@ -1,0 +1,13 @@
+module.tx_easyconf {
+    view {
+        templateRootPaths.10 = EXT:easyconf/Resources/Private/Templates/
+        layoutRootPaths.10 = EXT:easyconf/Resources/Private/Layouts/
+    }
+    settings {
+        support {
+            url = https://www.buechler.pro
+            phone = +41445159855
+            email = info@buechler.pro
+        }
+    }
+}

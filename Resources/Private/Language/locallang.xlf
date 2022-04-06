@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z"
+		  product-name="easyconf">
+		<header/>
+		<body>
+			<trans-unit id="index.title" resname="index.title">
+				<source>Website configuration</source>
+			</trans-unit>
+			<trans-unit id="index.description" resname="index.description">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="noTemplate.title" resname="noTemplate.title">
+				<source>Template required</source>
+			</trans-unit>
+			<trans-unit id="noTemplate.description" resname="noTemplate.description">
+				<source>
+					For the selected page no template record is available. Select a page having a template record
+					or switch to the template module to create one for the current page.
+				</source>
+			</trans-unit>
+			<trans-unit id="switchTemplateModule" resname="switchTemplateModule">
+				<source>Switch to template module</source>
+			</trans-unit>
+			<trans-unit id="support.title" resname="support.title">
+				<source>Need help?</source>
+			</trans-unit>
+			<trans-unit id="support.description" resname="support.description">
+				<source>
+					TYPO3 is known for its flexibility. Almost all is possible...! This flexibility
+					increases as well the complexity and therefore more detailed adjustments require deeper
+					understanding. Don't lose precious time on further configuration and let the experts help you.
+					Mention "easyconf" and get 50% off from the first hour.
+				</source>
+			</trans-unit>
+			<trans-unit id="support.action.info" resname="support.action.info">
+				<source>Get more information</source>
+			</trans-unit>
+			<trans-unit id="support.action.call" resname="support.action.call">
+				<source>Call us</source>
+			</trans-unit>
+			<trans-unit id="support.action.email" resname="support.action.email">
+				<source>Send an email</source>
+			</trans-unit>
+			<trans-unit id="" resname="">
+				<source></source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

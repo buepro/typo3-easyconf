@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Buepro\Easyconf\:
+    resource: '../Classes/*'
+
+  Buepro\Easyconf\DataProvider\FormDataProvider:
+    public: true

@@ -1,0 +1,46 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+
+<f:layout name="Default" />
+
+<f:section name="Content">
+    <h1>{f:translate(key: 'index.title')}</h1>
+    <div class="col-md-8 col-lg-7 col-xl-6">
+        <f:if condition="{templateUid} == 0">
+            <f:be.infobox state="-2" title="{f:translate(key: 'noTemplate.title')}">
+                <p>{f:translate(key: 'noTemplate.description')}</p>
+                <a class="btn btn-primary" href="{be:moduleLink(route: 'web_ts', arguments: '{id: pageUid}')}">{f:translate(key: 'switchTemplateModule')}</a>
+            </f:be.infobox>
+        </f:if>
+        <f:be.infobox state="0" title="{f:translate(key: 'support.title')}">
+            <p>{f:translate(key: 'support.description')}</p>
+            <a class="btn btn-default" href="{settings.support.url}" target="_blank" title="{f:translate(key: 'support.action.info')}" role="button">
+                <core:icon identifier="actions-info-circle" size="default" />
+            </a>
+            <a class="btn btn-default" href="mailto:{settings.support.email}" target="_blank" title="{f:translate(key: 'support.action.email')}" role="button">
+                <core:icon identifier="actions-message" size="default" />
+            </a>
+            <a class="btn btn-default" href="tel:{settings.support.phone}" title="{f:translate(key: 'support.action.phone')}" role="button">
+                <core:icon identifier="actions-phone" size="default" />
+            </a>
+        </f:be.infobox>
+    </div>
+</f:section>
+
+<f:section name="Debug"><f:debug>{_all}</f:debug>
+    <p>
+        <be:link.editRecord uid="1" table="tx_easyconf_configuration" returnUrl="{f:be.uri(route: 'web_EasyconfConfiguration')}">
+            Edit
+        </be:link.editRecord>
+    </p>
+    <p>
+        <be:link.newRecord pid="1" table="tx_easyconf_configuration" returnUrl="{f:be.uri(route: 'web_EasyconfConfiguration')}">
+            New
+        </be:link.newRecord>
+    </p>
+</f:section>
+
+</html>
