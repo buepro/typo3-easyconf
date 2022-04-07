@@ -6,6 +6,3 @@ services:
 
   Buepro\Easyconf\:
     resource: '../Classes/*'
-
-  Buepro\Easyconf\DataProvider\FormDataProvider:
-    public: true

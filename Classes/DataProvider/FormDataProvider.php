@@ -17,9 +17,10 @@ use Buepro\Easyconf\Mapper\MapperFactory;
 use Buepro\Easyconf\Utility\TCAUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class FormDataProvider implements FormDataProviderInterface
+class FormDataProvider implements FormDataProviderInterface, SingletonInterface
 {
     protected EventDispatcherInterface $eventDispatcher;
 
