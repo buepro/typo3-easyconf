@@ -9,7 +9,7 @@ declare(strict_types = 1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Buepro\Easyconf\Test\Unit\Utility;
+namespace Buepro\Easyconf\Tests\Unit\Utility;
 
 use Buepro\Easyconf\Utility\TCAUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
