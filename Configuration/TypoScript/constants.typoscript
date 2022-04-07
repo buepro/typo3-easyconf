@@ -1,0 +1,2 @@
+# cat=tx_easyconf; type=string; label=TypoScript storage:Folder to store files from TypoScript mapping (e.g. fileadmin/ or EXT:my_ext/)
+module.tx_easyconf.typoScriptConstantMapper.storage =

@@ -13,6 +13,9 @@ defined('TYPO3') || die('Access denied.');
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup(
         '@import "EXT:easyconf/Configuration/TypoScript/setup.typoscript"'
     );
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptConstants(
+        '@import "EXT:easyconf/Configuration/TypoScript/constants.typoscript"'
+    );
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord']
         [\Buepro\Easyconf\DataProvider\FormDataProvider::class] = [

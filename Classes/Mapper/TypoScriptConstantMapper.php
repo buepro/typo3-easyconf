@@ -25,11 +25,17 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     public const TEMPLATE_TOKEN = '# The following line has been added automatically by the extension easyconf';
 
     protected TypoScriptService $typoScriptService;
-    protected string $fileLocation = 'fileadmin/tx_easyconf/Configuration/TypoScript/';
+    protected string $storage = 'fileadmin/tx_easyconf/Configuration/TypoScript/';
 
     public function __construct(TypoScriptService $typoScriptService)
     {
         $this->typoScriptService = $typoScriptService;
+        $fileLocation = $this->typoScriptService->getConstantByPath(
+            'module.tx_easyconf.typoScriptConstantMapper.storage'
+        );
+        if ($fileLocation !== '' && GeneralUtility::validPathStr($fileLocation)) {
+            $this->storage = str_ends_with($fileLocation, '/') ? $fileLocation : $fileLocation . '/';
+        }
     }
 
     public function getProperty(string $mapProperty): string
@@ -53,7 +59,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     {
         $fileName = GeneralUtility::getFileAbsFileName(sprintf(
             '%s%s%d.typoscript',
-            $this->fileLocation,
+            $this->storage,
             self::FILE_NAME,
             (int)$this->typoScriptService->getTemplateRow()['uid']
         ));
