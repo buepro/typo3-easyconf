@@ -18,14 +18,19 @@ class MapperFactory
     public const MAP_ID_TS_CONST = 'tsc';
     public const MAP_ID_SITE_CONF = 'site';
 
+    protected static array $mapIdClassMap = [
+        self::MAP_ID_TS_CONST => TypoScriptConstantMapper::class,
+        self::MAP_ID_SITE_CONF => SiteConfigurationMapper::class,
+    ];
+
     public static function getMapper(string $mapProperty): ?AbstractMapper
     {
-        [$specifier] = GeneralUtility::trimExplode(':', $mapProperty);
-        if ($specifier === self::MAP_ID_TS_CONST) {
-            return GeneralUtility::makeInstance(TypoScriptConstantMapper::class);
-        }
-        if ($specifier === self::MAP_ID_SITE_CONF) {
-            return GeneralUtility::makeInstance(SiteConfigurationMapper::class);
+        [$mapId] = GeneralUtility::trimExplode(':', $mapProperty);
+        if (
+            isset(self::$mapIdClassMap[$mapId]) &&
+            ($mapper = GeneralUtility::makeInstance(self::$mapIdClassMap[$mapId])) instanceof AbstractMapper
+        ) {
+            return $mapper;
         }
         return null;
     }
@@ -33,9 +38,7 @@ class MapperFactory
     /** @return AbstractMapper[] */
     public static function getMappers(): array
     {
-        return [
-            GeneralUtility::makeInstance(TypoScriptConstantMapper::class),
-            GeneralUtility::makeInstance(SiteConfigurationMapper::class),
-        ];
+        $result = array_map(static fn ($class) => GeneralUtility::makeInstance($class), self::$mapIdClassMap);
+        return array_filter($result, static fn ($object) => $object instanceof AbstractMapper);
     }
 }
