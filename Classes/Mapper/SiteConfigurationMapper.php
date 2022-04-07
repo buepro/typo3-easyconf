@@ -27,8 +27,8 @@ class SiteConfigurationMapper extends AbstractMapper implements SingletonInterfa
 
     public function getProperty(string $mapProperty): string
     {
-        [,$mapProperty] = GeneralUtility::trimExplode(':', $mapProperty);
-        return $this->siteConfigurationService->getPropertyByPath($mapProperty);
+        [,$property] = GeneralUtility::trimExplode(':', $mapProperty);
+        return $this->siteConfigurationService->getPropertyByPath($property);
     }
 
     public function persistProperties(): void

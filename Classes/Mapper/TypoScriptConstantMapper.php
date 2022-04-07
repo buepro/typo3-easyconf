@@ -34,8 +34,8 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     public function getProperty(string $mapProperty): string
     {
-        [,$mapProperty] = GeneralUtility::trimExplode(':', $mapProperty);
-        return $this->typoScriptService->getConstantByPath($mapProperty);
+        [,$property] = GeneralUtility::trimExplode(':', $mapProperty);
+        return $this->typoScriptService->getConstantByPath($property);
     }
 
     public function persistProperties(): void
