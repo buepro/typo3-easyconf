@@ -21,8 +21,8 @@ class TCAUtility
         string $mapId,
         string $mapPath,
         string $propertyList,
-        string $fieldList = '',
-        string $fieldPrefix = ''
+        string $fieldPrefix = '',
+        string $fieldList = ''
     ): array {
         $properties = GeneralUtility::trimExplode(',', $propertyList);
         $fields = array_map(

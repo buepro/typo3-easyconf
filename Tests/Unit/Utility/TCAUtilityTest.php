@@ -38,22 +38,22 @@ class TCAUtilityTest extends UnitTestCase
         ];
         return [
             'minimal params' => [$params, $expected],
-            'different field names' => [
-                array_replace($params, [3 => 'baz_foo,,fooBarBaz']),
-                array_replace($expected, [
-                    'propertyFieldMap' => ($pfm = ['foo' => 'baz_foo', 'bar' => 'bar', 'fooBar' => 'fooBarBaz']),
-                    'fieldPropertyMap' => array_flip($pfm),
-                ])
-            ],
             'prefix' => [
-                array_replace($params, [4 => 'pre']),
+                array_replace($params, [3 => 'pre']),
                 array_replace($expected, [
                     'propertyFieldMap' => ($pfm = ['foo' => 'pre_foo', 'bar' => 'pre_bar', 'fooBar' => 'pre_foo_bar']),
                     'fieldPropertyMap' => array_flip($pfm),
                 ])
             ],
+            'different field names' => [
+                array_replace($params, [4 => 'baz_foo,,fooBarBaz']),
+                array_replace($expected, [
+                    'propertyFieldMap' => ($pfm = ['foo' => 'baz_foo', 'bar' => 'bar', 'fooBar' => 'fooBarBaz']),
+                    'fieldPropertyMap' => array_flip($pfm),
+                ])
+            ],
             'different field names and prefix' => [
-                array_replace($params, [3 => 'baz_foo,,fooBarBaz', 4 => 'pre']),
+                array_replace($params, [3 => 'pre', 4 => 'baz_foo,,fooBarBaz']),
                 array_replace($expected, [
                     'propertyFieldMap' => ($pfm = ['foo' => 'pre_baz_foo', 'bar' => 'pre_bar', 'fooBar' => 'pre_fooBarBaz']),
                     'fieldPropertyMap' => array_flip($pfm),

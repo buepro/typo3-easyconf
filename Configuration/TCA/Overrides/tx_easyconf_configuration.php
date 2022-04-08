@@ -23,7 +23,6 @@ defined('TYPO3') or die('Access denied.');
             MapperFactory::MAP_ID_SITE_CONF,
             'easyconf.demo.agency',
             'company, contact, email, phone',
-            '',
             'agency'
         ),
     ];
