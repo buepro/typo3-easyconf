@@ -140,4 +140,39 @@ class TCAUtilityTest extends UnitTestCase
         ];
         self::assertSame($expected, TCAUtility::getType($tabs, $l10nFile));
     }
+
+    public function testModifyColumns(): void
+    {
+        $columns = [
+            'field1' => [
+                'label' => 'Field 1',
+                'config' => ['type' => 'input'],
+            ],
+            'field2' => [
+                'label' => 'Field 2',
+                'config' => ['type' => 'input'],
+            ],
+            'field3' => [
+                'label' => 'Field 3',
+                'config' => ['type' => 'input'],
+            ],
+        ];
+        $modifier = ['config' => ['renderType' => 'colorpicker']];
+        $expected = [
+            'field1' => [
+                'label' => 'Field 1',
+                'config' => ['type' => 'input', 'renderType' => 'colorpicker'],
+            ],
+            'field2' => [
+                'label' => 'Field 2',
+                'config' => ['type' => 'input'],
+            ],
+            'field3' => [
+                'label' => 'Field 3',
+                'config' => ['type' => 'input', 'renderType' => 'colorpicker'],
+            ],
+        ];
+        TCAUtility::modifyColumns($columns, 'field1, field3', $modifier);
+        self::assertSame($expected, $columns);
+    }
 }

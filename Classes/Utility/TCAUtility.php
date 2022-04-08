@@ -109,4 +109,23 @@ class TCAUtility
         }
         return ['showitem' => implode(', ', $localizedTabs)];
     }
+
+    public static function modifyColumns(
+        array &$columns,
+        string $propertyList,
+        array $modifier,
+        string $fieldPrefix = '',
+        string $fieldList = ''
+    ): void {
+        $fields = GeneralUtility::trimExplode(
+            ',',
+            self::getFieldList($propertyList, $fieldPrefix, $fieldList),
+            true
+        );
+        foreach ($fields as $fieldName) {
+            if (isset($columns[$fieldName])) {
+                $columns[$fieldName] = array_replace_recursive($columns[$fieldName], $modifier);
+            }
+        }
+    }
 }
