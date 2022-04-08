@@ -26,6 +26,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     protected TypoScriptService $typoScriptService;
     protected string $storage = 'fileadmin/tx_easyconf/Configuration/TypoScript/';
+    protected string $importStatementHandling = 'maintainAtEnd';
 
     public function __construct(TypoScriptService $typoScriptService)
     {
@@ -35,6 +36,12 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
         );
         if ($fileLocation !== '' && GeneralUtility::validPathStr($fileLocation)) {
             $this->storage = str_ends_with($fileLocation, '/') ? $fileLocation : $fileLocation . '/';
+        }
+        $importStatementHandling = trim($this->typoScriptService->getConstantByPath(
+            'module.tx_easyconf.typoScriptConstantMapper.importStatementHandling'
+        ));
+        if (in_array($importStatementHandling, ['addOnce', 'maintainAtEnd'], true)) {
+            $this->importStatementHandling = $importStatementHandling;
         }
     }
 
@@ -47,7 +54,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     public function persistProperties(): void
     {
         GeneralUtility::writeFile($this->getFileWithAbsolutePath(), $this->getBufferContent());
-        $this->updateTemplateRecord();
+        $this->addImportStatementToTemplateRecord();
     }
 
     protected function getFileWithRelativePath(): ?string
@@ -80,24 +87,31 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
         return implode("\r\n", $content);
     }
 
-    protected function updateTemplateRecord(): void
+    protected function addImportStatementToTemplateRecord(): void
     {
-        $constants = $this->typoScriptService->getTemplateRow()['constants'];
-        if (
-            !str_contains($constants, self::TEMPLATE_TOKEN) &&
-            ($fileName = $this->getFileWithRelativePath()) !== null
-        ) {
-            $constants .= "\r\n\r\n" . self::TEMPLATE_TOKEN . "\r\n";
-            $constants .= sprintf("@import '%s'\r\n", $fileName);
-            $templateUid = (int)$this->typoScriptService->getTemplateRow()['uid'];
-            GeneralUtility::makeInstance(ConnectionPool::class)
-                ->getConnectionForTable('sys_template')
-                ->update(
-                    'sys_template',
-                    ['constants' => $constants],
-                    ['uid' => $templateUid],
-                    [Connection::PARAM_STR]
-                );
+        $fileName = $this->getFileWithRelativePath();
+        if ($fileName === null) {
+            return;
         }
+        $constants = $this->typoScriptService->getTemplateRow()['constants'];
+        $tokenAndImportStatement = sprintf("%s\r\n@import '%s'", self::TEMPLATE_TOKEN, $fileName);
+        $constantsContainsToken = strpos($constants, self::TEMPLATE_TOKEN) !== false;
+        if ($constantsContainsToken && $this->importStatementHandling !== 'maintainAtEnd') {
+            return;
+        }
+        if ($constantsContainsToken && $this->importStatementHandling === 'maintainAtEnd') {
+            // Remove token with import statement
+            $parts = GeneralUtility::trimExplode($tokenAndImportStatement, $constants, true);
+            $constants = implode("\r\n", $parts);
+        }
+        $constants .= sprintf("\r\n\r\n%s", $tokenAndImportStatement);
+        GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('sys_template')
+            ->update(
+                'sys_template',
+                ['constants' => $constants],
+                ['uid' => (int)$this->typoScriptService->getTemplateRow()['uid']],
+                [Connection::PARAM_STR]
+            );
     }
 }

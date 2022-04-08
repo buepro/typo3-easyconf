@@ -1,2 +1,6 @@
-# cat=tx_easyconf; type=string; label=TypoScript storage:Folder to store files from TypoScript mapping (e.g. fileadmin/ or EXT:my_ext/)
-module.tx_easyconf.typoScriptConstantMapper.storage =
+module.tx_easyconf.typoScriptConstantMapper {
+    # cat=tx_easyconf; type=string; label=TypoScript storage:Folder to store files from TypoScript mapping (e.g. fileadmin/ or EXT:my_ext/)
+    storage =
+    # cat=tx_easyconf; type=options[Add once=addOnce, Maintain at end=maintainAtEnd]; label=Import statement handling
+    importStatementHandling = maintainAtEnd
+}
