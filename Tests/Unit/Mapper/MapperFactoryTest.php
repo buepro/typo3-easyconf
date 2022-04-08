@@ -17,11 +17,15 @@ use Buepro\Easyconf\Mapper\AbstractMapper;
 use Buepro\Easyconf\Mapper\MapperFactory;
 use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
 use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
+use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class MapperFactoryTest extends UnitTestCase
 {
+    use ProphecyTrait;
+
     public function getMapperReturnsNullDataProvider(): array
     {
         return [
@@ -47,7 +51,12 @@ class MapperFactoryTest extends UnitTestCase
     public function getMapperReturnsTypoScriptConstantMapper(): void
     {
         $this->resetSingletonInstances = true;
-        $typoScriptConstantMapper = new TypoScriptConstantMapper(new TypoScriptService());
+        // @phpstan-ignore-next-line
+        $typoScriptServiceProphecy = $this->prophesize(TypoScriptService::class);
+        // @phpstan-ignore-next-line
+        $typoScriptServiceProphecy->getConstantByPath(Argument::type('string'))->willReturn('');
+        // @phpstan-ignore-next-line
+        $typoScriptConstantMapper = new TypoScriptConstantMapper($typoScriptServiceProphecy->reveal());
         GeneralUtility::setSingletonInstance(TypoScriptConstantMapper::class, $typoScriptConstantMapper);
         self::assertSame(
             $typoScriptConstantMapper,
