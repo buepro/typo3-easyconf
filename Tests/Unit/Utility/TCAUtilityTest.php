@@ -16,7 +16,58 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TCAUtilityTest extends UnitTestCase
 {
-    public function testGetPropertyMapDataProvider(): array
+    public function testGetFieldsDataProvider(): array
+    {
+        $properties = ['foo', 'bar', 'fooBar'];
+        return [
+            'properties only' => [
+                [$properties], ['foo', 'bar', 'foo_bar'],
+            ],
+            'with prefix' => [
+                [$properties, 'pre'], ['pre_foo', 'pre_bar', 'pre_foo_bar'],
+            ],
+            'with field list' => [
+                [$properties, '', ',new_bar_baz, fooBar'], ['foo', 'new_bar_baz', 'fooBar'],
+            ],
+            'with prefix and field list' => [
+                [$properties, 'pre', ',new_bar_baz, fooBar'], ['pre_foo', 'pre_new_bar_baz', 'pre_fooBar'],
+            ],
+            'with linebreaks' => [
+                [['foo', '--linebreak--', 'bar']], ['foo', '--linebreak--', 'bar']
+            ],
+            'with linebreaks and prefix' => [
+                [['foo', '--linebreak--', 'bar'], 'pre'], ['pre_foo', '--linebreak--', 'pre_bar']
+            ],
+            'with linebreaks, prefix and field list' => [
+                [['foo', '--linebreak--', 'bar'], 'pre', ', *linebreak*'], ['pre_foo', 'pre_*linebreak*', 'pre_bar']
+            ],
+            'with palette 1' => [
+                [['foo', 'paletteTest']], ['foo', 'paletteTest']
+            ],
+            'with palette 2' => [
+                [['foo', 'testPalette']], ['foo', 'testPalette']
+            ],
+            'with palette and prefix' => [
+                [['foo', 'paletteTest'], 'pre'], ['pre_foo', 'paletteTest']
+            ],
+            'with palette, prefix and field list 1' => [
+                [['foo', 'paletteTest'], 'pre', ',otherPalette'], ['pre_foo', 'otherPalette']
+            ],
+            'with palette, prefix and field list 2' => [
+                [['foo', 'paletteTest'], 'pre', ',paletteAlt'], ['pre_foo', 'paletteAlt']
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider testGetFieldsDataProvider
+     */
+    public function testGetFields(array $params, array $expected): void
+    {
+        self::assertSame($expected, TCAUtility::getFields(...$params));
+    }
+
+    public function testGetPropertyMap(): void
     {
         $params = [
             'amap',
@@ -36,38 +87,7 @@ class TCAUtilityTest extends UnitTestCase
             'propertyFieldMap' => $propertyFieldMap,
             'fieldPropertyMap' => array_flip($propertyFieldMap),
         ];
-        return [
-            'minimal params' => [$params, $expected],
-            'prefix' => [
-                array_replace($params, [3 => 'pre']),
-                array_replace($expected, [
-                    'propertyFieldMap' => ($pfm = ['foo' => 'pre_foo', 'bar' => 'pre_bar', 'fooBar' => 'pre_foo_bar']),
-                    'fieldPropertyMap' => array_flip($pfm),
-                ])
-            ],
-            'different field names' => [
-                array_replace($params, [4 => 'baz_foo,,fooBarBaz']),
-                array_replace($expected, [
-                    'propertyFieldMap' => ($pfm = ['foo' => 'baz_foo', 'bar' => 'bar', 'fooBar' => 'fooBarBaz']),
-                    'fieldPropertyMap' => array_flip($pfm),
-                ])
-            ],
-            'different field names and prefix' => [
-                array_replace($params, [3 => 'pre', 4 => 'baz_foo,,fooBarBaz']),
-                array_replace($expected, [
-                    'propertyFieldMap' => ($pfm = ['foo' => 'pre_baz_foo', 'bar' => 'pre_bar', 'fooBar' => 'pre_fooBarBaz']),
-                    'fieldPropertyMap' => array_flip($pfm),
-                ])
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider testGetPropertyMapDataProvider
-     */
-    public function testGetPropertyMap(array $parameters, array $expected): void
-    {
-        self::assertSame($expected, TCAUtility::getPropertyMap(...$parameters));
+        self::assertSame($expected, TCAUtility::getPropertyMap(...$params));
     }
 
     public function testGetColumns(): void
@@ -99,53 +119,25 @@ class TCAUtilityTest extends UnitTestCase
         self::assertSame($expected, TCAUtility::getColumns($propertyMaps, $l10nFile));
     }
 
-    public function testGetPalettes(): void
+    public function testGetPalette(): void
     {
-        $palettes = [
-            'group' => 'foo, fooBar',
-        ];
-        $expected = [
-            'group' => ['showitem' => 'foo, fooBar'],
-        ];
-        self::assertSame($expected, TCAUtility::getPalettes($palettes));
+        $propertyList = 'foo, fooBar';
+        $expected = ['showitem' => 'foo, foo_bar'];
+        self::assertSame($expected, TCAUtility::getPalette($propertyList));
     }
 
     public function testType(): void
     {
-        $type = [
-            'tab.foo' => '--palette--;;foo, bar, bazBar, bar_baz',
-            'tab.bar' => 'bar'
+        $tabs = [
+            'tab.foo' => '--palette--;;foo, bar, bar_baz, barBaz',
+            'tab.sur' => 'sur, nor'
         ];
         $l10nFile = 'l10n.xlf';
         $expected = [
             'showitem' =>
-                '--div--;l10n.xlf:tab.foo, --palette--;;foo, bar, baz_bar, bar_baz, ' .
-                '--div--;l10n.xlf:tab.bar, bar',
+                '--div--;l10n.xlf:tab.foo, --palette--;;foo, bar, bar_baz, barBaz, ' .
+                '--div--;l10n.xlf:tab.sur, sur, nor',
         ];
-        self::assertSame($expected, TCAUtility::getType($type, $l10nFile));
-    }
-
-    public function testGetConfiguration(): void
-    {
-        $propertyMaps = [
-            TCAUtility::getPropertyMap(
-                'map1',
-                'path.to.properties',
-                'foo, fooBar'
-            )
-        ];
-        $palettes = [
-            'group' => 'foo, fooBar',
-        ];
-        $type = [
-            'tab.foo' => '--palette--;;foo, bar, bazBar, bar_baz',
-            'tab.bar' => 'bar'
-        ];
-        $l10nFile = 'l10n.xlf';
-        $actual = TCAUtility::getConfiguration($propertyMaps, $palettes, $type, $l10nFile);
-        self::assertCount(3, $actual);
-        self::assertSame('foo', array_key_first($actual[0]));
-        self::assertSame('group', array_key_first($actual[1]));
-        self::assertSame('showitem', array_key_first($actual[2]));
+        self::assertSame($expected, TCAUtility::getType($tabs, $l10nFile));
     }
 }

@@ -43,9 +43,6 @@
 		"typo3/cms-recycler": "^11.5",
 		"typo3/testing-framework": "^6.4"
 	},
-	"suggest": {
-		"buepro/typo3-pizpalue": "Template to provide better structured and appealing content while optimizing speed and SEO performance."
-	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"autoload": {

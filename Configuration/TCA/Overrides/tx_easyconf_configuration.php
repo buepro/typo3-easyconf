@@ -13,11 +13,18 @@ use Buepro\Easyconf\Utility\TCAUtility;
 defined('TYPO3') or die('Access denied.');
 
 (static function () {
+    $l10nFile = 'LLL:EXT:easyconf/Resources/Private/Language/locallang_db.xlf';
+    $tca = &$GLOBALS['TCA']['tx_easyconf_configuration'];
+
+    /**
+     * Define columns
+     */
     $propertyMaps = [
         TCAUtility::getPropertyMap(
             MapperFactory::MAP_ID_TS_CONST,
             'easyconf.demo',
-            'company, domain, firstName, lastName'
+            'company, domain, firstName, lastName',
+            'owner'
         ),
         TCAUtility::getPropertyMap(
             MapperFactory::MAP_ID_SITE_CONF,
@@ -26,19 +33,29 @@ defined('TYPO3') or die('Access denied.');
             'agency'
         ),
     ];
-    $palettes = [
-        'company' => 'company, domain',
+    $tca['columns'] = TCAUtility::getColumns($propertyMaps, $l10nFile);
+
+    /**
+     * Define palettes
+     */
+    $tca['palettes'] = [
+        'palettePompany' => TCAUtility::getPalette(
+            'company, domain',
+            'owner'
+        ),
     ];
-    $type = [
-        'tab.owner' => '--palette--;;company, firstName, lastName',
-        'tab.agency' => 'agency_company, agency_contact, agency_email, agency_phone',
+
+    /**
+     * Define type
+     */
+    $tabs = [
+        'tabOwner' => implode(', ', [
+            '--palette--;;palettePompany',
+            TCAUtility::getFieldList('firstName, lastName', 'owner'),
+        ]),
+        'tabAgency' => TCAUtility::getFieldList('company, contact, email, phone', 'agency'),
     ];
-    $tca = &$GLOBALS['TCA']['tx_easyconf_configuration'];
-    [$tca['columns'], $tca['palettes'], $tca['types'][0]] = TCAUtility::getConfiguration(
-        $propertyMaps,
-        $palettes,
-        $type,
-        'LLL:EXT:easyconf/Resources/Private/Language/locallang_db.xlf'
-    );
+    $tca['types'][0] = TCAUtility::getType($tabs, $l10nFile);
+
     unset($tca);
 })();

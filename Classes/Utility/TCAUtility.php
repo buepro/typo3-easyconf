@@ -17,16 +17,16 @@ class TCAUtility
 {
     public const MAPPING_PROPERTY = 'txEasyconfMapping';
 
-    public static function getPropertyMap(
-        string $mapId,
-        string $mapPath,
-        string $propertyList,
+    public static function getFields(
+        array $properties,
         string $fieldPrefix = '',
         string $fieldList = ''
     ): array {
-        $properties = GeneralUtility::trimExplode(',', $propertyList);
         $fields = array_map(
-            static fn (string $property): string => GeneralUtility::camelCaseToLowerCaseUnderscored($property),
+            static fn (string $property): string =>
+                stripos($property, 'palette') === false ?
+                    GeneralUtility::camelCaseToLowerCaseUnderscored($property) :
+                    $property,
             $properties
         );
         if ($fieldList !== '') {
@@ -37,10 +37,37 @@ class TCAUtility
         }
         if ($fieldPrefix !== '') {
             $fields = array_map(
-                static fn (string $field): string => $fieldPrefix . '_' . $field,
+                static fn (string $field): string =>
+                ($field === '--linebreak--') || stripos($field, 'palette') !== false ?
+                    $field :
+                    $fieldPrefix . '_' . $field,
                 $fields
             );
         }
+        return $fields;
+    }
+
+    public static function getFieldList(
+        string $propertyList,
+        string $fieldPrefix = '',
+        string $fieldList = ''
+    ): string {
+        return implode(', ', self::getFields(
+            GeneralUtility::trimExplode(',', $propertyList, true),
+            $fieldPrefix,
+            $fieldList
+        ));
+    }
+
+    public static function getPropertyMap(
+        string $mapId,
+        string $mapPath,
+        string $propertyList,
+        string $fieldPrefix = '',
+        string $fieldList = ''
+    ): array {
+        $properties = GeneralUtility::trimExplode(',', $propertyList);
+        $fields = self::getFields($properties, $fieldPrefix, $fieldList);
         return [
             'mapId' => $mapId,
             'mapPath' => $mapPath,
@@ -66,42 +93,20 @@ class TCAUtility
         return $result;
     }
 
-    public static function getPalettes(array $palettes): array
-    {
-        $result = [];
-        foreach ($palettes as $palette => $fields) {
-            $result[$palette] = ['showitem' => $fields];
-        }
-        return $result;
-    }
-
-    public static function getType(array $type, string $l10nFile): array
-    {
-        $tabs = [];
-        foreach ($type as $tab => $properties) {
-            $fields = [];
-            foreach (GeneralUtility::trimExplode(',', $properties) as $propertyOrPalette) {
-                if (strpos($propertyOrPalette, '--palette--') === 0) {
-                    $fields[] = $propertyOrPalette;
-                    continue;
-                }
-                $fields[] = GeneralUtility::camelCaseToLowerCaseUnderscored($propertyOrPalette);
-            }
-            $tabs[] = '--div--;' . $l10nFile . ':' . $tab . ', ' . implode(', ', $fields);
-        }
-        return ['showitem' => implode(', ', $tabs)];
-    }
-
-    public static function getConfiguration(
-        array $propertyMaps,
-        array $palettes,
-        array $type,
-        string $l10nFile
+    public static function getPalette(
+        string $propertyList,
+        string $fieldPrefix = '',
+        string $fieldList = ''
     ): array {
-        return [
-            self::getColumns($propertyMaps, $l10nFile),
-            self::getPalettes($palettes),
-            self::getType($type, $l10nFile),
-        ];
+        return ['showitem' => self::getFieldList($propertyList, $fieldPrefix, $fieldList)];
+    }
+
+    public static function getType(array $tabs, string $l10nFile): array
+    {
+        $localizedTabs = [];
+        foreach ($tabs as $tabName => $tabItemList) {
+            $localizedTabs[] = '--div--;' . $l10nFile . ':' . $tabName . ', ' . $tabItemList;
+        }
+        return ['showitem' => implode(', ', $localizedTabs)];
     }
 }
