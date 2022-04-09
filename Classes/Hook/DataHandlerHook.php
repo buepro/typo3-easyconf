@@ -69,15 +69,18 @@ class DataHandlerHook implements SingletonInterface
     protected function redirect(int $pid): void
     {
         header(HttpUtility::HTTP_STATUS_302);
-        if (isset($_REQUEST['_savedok']) && (int)$_REQUEST['_savedok'] === 1) {
-            header('Location: ' . (new UriService())->getEditUri($pid));
+        if (
+            (isset($_REQUEST['closeDoc']) && (int)$_REQUEST['closeDoc'] === 1) ||
+            (isset($_REQUEST['_saveandclosedok']) && (int)$_REQUEST['_saveandclosedok'] === 1)
+        ) {
+            header('Location: ' . (new UriService())->getInfoUri($pid));
             die();
         }
         if (isset($_REQUEST['_savedokview']) && (int)$_REQUEST['_savedokview'] === 1) {
             header('Location: ' . (new UriService())->getEditUri($pid, true));
             die();
         }
-        header('Location: ' . (new UriService())->getInfoUri($pid));
+        header('Location: ' . (new UriService())->getEditUri($pid));
         die();
     }
 }
