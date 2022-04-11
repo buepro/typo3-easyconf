@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Buepro\Easyconf\Hook;
 
 use Buepro\Easyconf\Configuration\ServiceManager;
-use Buepro\Easyconf\Event\AfterWritingPropertiesEvent;
+use Buepro\Easyconf\Event\BeforePersistingPropertiesEvent;
 use Buepro\Easyconf\Mapper\MapperFactory;
 use Buepro\Easyconf\Service\UriService;
 use Buepro\Easyconf\Utility\TCAUtility;
@@ -59,10 +59,10 @@ class DataHandlerHook implements SingletonInterface
                     $mapper->setProperty($data[$columnName], $mapProperty);
                 }
             }
+            $this->eventDispatcher->dispatch(new BeforePersistingPropertiesEvent($data));
             foreach (MapperFactory::getMappers() as $mapper) {
                 $mapper->persistProperties();
             }
-            $this->eventDispatcher->dispatch(new AfterWritingPropertiesEvent($data));
         }
     }
 

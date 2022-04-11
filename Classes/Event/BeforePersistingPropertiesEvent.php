@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Event;
 
-final class AfterWritingPropertiesEvent
+final class BeforePersistingPropertiesEvent
 {
     protected array $fields;
 
