@@ -7,7 +7,8 @@
  * LICENSE file that was distributed with this source code.
  */
 
-use Buepro\Easyconf\Mapper\MapperFactory;
+use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
+use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Utility\TCAUtility;
 
 defined('TYPO3') or die('Access denied.');
@@ -21,13 +22,13 @@ defined('TYPO3') or die('Access denied.');
      */
     $propertyMaps = [
         TCAUtility::getPropertyMap(
-            MapperFactory::MAP_ID_TS_CONST,
+            TypoScriptConstantMapper::class,
             'easyconf.demo',
             'company, domain, firstName, lastName',
             'owner'
         ),
         TCAUtility::getPropertyMap(
-            MapperFactory::MAP_ID_SITE_CONF,
+            SiteConfigurationMapper::class,
             'easyconf.demo.agency',
             'company, contact, email, phone',
             'agency'

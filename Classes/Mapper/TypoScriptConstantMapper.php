@@ -45,10 +45,9 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
         }
     }
 
-    public function getProperty(string $mapProperty): string
+    public function getProperty(string $path): string
     {
-        [,$property] = GeneralUtility::trimExplode(':', $mapProperty);
-        return $this->typoScriptService->getConstantByPath($property);
+        return $this->typoScriptService->getConstantByPath($path);
     }
 
     public function persistProperties(): void
@@ -80,8 +79,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     protected function getBufferContent(): string
     {
         $content = [];
-        foreach ($this->buffer as $mapProperty => $value) {
-            [, $path] = GeneralUtility::trimExplode(':', $mapProperty);
+        foreach ($this->buffer as $path => $value) {
             $content[] = sprintf('%s = %s', $path, $value);
         }
         return implode("\r\n", $content);

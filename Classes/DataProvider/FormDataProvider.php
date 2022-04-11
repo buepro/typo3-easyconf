@@ -13,8 +13,7 @@ namespace Buepro\Easyconf\DataProvider;
 
 use Buepro\Easyconf\Configuration\ServiceManager;
 use Buepro\Easyconf\Event\AfterReadingPropertiesEvent;
-use Buepro\Easyconf\Mapper\MapperFactory;
-use Buepro\Easyconf\Utility\TCAUtility;
+use Buepro\Easyconf\Mapper\AbstractMapper;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -41,14 +40,18 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
             ($columns = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'] ?? null) !== null &&
             GeneralUtility::makeInstance(ServiceManager::class)->init($pageUid)
         ) {
+            // Include JS to hide new and delete button
             GeneralUtility::makeInstance(PageRenderer::class)
                 ->loadRequireJsModule('TYPO3/CMS/Easyconf/FormDataProvider');
+            // Read in properties
             foreach ($columns as $columnName => $columnConfig) {
                 if (
-                    ($mapProperty = $columnConfig[TCAUtility::MAPPING_PROPERTY] ?? null) !== null &&
-                    ($mapper = MapperFactory::getMapper($mapProperty)) !== null
+                    ($mapperClass = $columnConfig['tx_easyconf']['mapper'] ?? '') !== '' &&
+                    ($path = $columnConfig['tx_easyconf']['path'] ?? '') !== '' &&
+                    class_exists($mapperClass) &&
+                    ($mapper = AbstractMapper::getInstance($mapperClass)) !== null
                 ) {
-                    $result['databaseRow'][$columnName] = $mapper->getProperty($mapProperty);
+                    $result['databaseRow'][$columnName] = $mapper->getProperty($path);
                 }
             }
             // @phpstan-ignore-next-line

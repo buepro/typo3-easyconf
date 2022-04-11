@@ -11,15 +11,39 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Mapper;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 abstract class AbstractMapper
 {
     protected array $buffer = [];
+    /** @var AbstractMapper[] $instances */
+    protected static array $instances = [];
 
-    abstract public function getProperty(string $mapProperty): string;
-
-    public function setProperty(string $value, string $mapProperty): void
+    public static function getInstance(string $className): ?self
     {
-        $this->buffer[$mapProperty] = $value;
+        if (!class_exists($className)) {
+            return null;
+        }
+        if (
+            !isset(self::$instances[$className]) &&
+            ($mapper = GeneralUtility::makeInstance($className)) instanceof self
+        ) {
+            self::$instances[$className] = $mapper;
+        }
+        return self::$instances[$className];
+    }
+
+    /** @return AbstractMapper[] */
+    public static function getInstances(): array
+    {
+        return self::$instances;
+    }
+
+    abstract public function getProperty(string $path): string;
+
+    public function setProperty(string $path, string $value): void
+    {
+        $this->buffer[$path] = $value;
     }
 
     abstract public function persistProperties(): void;

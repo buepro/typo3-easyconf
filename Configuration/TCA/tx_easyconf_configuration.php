@@ -23,5 +23,10 @@ return [
         'iconfile' => 'EXT:easyconf/Resources/Public/Icons/Extension.svg',
         'rootLevel' => 0,
         'hideTable' => 1,
+        'EXT' => [
+            'easyconf' => [
+                'dataHandlerAllowedFields' => 'title',
+            ]
+        ],
     ],
 ];

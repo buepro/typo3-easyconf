@@ -15,8 +15,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TCAUtility
 {
-    public const MAPPING_PROPERTY = 'txEasyconfMapping';
-
     public static function getFields(
         array $properties,
         string $fieldPrefix = '',
@@ -60,8 +58,8 @@ class TCAUtility
     }
 
     public static function getPropertyMap(
-        string $mapId,
-        string $mapPath,
+        string $mapper,
+        string $path,
         string $propertyList,
         string $fieldPrefix = '',
         string $fieldList = ''
@@ -69,8 +67,8 @@ class TCAUtility
         $properties = GeneralUtility::trimExplode(',', $propertyList);
         $fields = self::getFields($properties, $fieldPrefix, $fieldList);
         return [
-            'mapId' => $mapId,
-            'mapPath' => $mapPath,
+            'mapper' => $mapper,
+            'path' => $path,
             'propertyFieldMap' => array_combine($properties, $fields),
             'fieldPropertyMap' => array_combine($fields, $properties),
         ];
@@ -83,7 +81,10 @@ class TCAUtility
             foreach ($propertyMap['fieldPropertyMap'] as $field => $property) {
                 $result[$field] = [
                     'label' => $l10nFile . ':' . $field,
-                    self::MAPPING_PROPERTY => $propertyMap['mapId'] . ':' . $propertyMap['mapPath'] . '.' . $property,
+                    'tx_easyconf' => [
+                        'mapper' => $propertyMap['mapper'],
+                        'path' => $propertyMap['path'] . '.' . $property,
+                    ],
                     'config' => [
                         'type' => 'input',
                     ],

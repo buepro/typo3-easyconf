@@ -70,7 +70,7 @@ class TCAUtilityTest extends UnitTestCase
     public function testGetPropertyMap(): void
     {
         $params = [
-            'amap',
+            'mapper1',
             'path.to.property',
             'foo, bar, fooBar',
             '',
@@ -82,8 +82,8 @@ class TCAUtilityTest extends UnitTestCase
             'fooBar' => 'foo_bar',
         ];
         $expected = [
-            'mapId' => 'amap',
-            'mapPath' => 'path.to.property',
+            'mapper' => 'mapper1',
+            'path' => 'path.to.property',
             'propertyFieldMap' => $propertyFieldMap,
             'fieldPropertyMap' => array_flip($propertyFieldMap),
         ];
@@ -94,7 +94,7 @@ class TCAUtilityTest extends UnitTestCase
     {
         $propertyMaps = [
             TCAUtility::getPropertyMap(
-                'map1',
+                'mapper1',
                 'path.to.properties',
                 'foo, fooBar'
             )
@@ -103,14 +103,20 @@ class TCAUtilityTest extends UnitTestCase
         $expected = [
             'foo' => [
                 'label' => $l10nFile . ':' . 'foo',
-                TCAUtility::MAPPING_PROPERTY => 'map1:path.to.properties.foo',
+                'tx_easyconf' => [
+                    'mapper' => 'mapper1',
+                    'path' => 'path.to.properties.foo'
+                ],
                 'config' => [
                     'type' => 'input',
                 ],
             ],
             'foo_bar' => [
                 'label' => $l10nFile . ':' . 'foo_bar',
-                TCAUtility::MAPPING_PROPERTY => 'map1:path.to.properties.fooBar',
+                'tx_easyconf' => [
+                    'mapper' => 'mapper1',
+                    'path' => 'path.to.properties.fooBar'
+                ],
                 'config' => [
                     'type' => 'input',
                 ],

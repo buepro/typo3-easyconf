@@ -13,8 +13,8 @@ namespace Buepro\Easyconf\Hook;
 
 use Buepro\Easyconf\Configuration\ServiceManager;
 use Buepro\Easyconf\Event\BeforePersistingPropertiesEvent;
-use Buepro\Easyconf\Mapper\MapperFactory;
-use Buepro\Easyconf\Utility\TCAUtility;
+use Buepro\Easyconf\Mapper\AbstractMapper;
+use Buepro\Easyconf\Service\DatabaseService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -36,31 +36,47 @@ class DataHandlerHook implements SingletonInterface
         DataHandler $dataHandler
     ): void {
         if ($table === 'tx_easyconf_configuration') {
-            $this->writeProperties($incomingFieldArray);
-            $incomingFieldArray = [];
+            $this->writeProperties($incomingFieldArray, (int)$id);
+            $this->filterIncomingFieldArray($incomingFieldArray);
         }
     }
 
-    protected function writeProperties(array $data): void
+    protected function writeProperties(array $data, int $id): void
     {
         if (
-            ($pageUid = (int)($data['pid'] ?? 0)) > 0 &&
             ($columns = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'] ?? null) !== null &&
+            ($pageUid = GeneralUtility::makeInstance(DatabaseService::class)
+                ->getField('tx_easyconf_configuration', 'pid', ['uid' => $id])) > 0 &&
             GeneralUtility::makeInstance(ServiceManager::class)->init($pageUid)
         ) {
             foreach ($columns as $columnName => $columnConfig) {
                 if (
                     isset($data[$columnName]) &&
-                    ($mapProperty = $columnConfig[TCAUtility::MAPPING_PROPERTY] ?? null) !== null &&
-                    ($mapper = MapperFactory::getMapper($mapProperty)) !== null
+                    ($mapperClass = $columnConfig['tx_easyconf']['mapper'] ?? '') !== '' &&
+                    ($path = $columnConfig['tx_easyconf']['path'] ?? '') !== '' &&
+                    class_exists($mapperClass) &&
+                    ($mapper = AbstractMapper::getInstance($mapperClass)) !== null
                 ) {
-                    $mapper->setProperty($data[$columnName], $mapProperty);
+                    $mapper->setProperty($path, $data[$columnName]);
                 }
             }
             $this->eventDispatcher->dispatch(new BeforePersistingPropertiesEvent($data));
-            foreach (MapperFactory::getMappers() as $mapper) {
+            foreach (AbstractMapper::getInstances() as $mapper) {
                 $mapper->persistProperties();
             }
         }
+    }
+
+    protected function filterIncomingFieldArray(array &$incomingFieldArray): void
+    {
+        $allowedFields = array_flip(GeneralUtility::trimExplode(
+            ',',
+            $GLOBALS['TCA']['tx_easyconf_configuration']['ctrl']['EXT']['easyconf']['dataHandlerAllowedFields'] ?? ''
+        ));
+        $incomingFieldArray = array_filter(
+            $incomingFieldArray,
+            static fn ($field) => isset($allowedFields[$field]),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 }

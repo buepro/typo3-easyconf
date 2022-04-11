@@ -14,7 +14,6 @@ namespace Buepro\Easyconf\Mapper;
 use Buepro\Easyconf\Configuration\Service\SiteConfigurationService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SiteConfigurationMapper extends AbstractMapper implements SingletonInterface
 {
@@ -25,17 +24,15 @@ class SiteConfigurationMapper extends AbstractMapper implements SingletonInterfa
         $this->siteConfigurationService = $siteConfigurationService;
     }
 
-    public function getProperty(string $mapProperty): string
+    public function getProperty(string $path): string
     {
-        [,$property] = GeneralUtility::trimExplode(':', $mapProperty);
-        return $this->siteConfigurationService->getPropertyByPath($property);
+        return $this->siteConfigurationService->getPropertyByPath($path);
     }
 
     public function persistProperties(): void
     {
         $siteData = $this->siteConfigurationService->getSiteData();
-        foreach ($this->buffer as $mapProperty => $value) {
-            [, $path] = GeneralUtility::trimExplode(':', $mapProperty);
+        foreach ($this->buffer as $path => $value) {
             $siteData = ArrayUtility::setValueByPath($siteData, $path, $value, '.');
         }
         $this->siteConfigurationService->writeSiteData($siteData);
