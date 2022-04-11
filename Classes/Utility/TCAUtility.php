@@ -96,8 +96,20 @@ class TCAUtility
     public static function getPalette(
         string $propertyList,
         string $fieldPrefix = '',
+        int $lineBreakPeriod = 2,
         string $fieldList = ''
     ): array {
+        if ($lineBreakPeriod > 0) {
+            $properties = GeneralUtility::trimExplode(',', $propertyList);
+            $propertiesWithLineBreaks = [];
+            foreach ($properties as $key => $value) {
+                if ($key > 0 && $key % $lineBreakPeriod === 0) {
+                    $propertiesWithLineBreaks[] = '--linebreak--';
+                }
+                $propertiesWithLineBreaks[] = $value;
+            }
+            $propertyList = implode(', ', $propertiesWithLineBreaks);
+        }
         return ['showitem' => self::getFieldList($propertyList, $fieldPrefix, $fieldList)];
     }
 
@@ -127,5 +139,13 @@ class TCAUtility
                 $columns[$fieldName] = array_replace_recursive($columns[$fieldName], $modifier);
             }
         }
+    }
+
+    public static function excludeProperties(string $propertyList, string $excludeList): string
+    {
+        $properties = GeneralUtility::trimExplode(',', $propertyList, true);
+        $excluded = array_flip(GeneralUtility::trimExplode(',', $excludeList, true));
+        $properties = array_filter($properties, static fn ($prop) => !isset($excluded[$prop]));
+        return implode(', ', $properties);
     }
 }

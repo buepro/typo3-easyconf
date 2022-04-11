@@ -121,9 +121,15 @@ class TCAUtilityTest extends UnitTestCase
 
     public function testGetPalette(): void
     {
-        $propertyList = 'foo, fooBar';
-        $expected = ['showitem' => 'foo, foo_bar'];
-        self::assertSame($expected, TCAUtility::getPalette($propertyList));
+        $propertyList = 'foo, fooBar, baz';
+        self::assertSame(
+            ['showitem' => 'foo, foo_bar, --linebreak--, baz'],
+            TCAUtility::getPalette($propertyList)
+        );
+        self::assertSame(
+            ['showitem' => 'foo, foo_bar, baz'],
+            TCAUtility::getPalette($propertyList, '', 0)
+        );
     }
 
     public function testType(): void
@@ -174,5 +180,29 @@ class TCAUtilityTest extends UnitTestCase
         ];
         TCAUtility::modifyColumns($columns, 'field1, field3', $modifier);
         self::assertSame($expected, $columns);
+    }
+
+    public function testExcludePropertiesDataProvider(): array
+    {
+        $propertyList = 'foo, bar, fooBar, foo_bar';
+        return [
+            'exclude none' => [$propertyList, '', $propertyList],
+            'exclude first' => [$propertyList, 'foo', 'bar, fooBar, foo_bar'],
+            'exclude between' => [$propertyList, 'bar', 'foo, fooBar, foo_bar'],
+            'exclude last' => [$propertyList, 'foo_bar', 'foo, bar, fooBar'],
+            'exclude several' => [$propertyList, 'foo, fooBar', 'bar, foo_bar'],
+            'exclude all' => [$propertyList, $propertyList, ''],
+        ];
+    }
+
+    /**
+     * @dataProvider testExcludePropertiesDataProvider
+     */
+    public function testExcludeProperties(string $propertyList, string $excluded, string $expected): void
+    {
+        self::assertSame(
+            $expected,
+            TCAUtility::excludeProperties($propertyList, $excluded)
+        );
     }
 }
