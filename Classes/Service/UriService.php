@@ -24,15 +24,17 @@ class UriService
         $this->uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
     }
 
-    public function getEditUri(int $pageUid, bool $withPreview = false): string
+    public function getEditUri(array $configuration, bool $withPreview = false): string
     {
+        $uid = (int)$configuration['uid'];
+        $pid = (int)$configuration['pid'];
         $params = [
-            'edit' => ['tx_easyconf_configuration' => [$pageUid => 'new']],
-            'returnUrl' => $this->getInfoUri($pageUid),
+            'edit' => ['tx_easyconf_configuration' => [$uid => 'edit']],
+            'returnUrl' => $this->getInfoUri($pid),
         ];
         if ($withPreview) {
             $params['showPreview'] = true;
-            $params['popViewId'] = $pageUid;
+            $params['popViewId'] = $pid;
         }
         return (string)$this->uriBuilder->buildUriFromRoute('record_edit', $params);
     }

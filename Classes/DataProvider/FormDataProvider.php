@@ -17,6 +17,7 @@ use Buepro\Easyconf\Mapper\MapperFactory;
 use Buepro\Easyconf\Utility\TCAUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -40,6 +41,8 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
             ($columns = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'] ?? null) !== null &&
             GeneralUtility::makeInstance(ServiceManager::class)->init($pageUid)
         ) {
+            GeneralUtility::makeInstance(PageRenderer::class)
+                ->loadRequireJsModule('TYPO3/CMS/Easyconf/FormDataProvider');
             foreach ($columns as $columnName => $columnConfig) {
                 if (
                     ($mapProperty = $columnConfig[TCAUtility::MAPPING_PROPERTY] ?? null) !== null &&

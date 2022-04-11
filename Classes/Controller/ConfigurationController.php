@@ -15,6 +15,7 @@ use Buepro\Easyconf\Service\DatabaseService;
 use Buepro\Easyconf\Service\UriService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -23,6 +24,7 @@ class ConfigurationController extends ActionController
     protected ModuleTemplateFactory $moduleTemplateFactory;
     protected ?int $pageUid;
     protected ?int $templateUid;
+    protected ?array $configuration;
 
     public function __construct(
         ModuleTemplateFactory $moduleTemplateFactory
@@ -36,6 +38,14 @@ class ConfigurationController extends ActionController
         $databaseService = GeneralUtility::makeInstance(DatabaseService::class);
         $this->pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
         $this->templateUid = (int)$databaseService->getField('sys_template', 'uid', ['pid' => $this->pageUid]);
+        $this->configuration = $databaseService->getRecord('tx_easyconf_configuration', ['pid' => $this->pageUid]);
+        if ($this->pageUid > 0 && $this->templateUid > 0 && $this->configuration === null) {
+            $this->configuration = $databaseService->addRecord(
+                'tx_easyconf_configuration',
+                ['pid' => $this->pageUid],
+                [Connection::PARAM_INT]
+            );
+        }
     }
 
     public function infoAction(): ResponseInterface
@@ -53,8 +63,8 @@ class ConfigurationController extends ActionController
 
     public function editAction(): void
     {
-        if ($this->pageUid > 0 && $this->templateUid > 0) {
-            $this->redirectToUri((new UriService())->getEditUri($this->pageUid, false));
+        if ($this->pageUid > 0 && $this->templateUid > 0 && $this->configuration !== null) {
+            $this->redirectToUri((new UriService())->getEditUri($this->configuration, false));
         }
         $this->redirect('info');
     }

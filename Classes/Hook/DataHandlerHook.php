@@ -14,13 +14,11 @@ namespace Buepro\Easyconf\Hook;
 use Buepro\Easyconf\Configuration\ServiceManager;
 use Buepro\Easyconf\Event\BeforePersistingPropertiesEvent;
 use Buepro\Easyconf\Mapper\MapperFactory;
-use Buepro\Easyconf\Service\UriService;
 use Buepro\Easyconf\Utility\TCAUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 
 class DataHandlerHook implements SingletonInterface
 {
@@ -39,7 +37,7 @@ class DataHandlerHook implements SingletonInterface
     ): void {
         if ($table === 'tx_easyconf_configuration') {
             $this->writeProperties($incomingFieldArray);
-            $this->redirect((int)$incomingFieldArray['pid']);
+            $incomingFieldArray = [];
         }
     }
 
@@ -64,23 +62,5 @@ class DataHandlerHook implements SingletonInterface
                 $mapper->persistProperties();
             }
         }
-    }
-
-    protected function redirect(int $pid): void
-    {
-        header(HttpUtility::HTTP_STATUS_302);
-        if (
-            (isset($_REQUEST['closeDoc']) && (int)$_REQUEST['closeDoc'] === 1) ||
-            (isset($_REQUEST['_saveandclosedok']) && (int)$_REQUEST['_saveandclosedok'] === 1)
-        ) {
-            header('Location: ' . (new UriService())->getInfoUri($pid));
-            die();
-        }
-        if (isset($_REQUEST['_savedokview']) && (int)$_REQUEST['_savedokview'] === 1) {
-            header('Location: ' . (new UriService())->getEditUri($pid, true));
-            die();
-        }
-        header('Location: ' . (new UriService())->getEditUri($pid));
-        die();
     }
 }

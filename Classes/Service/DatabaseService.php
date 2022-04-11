@@ -29,4 +29,36 @@ class DatabaseService
                 $constraint
             )->fetchOne();
     }
+
+    public function getRecord(string $table, array $constraint): ?array
+    {
+        $result = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable($table)
+            ->select(
+                ['*'],
+                $table,
+                $constraint
+            )->fetchAssociative();
+        return is_array($result) && $result !== [] ? $result : null;
+    }
+
+    public function addRecord(string $table, array $fields, array $types = []): ?array
+    {
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+        $now = time();
+        foreach (['tstamp', 'crdate'] as $fieldName) {
+            if (!isset($fields[$fieldName])) {
+                $fields[$fieldName] = $now;
+            }
+        }
+        if (!isset($fields['cruser_id'])) {
+            $fields['cruser_id'] = (int)$GLOBALS['BE_USER']->user['uid'];
+        }
+        $connection->insert(
+            $table,
+            $fields,
+            $types
+        );
+        return $this->getRecord($table, ['uid' => (int)$connection->lastInsertId('pages')]);
+    }
 }
