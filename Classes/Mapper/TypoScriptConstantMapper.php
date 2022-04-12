@@ -25,7 +25,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     public const TEMPLATE_TOKEN = '# The following line has been added automatically by the extension easyconf';
 
     protected TypoScriptService $typoScriptService;
-    protected string $storage = 'fileadmin/tx_easyconf/Configuration/TypoScript/';
+    protected string $storage = 'fileadmin/easyconf/Configuration/TypoScript/';
     protected string $importStatementHandling = 'maintainAtEnd';
 
     public function __construct(TypoScriptService $typoScriptService)
