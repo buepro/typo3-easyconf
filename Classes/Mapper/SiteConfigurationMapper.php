@@ -21,6 +21,7 @@ class SiteConfigurationMapper extends AbstractMapper implements SingletonInterfa
 
     public function __construct(SiteConfigurationService $siteConfigurationService)
     {
+        parent::__construct();
         $this->siteConfigurationService = $siteConfigurationService;
     }
 
@@ -29,7 +30,7 @@ class SiteConfigurationMapper extends AbstractMapper implements SingletonInterfa
         return $this->siteConfigurationService->getPropertyByPath($path);
     }
 
-    public function persistProperties(): void
+    public function persistBuffer(): void
     {
         $siteData = $this->siteConfigurationService->getSiteData();
         foreach ($this->buffer as $path => $value) {

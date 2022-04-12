@@ -30,6 +30,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     public function __construct(TypoScriptService $typoScriptService)
     {
+        parent::__construct();
         $this->typoScriptService = $typoScriptService;
         $fileLocation = $this->typoScriptService->getConstantByPath(
             'module.tx_easyconf.typoScriptConstantMapper.storage'
@@ -50,7 +51,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
         return $this->typoScriptService->getConstantByPath($path);
     }
 
-    public function persistProperties(): void
+    public function persistBuffer(): void
     {
         GeneralUtility::writeFile($this->getFileWithAbsolutePath(), $this->getBufferContent());
         $this->addImportStatementToTemplateRecord();

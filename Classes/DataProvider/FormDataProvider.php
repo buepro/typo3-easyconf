@@ -13,7 +13,7 @@ namespace Buepro\Easyconf\DataProvider;
 
 use Buepro\Easyconf\Configuration\ServiceManager;
 use Buepro\Easyconf\Event\AfterReadingPropertiesEvent;
-use Buepro\Easyconf\Mapper\AbstractMapper;
+use Buepro\Easyconf\Mapper\MapperInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -49,7 +49,7 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
                     ($mapperClass = $columnConfig['tx_easyconf']['mapper'] ?? '') !== '' &&
                     ($path = $columnConfig['tx_easyconf']['path'] ?? '') !== '' &&
                     class_exists($mapperClass) &&
-                    ($mapper = AbstractMapper::getInstance($mapperClass)) !== null
+                    ($mapper = GeneralUtility::makeInstance($mapperClass)) instanceof MapperInterface
                 ) {
                     $result['databaseRow'][$columnName] = $mapper->getProperty($path);
                 }

@@ -13,7 +13,8 @@ namespace Buepro\Easyconf\Hook;
 
 use Buepro\Easyconf\Configuration\ServiceManager;
 use Buepro\Easyconf\Event\BeforePersistingPropertiesEvent;
-use Buepro\Easyconf\Mapper\AbstractMapper;
+use Buepro\Easyconf\Mapper\MapperInterface;
+use Buepro\Easyconf\Mapper\MapperRegistry;
 use Buepro\Easyconf\Service\DatabaseService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -55,14 +56,14 @@ class DataHandlerHook implements SingletonInterface
                     ($mapperClass = $columnConfig['tx_easyconf']['mapper'] ?? '') !== '' &&
                     ($path = $columnConfig['tx_easyconf']['path'] ?? '') !== '' &&
                     class_exists($mapperClass) &&
-                    ($mapper = AbstractMapper::getInstance($mapperClass)) !== null
+                    ($mapper = GeneralUtility::makeInstance($mapperClass)) instanceof MapperInterface
                 ) {
-                    $mapper->setProperty($path, $data[$columnName]);
+                    $mapper->bufferProperty($path, $data[$columnName]);
                 }
             }
             $this->eventDispatcher->dispatch(new BeforePersistingPropertiesEvent($data));
-            foreach (AbstractMapper::getInstances() as $mapper) {
-                $mapper->persistProperties();
+            foreach (MapperRegistry::getInstances() as $mapper) {
+                $mapper->persistBuffer();
             }
         }
     }
