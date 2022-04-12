@@ -11,10 +11,10 @@ declare(strict_types = 1);
 
 namespace Buepro\Easyconf\Tests\Unit\Utility;
 
-use Buepro\Easyconf\Utility\TCAUtility;
+use Buepro\Easyconf\Utility\TcaUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-class TCAUtilityTest extends UnitTestCase
+class TcaUtilityTest extends UnitTestCase
 {
     public function testGetFieldsDataProvider(): array
     {
@@ -64,7 +64,7 @@ class TCAUtilityTest extends UnitTestCase
      */
     public function testGetFields(array $params, array $expected): void
     {
-        self::assertSame($expected, TCAUtility::getFields(...$params));
+        self::assertSame($expected, TcaUtility::getFields(...$params));
     }
 
     public function testGetPropertyMap(): void
@@ -87,13 +87,13 @@ class TCAUtilityTest extends UnitTestCase
             'propertyFieldMap' => $propertyFieldMap,
             'fieldPropertyMap' => array_flip($propertyFieldMap),
         ];
-        self::assertSame($expected, TCAUtility::getPropertyMap(...$params));
+        self::assertSame($expected, TcaUtility::getPropertyMap(...$params));
     }
 
     public function testGetColumns(): void
     {
         $propertyMaps = [
-            TCAUtility::getPropertyMap(
+            TcaUtility::getPropertyMap(
                 'mapper1',
                 'path.to.properties',
                 'foo, fooBar'
@@ -122,7 +122,7 @@ class TCAUtilityTest extends UnitTestCase
                 ],
             ],
         ];
-        self::assertSame($expected, TCAUtility::getColumns($propertyMaps, $l10nFile));
+        self::assertSame($expected, TcaUtility::getColumns($propertyMaps, $l10nFile));
     }
 
     public function testGetPalette(): void
@@ -130,11 +130,11 @@ class TCAUtilityTest extends UnitTestCase
         $propertyList = 'foo, fooBar, baz';
         self::assertSame(
             ['showitem' => 'foo, foo_bar, --linebreak--, baz'],
-            TCAUtility::getPalette($propertyList)
+            TcaUtility::getPalette($propertyList)
         );
         self::assertSame(
             ['showitem' => 'foo, foo_bar, baz'],
-            TCAUtility::getPalette($propertyList, '', 0)
+            TcaUtility::getPalette($propertyList, '', 0)
         );
     }
 
@@ -150,7 +150,7 @@ class TCAUtilityTest extends UnitTestCase
                 '--div--;l10n.xlf:tab.foo, --palette--;;foo, bar, bar_baz, barBaz, ' .
                 '--div--;l10n.xlf:tab.sur, sur, nor',
         ];
-        self::assertSame($expected, TCAUtility::getType($tabs, $l10nFile));
+        self::assertSame($expected, TcaUtility::getType($tabs, $l10nFile));
     }
 
     public function testModifyColumns(): void
@@ -184,7 +184,7 @@ class TCAUtilityTest extends UnitTestCase
                 'config' => ['type' => 'input', 'renderType' => 'colorpicker'],
             ],
         ];
-        TCAUtility::modifyColumns($columns, 'field1, field3', $modifier);
+        TcaUtility::modifyColumns($columns, 'field1, field3', $modifier);
         self::assertSame($expected, $columns);
     }
 
@@ -208,7 +208,7 @@ class TCAUtilityTest extends UnitTestCase
     {
         self::assertSame(
             $expected,
-            TCAUtility::excludeProperties($propertyList, $excluded)
+            TcaUtility::excludeProperties($propertyList, $excluded)
         );
     }
 }

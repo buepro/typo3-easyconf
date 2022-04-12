@@ -13,7 +13,7 @@ namespace Buepro\Easyconf\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class TCAUtility
+class TcaUtility
 {
     public static function getFields(
         array $properties,

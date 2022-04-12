@@ -9,7 +9,7 @@
 
 use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
 use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
-use Buepro\Easyconf\Utility\TCAUtility;
+use Buepro\Easyconf\Utility\TcaUtility;
 
 defined('TYPO3') or die('Access denied.');
 
@@ -21,26 +21,26 @@ defined('TYPO3') or die('Access denied.');
      * Define columns
      */
     $propertyMaps = [
-        TCAUtility::getPropertyMap(
+        TcaUtility::getPropertyMap(
             TypoScriptConstantMapper::class,
             'easyconf.demo',
             'company, domain, firstName, lastName',
             'owner'
         ),
-        TCAUtility::getPropertyMap(
+        TcaUtility::getPropertyMap(
             SiteConfigurationMapper::class,
             'easyconf.demo.agency',
             'company, contact, email, phone',
             'agency'
         ),
     ];
-    $tca['columns'] = TCAUtility::getColumns($propertyMaps, $l10nFile);
+    $tca['columns'] = TcaUtility::getColumns($propertyMaps, $l10nFile);
 
     /**
      * Define palettes
      */
     $tca['palettes'] = [
-        'palettePompany' => TCAUtility::getPalette(
+        'palettePompany' => TcaUtility::getPalette(
             'company, domain',
             'owner'
         ),
@@ -52,11 +52,11 @@ defined('TYPO3') or die('Access denied.');
     $tabs = [
         'tabOwner' => implode(', ', [
             '--palette--;;palettePompany',
-            TCAUtility::getFieldList('firstName, lastName', 'owner'),
+            TcaUtility::getFieldList('firstName, lastName', 'owner'),
         ]),
-        'tabAgency' => TCAUtility::getFieldList('company, contact, email, phone', 'agency'),
+        'tabAgency' => TcaUtility::getFieldList('company, contact, email, phone', 'agency'),
     ];
-    $tca['types'][0] = TCAUtility::getType($tabs, $l10nFile);
+    $tca['types'][0] = TcaUtility::getType($tabs, $l10nFile);
 
     unset($tca);
 })();
