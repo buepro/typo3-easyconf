@@ -32,6 +32,9 @@ class SiteConfigurationMapper extends AbstractMapper implements SingletonInterfa
 
     public function persistBuffer(): void
     {
+        if (count($this->buffer) === 0) {
+            return;
+        }
         $siteData = $this->siteConfigurationService->getSiteData();
         foreach ($this->buffer as $path => $value) {
             $siteData = ArrayUtility::setValueByPath($siteData, $path, $value, '.');
