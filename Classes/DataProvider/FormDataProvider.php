@@ -54,8 +54,9 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
                     $result['databaseRow'][$columnName] = $mapper->getProperty($path);
                 }
             }
+            $event = new AfterReadingPropertiesEvent($result['databaseRow']);
             // @phpstan-ignore-next-line
-            $result = $this->eventDispatcher->dispatch(new AfterReadingPropertiesEvent($result))->getFields();
+            $result['databaseRow'] = $this->eventDispatcher->dispatch($event)->getFields();
         }
         return $result;
     }
