@@ -27,6 +27,7 @@ class TcaUtility
                     $property,
             $properties
         );
+        $fields = array_map(static fn (string $field) => str_replace('.', '_', $field), $fields);
         if ($fieldList !== '') {
             $fields = array_replace($fields, array_filter(
                 GeneralUtility::trimExplode(',', $fieldList),
@@ -148,5 +149,10 @@ class TcaUtility
         $excluded = array_flip(GeneralUtility::trimExplode(',', $excludeList, true));
         $properties = array_filter($properties, static fn ($prop) => !isset($excluded[$prop]));
         return implode(', ', $properties);
+    }
+
+    public static function getMappingPath(string $field): ?string
+    {
+        return $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$field]['tx_easyconf']['path'] ?? null;
     }
 }

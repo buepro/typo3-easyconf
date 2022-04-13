@@ -18,19 +18,19 @@ class TcaUtilityTest extends UnitTestCase
 {
     public function testGetFieldsDataProvider(): array
     {
-        $properties = ['foo', 'bar', 'fooBar'];
+        $properties = ['foo', 'bar', 'fooBar', 'subpath.to.bazBar'];
         return [
             'properties only' => [
-                [$properties], ['foo', 'bar', 'foo_bar'],
+                [$properties], ['foo', 'bar', 'foo_bar', 'subpath_to_baz_bar'],
             ],
             'with prefix' => [
-                [$properties, 'pre'], ['pre_foo', 'pre_bar', 'pre_foo_bar'],
+                [$properties, 'pre'], ['pre_foo', 'pre_bar', 'pre_foo_bar', 'pre_subpath_to_baz_bar'],
             ],
             'with field list' => [
-                [$properties, '', ',new_bar_baz, fooBar'], ['foo', 'new_bar_baz', 'fooBar'],
+                [$properties, '', ',new_bar_baz, fooBar'], ['foo', 'new_bar_baz', 'fooBar', 'subpath_to_baz_bar'],
             ],
             'with prefix and field list' => [
-                [$properties, 'pre', ',new_bar_baz, fooBar'], ['pre_foo', 'pre_new_bar_baz', 'pre_fooBar'],
+                [$properties, 'pre', ',new_bar_baz, fooBar'], ['pre_foo', 'pre_new_bar_baz', 'pre_fooBar', 'pre_subpath_to_baz_bar'],
             ],
             'with linebreaks' => [
                 [['foo', '--linebreak--', 'bar']], ['foo', '--linebreak--', 'bar']
