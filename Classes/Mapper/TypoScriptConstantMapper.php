@@ -95,7 +95,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
         if ($fileName === null) {
             return;
         }
-        $constants = $this->typoScriptService->getTemplateRow()['constants'];
+        $constants = $this->typoScriptService->getTemplateRow()['constants'] ?? '';
         $tokenAndImportStatement = sprintf("%s\r\n@import '%s'", self::TEMPLATE_TOKEN, $fileName);
         $constantsContainsToken = strpos($constants, self::TEMPLATE_TOKEN) !== false;
         if ($constantsContainsToken && $this->importStatementHandling !== 'maintainAtEnd') {
