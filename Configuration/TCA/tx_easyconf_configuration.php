@@ -25,7 +25,7 @@ return [
         'hideTable' => 1,
         'EXT' => [
             'easyconf' => [
-                'dataHandlerAllowedFields' => 'title',
+                'dataHandlerAllowedFields' => '',
             ]
         ],
     ],

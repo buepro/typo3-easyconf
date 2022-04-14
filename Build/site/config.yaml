@@ -1,11 +1,10 @@
 base: 'https://easyconf.ddev.site'
 easyconf:
   demo:
-    agency:
-      company: 'Agency GmbH'
-      contact: 'Bruno Häberli'
-      email: bh@agency.ch
-      phone: '111 111 11 11'
+    company: 'Agency GmbH'
+    contact: 'Bruno Häberli'
+    email: bh@agency.ch
+    phone: '111 111 11 11'
 languages:
   -
     title: English

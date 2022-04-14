@@ -3,6 +3,6 @@
 #
 CREATE TABLE tx_easyconf_configuration (
 
-	title varchar(255) DEFAULT '' NOT NULL,
+	fields text DEFAULT '' NOT NULL
 
 );

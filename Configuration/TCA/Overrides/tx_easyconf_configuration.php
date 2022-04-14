@@ -7,6 +7,7 @@
  * LICENSE file that was distributed with this source code.
  */
 
+use Buepro\Easyconf\Mapper\EasyconfMapper;
 use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
 use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Utility\TcaUtility;
@@ -29,9 +30,15 @@ defined('TYPO3') or die('Access denied.');
         ),
         TcaUtility::getPropertyMap(
             SiteConfigurationMapper::class,
-            'easyconf.demo.agency',
+            'easyconf.demo',
             'company, contact, email, phone',
             'agency'
+        ),
+        TcaUtility::getPropertyMap(
+            EasyconfMapper::class,
+            'demo',
+            'showAllProperties',
+            'easyconf'
         ),
     ];
     $tca['columns'] = TcaUtility::getColumns($propertyMaps, $l10nFile);
@@ -40,7 +47,7 @@ defined('TYPO3') or die('Access denied.');
      * Define palettes
      */
     $tca['palettes'] = [
-        'palettePompany' => TcaUtility::getPalette(
+        'paletteCompany' => TcaUtility::getPalette(
             'company, domain',
             'owner'
         ),
@@ -50,13 +57,24 @@ defined('TYPO3') or die('Access denied.');
      * Define type
      */
     $tabs = [
-        'tabOwner' => implode(', ', [
-            '--palette--;;palettePompany',
+        'tabTypoScript' => implode(', ', [
+            '--palette--;;paletteCompany',
             TcaUtility::getFieldList('firstName, lastName', 'owner'),
         ]),
-        'tabAgency' => TcaUtility::getFieldList('company, contact, email, phone', 'agency'),
+        'tabSiteConfiguration' => TcaUtility::getFieldList('company, contact, email, phone', 'agency'),
+        'tabEasyconf' => TcaUtility::getFieldList('showAllProperties', 'easyconf'),
     ];
     $tca['types'][0] = TcaUtility::getType($tabs, $l10nFile);
+
+    /**
+     * Modify columns
+     */
+    TcaUtility::modifyColumns(
+        $tca['columns'],
+        'showAllProperties',
+        ['config' => ['type' => 'check', 'renderType' => 'checkboxToggle']],
+        'easyconf'
+    );
 
     unset($tca);
 })();

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Configuration;
 
+use Buepro\Easyconf\Configuration\Service\EasyconfService;
 use Buepro\Easyconf\Configuration\Service\SiteConfigurationService;
 use Buepro\Easyconf\Configuration\Service\TypoScriptService;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -20,6 +21,7 @@ class ServiceManager implements SingletonInterface
 {
     protected ?TypoScriptService $typoScriptService;
     protected ?SiteConfigurationService $siteConfigurationService;
+    protected ?EasyconfService $easyconfService;
 
     public function init(int $pageUid): bool
     {
@@ -28,12 +30,14 @@ class ServiceManager implements SingletonInterface
             $this->siteConfigurationService = GeneralUtility::makeInstance(SiteConfigurationService::class)
                 ->init($rootPageUid);
         }
+        $this->easyconfService = GeneralUtility::makeInstance(EasyconfService::class)->init($pageUid);
         return $this->servicesAvailable();
     }
 
     public function servicesAvailable(): bool
     {
-        return $this->typoScriptService !== null && $this->siteConfigurationService !== null;
+        return $this->typoScriptService !== null && $this->siteConfigurationService !== null &&
+            $this->easyconfService !== null;
     }
 
     public function getTypoScriptService(): ?TypoScriptService
@@ -44,5 +48,10 @@ class ServiceManager implements SingletonInterface
     public function getSiteConfigurationService(): ?SiteConfigurationService
     {
         return $this->siteConfigurationService;
+    }
+
+    public function getEasyconfService(): ?EasyconfService
+    {
+        return $this->easyconfService;
     }
 }

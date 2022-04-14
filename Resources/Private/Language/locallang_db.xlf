@@ -4,8 +4,8 @@
 		  product-name="easyconf">
 		<header/>
 		<body>
-			<trans-unit id="tabOwner" resname="tabOwner">
-				<source>Owner</source>
+			<trans-unit id="tabTypoScript" resname="tabTypoScript">
+				<source>TypoScript</source>
 			</trans-unit>
 			<trans-unit id="owner_company" resname="cowner_ompany">
 				<source>Company</source>
@@ -20,8 +20,8 @@
 				<source>Lastname</source>
 			</trans-unit>
 
-			<trans-unit id="tabAgency" resname="tabAgency">
-				<source>Agency</source>
+			<trans-unit id="tabSiteConfiguration" resname="tabSiteConfiguration">
+				<source>Site Configuration</source>
 			</trans-unit>
 			<trans-unit id="agency_company" resname="agency_company">
 				<source>Company</source>
@@ -34,6 +34,13 @@
 			</trans-unit>
 			<trans-unit id="agency_email" resname="agency_email">
 				<source>Email</source>
+			</trans-unit>
+
+			<trans-unit id="tabEasyconf" resname="tabEasyconf">
+				<source>Easyconf</source>
+			</trans-unit>
+			<trans-unit id="easyconf_show_all_properties" resname="easyconf_show_all_properties">
+				<source>Show all properties</source>
 			</trans-unit>
 		</body>
 	</file>
