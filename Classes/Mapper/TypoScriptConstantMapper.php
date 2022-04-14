@@ -95,6 +95,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     protected function getBufferContent(): string
     {
         $content = [];
+        ksort($this->buffer);
         foreach ($this->buffer as $path => $value) {
             $content[] = sprintf('%s = %s', $path, $value);
         }
