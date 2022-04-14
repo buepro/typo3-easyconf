@@ -20,6 +20,8 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 class TypoScriptService implements SingletonInterface
 {
+    protected int $pageUid = 0;
+    protected int $treeLevel = 0;
     protected int $rootPageUid = 0;
     protected array $templateRow = [];
     protected array $constants = [];
@@ -27,6 +29,7 @@ class TypoScriptService implements SingletonInterface
 
     public function init(int $pageUid): self
     {
+        $this->pageUid = $pageUid;
         $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
         $this->initializeActivePageProperties($rootLine);
         $this->initializeParentPageProperties($rootLine);
@@ -38,6 +41,7 @@ class TypoScriptService implements SingletonInterface
         $this->rootPageUid = $rootLine[0]['uid'] ?? 0;
         $templateService = GeneralUtility::makeInstance(TemplateService::class);
         $this->constants = $this->getConstantsForRootLine($rootLine, $templateService);
+        $this->treeLevel = $templateService->getRootlineLevel((string)$this->pageUid);
         $templateUid = (int)(array_reverse($templateService->hierarchyInfo)[0]['uid'] ?? 0);
         $this->templateRow = (GeneralUtility::makeInstance(DatabaseService::class)
             ->getRecord('sys_template', ['uid' => $templateUid]) ?? []);
@@ -99,5 +103,10 @@ class TypoScriptService implements SingletonInterface
     public function getRootPageUid(): int
     {
         return $this->rootPageUid;
+    }
+
+    public function getTreeLevel(): int
+    {
+        return $this->treeLevel;
     }
 }
