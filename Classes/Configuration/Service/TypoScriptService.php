@@ -11,39 +11,66 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Configuration\Service;
 
+use Buepro\Easyconf\Service\DatabaseService;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 class TypoScriptService implements SingletonInterface
 {
-    protected ?ExtendedTemplateService $templateService;
+    protected int $rootPageUid = 0;
     protected array $templateRow = [];
     protected array $constants = [];
+    protected array $parentConstants = [];
 
     public function init(int $pageUid): self
     {
-        $this->templateService = GeneralUtility::makeInstance(ExtendedTemplateService::class);
-        $this->templateRow = $this->templateService->ext_getFirstTemplate($pageUid) ?? [];
-        $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid);
-        $rootLine = $rootlineUtility->get();
-        $this->templateService->runThroughTemplates($rootLine);
-        $this->templateService->generateConfig();
+        $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
+        $this->initializeActivePageProperties($rootLine);
+        $this->initializeParentPageProperties($rootLine);
         return $this;
+    }
+
+    protected function initializeActivePageProperties(array $rootLine): void
+    {
+        $this->rootPageUid = $rootLine[0]['uid'] ?? 0;
+        $templateService = GeneralUtility::makeInstance(TemplateService::class);
+        $this->constants = $this->getConstantsForRootLine($rootLine, $templateService);
+        $templateUid = (int)(array_reverse($templateService->hierarchyInfo)[0]['uid'] ?? 0);
+        $this->templateRow = (GeneralUtility::makeInstance(DatabaseService::class)
+            ->getRecord('sys_template', ['uid' => $templateUid]) ?? []);
+    }
+
+    protected function initializeParentPageProperties(array $rootLine): void
+    {
+        $parentPageUid = (int)(array_values($rootLine)[0]['pid'] ?? 0);
+        if ($parentPageUid > 0) {
+            $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $parentPageUid);
+            $this->parentConstants = $this->getConstantsForRootLine(
+                $rootLineUtility->get(),
+                GeneralUtility::makeInstance(TemplateService::class)
+            );
+        }
+    }
+
+    protected function getConstantsForRootLine(array $rootLine, TemplateService $templateService): array
+    {
+        $templateService->runThroughTemplates($rootLine);
+        $templateService->generateConfig();
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)
+            ->convertTypoScriptArrayToPlainArray($templateService->setup_constants);
     }
 
     public function getConstants(): array
     {
-        if ($this->constants !== []) {
-            return $this->constants;
-        }
-        if ($this->templateService !== null) {
-            $this->constants = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)
-                ->convertTypoScriptArrayToPlainArray($this->templateService->setup_constants);
-        }
         return $this->constants;
+    }
+
+    public function getParentConstants(): array
+    {
+        return $this->parentConstants;
     }
 
     public function getConstantByPath(string $path): string
@@ -55,6 +82,15 @@ class TypoScriptService implements SingletonInterface
         return is_string($result) ? $result : '';
     }
 
+    public function getParentConstantByPath(string $path): string
+    {
+        $result = '';
+        if (ArrayUtility::isValidPath($this->getParentConstants(), $path, '.')) {
+            $result = ArrayUtility::getValueByPath($this->getParentConstants(), $path, '.');
+        }
+        return is_string($result) ? $result : '';
+    }
+
     public function getTemplateRow(): array
     {
         return $this->templateRow;
@@ -62,6 +98,6 @@ class TypoScriptService implements SingletonInterface
 
     public function getRootPageUid(): int
     {
-        return $this->templateService !== null ? $this->templateService->getRootId() : 0;
+        return $this->rootPageUid;
     }
 }
