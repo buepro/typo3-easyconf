@@ -15,5 +15,7 @@ interface MapperInterface
 
     public function bufferProperty(string $path, string $value): void;
 
+    public function removePropertyFromBuffer(string $path): void;
+
     public function persistBuffer(): void;
 }

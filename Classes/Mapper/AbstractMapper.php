@@ -24,4 +24,9 @@ abstract class AbstractMapper implements MapperInterface
     {
         $this->buffer[$path] = $value;
     }
+
+    public function removePropertyFromBuffer(string $path): void
+    {
+        unset($this->buffer[$path]);
+    }
 }

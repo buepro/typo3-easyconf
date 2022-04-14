@@ -23,7 +23,10 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 {
     public const FILE_NAME = 'Constants';
     public const TEMPLATE_TOKEN = '# The following line has been added automatically by the extension easyconf';
+    public const PROPERTY_BUFFER_KEY = 'properties';
+    public const SCRIPT_BUFFER_KEY = 'scripts';
 
+    protected array $buffer = [self::PROPERTY_BUFFER_KEY => [], self::SCRIPT_BUFFER_KEY => []];
     protected TypoScriptService $typoScriptService;
     protected string $storage = 'fileadmin/easyconf/Configuration/TypoScript/';
     protected string $importStatementHandling = 'maintainAtEnd';
@@ -59,8 +62,18 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     public function bufferProperty(string $path, string $value): void
     {
         if ($this->getParentProperty($path) !== $value) {
-            $this->buffer[$path] = $value;
+            $this->buffer[self::PROPERTY_BUFFER_KEY][$path] = $value;
         }
+    }
+
+    public function removePropertyFromBuffer(string $path): void
+    {
+        unset($this->buffer[self::PROPERTY_BUFFER_KEY][$path]);
+    }
+
+    public function bufferScript(string $script): void
+    {
+        $this->buffer[self::SCRIPT_BUFFER_KEY][md5($script)] = $script;
     }
 
     public function persistBuffer(): void
@@ -95,9 +108,12 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     protected function getBufferContent(): string
     {
         $content = [];
-        ksort($this->buffer);
-        foreach ($this->buffer as $path => $value) {
+        ksort($this->buffer[self::PROPERTY_BUFFER_KEY]);
+        foreach ($this->buffer[self::PROPERTY_BUFFER_KEY] as $path => $value) {
             $content[] = sprintf('%s = %s', $path, $value);
+        }
+        foreach ($this->buffer[self::SCRIPT_BUFFER_KEY] as $value) {
+            $content[] = $value;
         }
         return implode("\r\n", $content);
     }
