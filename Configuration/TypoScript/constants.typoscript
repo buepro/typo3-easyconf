@@ -1,6 +1,9 @@
+# customsubcategory=1650002365=TypoScript constant mapper
+# customsubcategory=1650002409=Site configuration
+
 module.tx_easyconf.typoScriptConstantMapper {
-    # cat=tx_easyconf; type=string; label=TypoScript storage:Folder to store files from TypoScript mapping (e.g. fileadmin/ or EXT:my_ext/)
+    # cat=easyconf/1650002365; type=string; label=TypoScript storage:Folder to store files from TypoScript mapping (e.g. fileadmin/ or EXT:my_ext/)
     storage = fileadmin/easyconf/Configuration/TypoScript/
-    # cat=tx_easyconf; type=options[Add once=addOnce, Maintain at end=maintainAtEnd]; label=Import statement handling
+    # cat=easyconf/1650002365; type=options[Add once=addOnce, Maintain at end=maintainAtEnd]; label=Import statement handling
     importStatementHandling = maintainAtEnd
 }

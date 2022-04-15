@@ -30,15 +30,16 @@ class EasyconfMapper extends AbstractMapper implements SingletonInterface
         return $this->easyconfService->getFieldByPath($path);
     }
 
-    public function persistBuffer(): void
+    public function persistBuffer(): MapperInterface
     {
         if (count($this->buffer) === 0) {
-            return;
+            return $this;
         }
         $fields = $this->easyconfService->getFields();
         foreach ($this->buffer as $path => $value) {
             $fields = ArrayUtility::setValueByPath($fields, $path, $value, '.');
         }
         $this->easyconfService->setFields($fields)->persistFields();
+        return $this;
     }
 }

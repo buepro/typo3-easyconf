@@ -59,30 +59,34 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
         return $this->typoScriptService->getParentConstantByPath($path);
     }
 
-    public function bufferProperty(string $path, string $value): void
+    public function bufferProperty(string $path, $value): MapperInterface
     {
         if ($this->getParentProperty($path) !== $value) {
             $this->buffer[self::PROPERTY_BUFFER_KEY][$path] = $value;
         }
+        return $this;
     }
 
-    public function removePropertyFromBuffer(string $path): void
+    public function removePropertyFromBuffer(string $path): MapperInterface
     {
         unset($this->buffer[self::PROPERTY_BUFFER_KEY][$path]);
+        return $this;
     }
 
-    public function bufferScript(string $script): void
+    public function bufferScript(string $script): MapperInterface
     {
         $this->buffer[self::SCRIPT_BUFFER_KEY][md5($script)] = $script;
+        return $this;
     }
 
-    public function persistBuffer(): void
+    public function persistBuffer(): MapperInterface
     {
         if (count($this->buffer) === 0) {
-            return;
+            return $this;
         }
         GeneralUtility::writeFile($this->getFileWithAbsolutePath(), $this->getBufferContent());
         $this->addImportStatementToTemplateRecord();
+        return $this;
     }
 
     protected function getFileWithRelativePath(): ?string

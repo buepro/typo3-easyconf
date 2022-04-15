@@ -20,13 +20,15 @@ abstract class AbstractMapper implements MapperInterface
         MapperRegistry::registerInstance($this);
     }
 
-    public function bufferProperty(string $path, string $value): void
+    public function bufferProperty(string $path, $value): MapperInterface
     {
         $this->buffer[$path] = $value;
+        return $this;
     }
 
-    public function removePropertyFromBuffer(string $path): void
+    public function removePropertyFromBuffer(string $path): MapperInterface
     {
         unset($this->buffer[$path]);
+        return $this;
     }
 }

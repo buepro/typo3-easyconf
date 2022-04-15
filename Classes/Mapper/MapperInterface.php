@@ -11,11 +11,20 @@ namespace Buepro\Easyconf\Mapper;
 
 interface MapperInterface
 {
-    public function getProperty(string $path): string;
+    /**
+     * @param string $path
+     * @return mixed
+     */
+    public function getProperty(string $path);
 
-    public function bufferProperty(string $path, string $value): void;
+    /**
+     * @param string $path
+     * @param mixed $value
+     * @return $this
+     */
+    public function bufferProperty(string $path, $value): self;
 
-    public function removePropertyFromBuffer(string $path): void;
+    public function removePropertyFromBuffer(string $path): self;
 
-    public function persistBuffer(): void;
+    public function persistBuffer(): self;
 }

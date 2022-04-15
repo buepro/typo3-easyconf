@@ -51,20 +51,24 @@ class SiteConfigurationService implements SingletonInterface
         return $this->siteData;
     }
 
-    public function getPropertyByPath(string $path): string
+    /**
+     * @param string $path
+     * @return array|mixed|string
+     */
+    public function getPropertyByPath(string $path)
     {
         $result = '';
         if (ArrayUtility::isValidPath($this->siteData, $path, '.')) {
             $result = ArrayUtility::getValueByPath($this->siteData, $path, '.');
         }
-        return is_string($result) ? $result : '';
+        return $result;
     }
 
     public function writeSiteData(array $siteData): void
     {
         if ($this->siteConfigurationManager !== null && $this->getSite() !== null) {
             $this->siteConfigurationManager->write($this->getSite()->getIdentifier(), $siteData);
-            $this->siteData = $this->siteConfigurationManager->load($this->site->getIdentifier());
+            $this->siteData = $this->siteConfigurationManager->load($this->getSite()->getIdentifier());
         }
     }
 }
