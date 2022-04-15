@@ -64,6 +64,7 @@ class SiteConfigurationService implements SingletonInterface
     {
         if ($this->siteConfigurationManager !== null && $this->getSite() !== null) {
             $this->siteConfigurationManager->write($this->getSite()->getIdentifier(), $siteData);
+            $this->siteData = $this->siteConfigurationManager->load($this->site->getIdentifier());
         }
     }
 }
