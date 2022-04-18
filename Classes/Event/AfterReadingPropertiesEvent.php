@@ -13,21 +13,21 @@ namespace Buepro\Easyconf\Event;
 
 final class AfterReadingPropertiesEvent
 {
-    protected array $fields;
+    protected array $formFields;
 
-    public function __construct(array $fields)
+    public function __construct(array $formFields)
     {
-        $this->fields = $fields;
+        $this->formFields = $formFields;
     }
 
-    public function getFields(): array
+    public function getFormFields(): array
     {
-        return $this->fields;
+        return $this->formFields;
     }
 
-    public function setFields(array $fields): self
+    public function setFormFields(array $formFields): self
     {
-        $this->fields = $fields;
+        $this->formFields = $formFields;
         return $this;
     }
 }

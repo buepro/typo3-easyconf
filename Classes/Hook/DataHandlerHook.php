@@ -17,12 +17,21 @@ use Buepro\Easyconf\Mapper\MapperInterface;
 use Buepro\Easyconf\Mapper\MapperRegistry;
 use Buepro\Easyconf\Service\DatabaseService;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class DataHandlerHook implements SingletonInterface
 {
+    /**
+     * If this data is set all mapped properties will be persisted in processDatamap_afterAllOperations.
+     *
+     * @var ?array ['tableUid' => $id, 'formFields' => $incomingFieldArray]
+     */
+    protected static ?array $configurationData = null;
+
     protected EventDispatcherInterface $eventDispatcher;
 
     public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
@@ -36,13 +45,42 @@ class DataHandlerHook implements SingletonInterface
         string $id,
         DataHandler $dataHandler
     ): void {
-        if ($table === 'tx_easyconf_configuration') {
-            $this->writeProperties($incomingFieldArray, (int)$id);
+        if (
+            $table === 'tx_easyconf_configuration' &&
+            $incomingFieldArray !== [] &&
+            ($uid = (int)$id) > 0 &&
+            MathUtility::canBeInterpretedAsInteger($id)
+        ) {
+            self::$configurationData = [
+                'tableUid' => $uid,
+                'formFields' =>$incomingFieldArray,
+            ];
+            $this->writePropertiesToBuffer($incomingFieldArray, $uid);
             $this->filterIncomingFieldArray($incomingFieldArray);
         }
     }
 
-    protected function writeProperties(array $data, int $id): void
+    public function processDatamap_afterAllOperations(DataHandler $dataHandler): void
+    {
+        if (
+            self::$configurationData !== null &&
+            is_array($configurationRecord = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getConnectionForTable('tx_easyconf_configuration')
+                ->select(['*'], 'tx_easyconf_configuration', ['uid' => self::$configurationData['tableUid']])
+                ->fetchAssociative())
+        ) {
+            $this->eventDispatcher->dispatch(new BeforePersistingPropertiesEvent(
+                self::$configurationData['formFields'],
+                $configurationRecord
+            ));
+            foreach (MapperRegistry::getInstances() as $mapper) {
+                $mapper->persistBuffer();
+            }
+            self::$configurationData = null;
+        }
+    }
+
+    protected function writePropertiesToBuffer(array $data, int $id): void
     {
         if (
             ($columns = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'] ?? null) !== null &&
@@ -60,10 +98,6 @@ class DataHandlerHook implements SingletonInterface
                 ) {
                     $mapper->bufferProperty($path, $data[$columnName]);
                 }
-            }
-            $this->eventDispatcher->dispatch(new BeforePersistingPropertiesEvent($data));
-            foreach (MapperRegistry::getInstances() as $mapper) {
-                $mapper->persistBuffer();
             }
         }
     }

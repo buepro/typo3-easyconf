@@ -13,15 +13,22 @@ namespace Buepro\Easyconf\Event;
 
 final class BeforePersistingPropertiesEvent
 {
-    protected array $fields;
+    protected array $formFields;
+    protected array $configurationRecord;
 
-    public function __construct(array $fields)
+    public function __construct(array $formFields, array $configurationRecord)
     {
-        $this->fields = $fields;
+        $this->formFields = $formFields;
+        $this->configurationRecord = $configurationRecord;
     }
 
-    public function getFields(): array
+    public function getFormFields(): array
     {
-        return $this->fields;
+        return $this->formFields;
+    }
+
+    public function getConfigurationRecord(): array
+    {
+        return $this->configurationRecord;
     }
 }
