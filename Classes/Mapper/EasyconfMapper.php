@@ -27,7 +27,7 @@ class EasyconfMapper extends AbstractMapper implements SingletonInterface
 
     public function getProperty(string $path): string
     {
-        return $this->easyconfService->getFieldByPath($path);
+        return $this->buffer[$path] ?? $this->easyconfService->getFieldByPath($path);
     }
 
     public function persistBuffer(): MapperInterface

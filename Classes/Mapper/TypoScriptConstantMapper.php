@@ -51,7 +51,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     public function getProperty(string $path): string
     {
-        return $this->typoScriptService->getConstantByPath($path);
+        return $this->buffer[self::PROPERTY_BUFFER_KEY][$path] ?? $this->typoScriptService->getConstantByPath($path);
     }
 
     public function getParentProperty(string $path): string

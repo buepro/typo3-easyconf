@@ -12,6 +12,8 @@ namespace Buepro\Easyconf\Mapper;
 interface MapperInterface
 {
     /**
+     * Get the property value where the buffered value has precedence over the one from the storage.
+     *
      * @param string $path
      * @return mixed
      */
