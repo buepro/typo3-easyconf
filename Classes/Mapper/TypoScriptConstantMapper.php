@@ -81,12 +81,6 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     public function persistBuffer(): MapperInterface
     {
-        if (
-            count($this->buffer[self::PROPERTY_BUFFER_KEY]) === 0 &&
-            count($this->buffer[self::SCRIPT_BUFFER_KEY]) === 0
-        ) {
-            return $this;
-        }
         GeneralUtility::writeFile($this->getFileWithAbsolutePath(), $this->getBufferContent());
         $this->addImportStatementToTemplateRecord();
         return $this;
