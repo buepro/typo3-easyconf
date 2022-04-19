@@ -11,28 +11,35 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Configuration\Service;
 
+use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Service\DatabaseService;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 
-class TypoScriptService implements SingletonInterface
+class TypoScriptService implements SingletonInterface, LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     protected int $pageUid = 0;
     protected int $treeLevel = 0;
     protected int $rootPageUid = 0;
     protected array $templateRow = [];
     protected array $constants = [];
-    protected array $parentConstants = [];
+    protected array $inheritedConstants = [];
 
     public function init(int $pageUid): self
     {
         $this->pageUid = $pageUid;
         $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
         $this->initializeActivePageProperties($rootLine);
-        $this->initializeParentPageProperties($rootLine);
+        $this->initializeInheritedConstants($rootLine);
         return $this;
     }
 
@@ -47,16 +54,37 @@ class TypoScriptService implements SingletonInterface
             ->getRecord('sys_template', ['uid' => $templateUid]) ?? []);
     }
 
-    protected function initializeParentPageProperties(array $rootLine): void
+    protected function initializeInheritedConstants(array $rootLine): void
     {
-        $parentPageUid = (int)(array_values($rootLine)[0]['pid'] ?? 0);
-        if ($parentPageUid > 0) {
-            $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $parentPageUid);
-            $this->parentConstants = $this->getConstantsForRootLine(
+        if (($tokenPos = strpos($this->templateRow['constants'], TypoScriptConstantMapper::TEMPLATE_TOKEN)) === false) {
+            $this->inheritedConstants = $this->constants;
+            return;
+        }
+        try {
+            $constants = substr($this->templateRow['constants'], 0, $tokenPos);
+            $this->updateTemplateConstants($constants);
+            $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $this->pageUid);
+            $this->inheritedConstants = $this->getConstantsForRootLine(
                 $rootLineUtility->get(),
                 GeneralUtility::makeInstance(TemplateService::class)
             );
+        } catch (\Exception $e) {
+            // @phpstan-ignore-next-line
+            $this->logger->error('Inherited constants initialization error. Code: 1650372424');
         }
+        $this->updateTemplateConstants($this->templateRow['constants']);
+    }
+
+    protected function updateTemplateConstants(string $constants): void
+    {
+        GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('sys_template')
+            ->update(
+                'sys_template',
+                ['constants' => $constants],
+                ['uid' => (int)$this->templateRow['uid']],
+                [Connection::PARAM_STR]
+            );
     }
 
     protected function getConstantsForRootLine(array $rootLine, TemplateService $templateService): array
@@ -72,9 +100,9 @@ class TypoScriptService implements SingletonInterface
         return $this->constants;
     }
 
-    public function getParentConstants(): array
+    public function getInheritedConstants(): array
     {
-        return $this->parentConstants;
+        return $this->inheritedConstants;
     }
 
     public function getConstantByPath(string $path): string
@@ -86,11 +114,11 @@ class TypoScriptService implements SingletonInterface
         return is_string($result) ? $result : '';
     }
 
-    public function getParentConstantByPath(string $path): string
+    public function getInheritedConstantByPath(string $path): string
     {
         $result = '';
-        if (ArrayUtility::isValidPath($this->getParentConstants(), $path, '.')) {
-            $result = ArrayUtility::getValueByPath($this->getParentConstants(), $path, '.');
+        if (ArrayUtility::isValidPath($this->getInheritedConstants(), $path, '.')) {
+            $result = ArrayUtility::getValueByPath($this->getInheritedConstants(), $path, '.');
         }
         return is_string($result) ? $result : '';
     }
