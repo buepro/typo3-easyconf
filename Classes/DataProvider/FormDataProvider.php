@@ -51,7 +51,11 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
                     class_exists($mapperClass) &&
                     ($mapper = GeneralUtility::makeInstance($mapperClass)) instanceof MapperInterface
                 ) {
-                    $result['databaseRow'][$columnName] = $mapper->getProperty($path);
+                    $value = $mapper->getProperty($path);
+                    if (isset($columnConfig['tx_easyconf']['valueMap']) && is_array($columnConfig['tx_easyconf']['valueMap'])) {
+                        $value = array_flip($columnConfig['tx_easyconf']['valueMap'])[$value] ?? $value;
+                    }
+                    $result['databaseRow'][$columnName] = $value;
                 }
             }
             $event = new AfterReadingPropertiesEvent($result['databaseRow']);

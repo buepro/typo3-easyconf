@@ -96,7 +96,9 @@ class DataHandlerHook implements SingletonInterface
                     class_exists($mapperClass) &&
                     ($mapper = GeneralUtility::makeInstance($mapperClass)) instanceof MapperInterface
                 ) {
-                    $mapper->bufferProperty($path, $data[$columnName]);
+                    $value = $data[$columnName];
+                    $value = $columnConfig['tx_easyconf']['valueMap'][$value] ?? $value;
+                    $mapper->bufferProperty($path, $value);
                 }
             }
         }
