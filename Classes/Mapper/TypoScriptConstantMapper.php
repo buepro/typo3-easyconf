@@ -35,18 +35,32 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     {
         parent::__construct();
         $this->typoScriptService = $typoScriptService;
-        $fileLocation = $this->typoScriptService->getConstantByPath(
+        $this->initializeStorage()->initializeImportStatementHandling();
+    }
+
+    protected function initializeStorage(): self
+    {
+        $rootPath = trim($this->typoScriptService->getConstantByPath(
+            'module.tx_easyconf.general.storageRoot'
+        ), " \t\n\r\0\x0B/") . '/';
+        $fileLocation = $rootPath . trim($this->typoScriptService->getConstantByPath(
             'module.tx_easyconf.typoScriptConstantMapper.storage'
-        );
-        if ($fileLocation !== '' && GeneralUtility::validPathStr($fileLocation)) {
-            $this->storage = str_ends_with($fileLocation, '/') ? $fileLocation : $fileLocation . '/';
+        ), " \t\n\r\0\x0B/") . '/';
+        if ($fileLocation !== '//' && GeneralUtility::validPathStr($fileLocation)) {
+            $this->storage = $fileLocation;
         }
+        return $this;
+    }
+
+    protected function initializeImportStatementHandling(): self
+    {
         $importStatementHandling = trim($this->typoScriptService->getConstantByPath(
             'module.tx_easyconf.typoScriptConstantMapper.importStatementHandling'
         ));
         if (in_array($importStatementHandling, ['addOnce', 'maintainAtEnd'], true)) {
             $this->importStatementHandling = $importStatementHandling;
         }
+        return $this;
     }
 
     public function getProperty(string $path): string
