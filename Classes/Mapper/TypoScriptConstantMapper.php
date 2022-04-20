@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace Buepro\Easyconf\Mapper;
 
 use Buepro\Easyconf\Configuration\Service\TypoScriptService;
+use Buepro\Easyconf\Service\FileService;
+use Buepro\Easyconf\Utility\GeneralUtility as EasyconfGeneralUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -21,33 +23,32 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 
 class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterface
 {
-    public const FILE_NAME = 'Constants';
+    public const FILE_NAME = 'EasyconfConstantsP%dT%d.typoscript';
     public const TEMPLATE_TOKEN = '# The following line has been added automatically by the extension easyconf';
     public const PROPERTY_BUFFER_KEY = 'properties';
     public const SCRIPT_BUFFER_KEY = 'scripts';
 
     protected array $buffer = [self::PROPERTY_BUFFER_KEY => [], self::SCRIPT_BUFFER_KEY => []];
-    protected TypoScriptService $typoScriptService;
     protected string $storage = 'fileadmin/easyconf/Configuration/TypoScript/';
     protected string $importStatementHandling = 'maintainAtEnd';
+    protected TypoScriptService $typoScriptService;
+    protected FileService $fileService;
 
-    public function __construct(TypoScriptService $typoScriptService)
+    public function __construct(TypoScriptService $typoScriptService, FileService $fileService)
     {
         parent::__construct();
         $this->typoScriptService = $typoScriptService;
+        $this->fileService = $fileService;
         $this->initializeStorage()->initializeImportStatementHandling();
     }
 
     protected function initializeStorage(): self
     {
-        $rootPath = trim($this->typoScriptService->getConstantByPath(
-            'module.tx_easyconf.general.storageRoot'
-        ), " \t\n\r\0\x0B/") . '/';
-        $fileLocation = $rootPath . trim($this->typoScriptService->getConstantByPath(
+        if (($storage = $this->fileService->getFullPath(
             'module.tx_easyconf.typoScriptConstantMapper.storage'
-        ), " \t\n\r\0\x0B/") . '/';
-        if ($fileLocation !== '//' && GeneralUtility::validPathStr($fileLocation)) {
-            $this->storage = $fileLocation;
+        )) !== ''
+        ) {
+            $this->storage = $storage;
         }
         return $this;
     }
@@ -95,7 +96,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     public function persistBuffer(): MapperInterface
     {
-        GeneralUtility::writeFile($this->getFileWithAbsolutePath(), $this->getBufferContent());
+        EasyconfGeneralUtility::writeTextFile($this->getFileWithAbsolutePath(), $this->getBufferContent());
         $this->addImportStatementToTemplateRecord();
         return $this;
     }
@@ -107,17 +108,9 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     protected function getFileWithAbsolutePath(): string
     {
-        $fileName = GeneralUtility::getFileAbsFileName(sprintf(
-            '%s%s%d.typoscript',
-            $this->storage,
-            self::FILE_NAME,
-            (int)$this->typoScriptService->getTemplateRow()['uid']
-        ));
-        $dir = GeneralUtility::dirname($fileName);
-        if (!file_exists($dir)) {
-            GeneralUtility::mkdir_deep($dir);
-        }
-        return $fileName;
+        return GeneralUtility::getFileAbsFileName(
+            $this->storage . $this->fileService->getTemplateFileName(self::FILE_NAME)
+        );
     }
 
     protected function getBufferContent(): string
