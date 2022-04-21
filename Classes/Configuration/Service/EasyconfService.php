@@ -27,7 +27,7 @@ class EasyconfService implements SingletonInterface
     {
         $this->configuration = (GeneralUtility::makeInstance(DatabaseService::class)
             ->getRecord('tx_easyconf_configuration', ['pid' => $pageUid]) ?? []);
-        if (isset($this->configuration['fields']) && $this->configuration['fields'] !== '') {
+        if (isset($this->configuration['fields']) && (string)$this->configuration['fields'] !== '') {
             try {
                 $this->fields = json_decode($this->configuration['fields'], true, 512, JSON_THROW_ON_ERROR);
             } catch (\JsonException $e) {

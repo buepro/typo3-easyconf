@@ -56,7 +56,7 @@ class TypoScriptService implements SingletonInterface, LoggerAwareInterface
 
     protected function initializeInheritedConstants(array $rootLine): void
     {
-        if (($tokenPos = strpos($this->templateRow['constants'], TypoScriptConstantMapper::TEMPLATE_TOKEN)) === false) {
+        if (($tokenPos = strpos((string)$this->templateRow['constants'], TypoScriptConstantMapper::TEMPLATE_TOKEN)) === false) {
             $this->inheritedConstants = $this->constants;
             return;
         }
