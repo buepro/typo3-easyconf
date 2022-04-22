@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Buepro\Easyconf\Configuration\Service;
+namespace Buepro\Easyconf\Mapper\Service;
 
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -17,7 +17,7 @@ use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class SiteConfigurationService implements SingletonInterface
+class SiteConfigurationService implements SingletonInterface, MapperServiceInterface
 {
     protected ?SiteConfiguration $siteConfigurationManager;
     protected ?Site $site;

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Buepro\Easyconf\Configuration\Service;
+namespace Buepro\Easyconf\Mapper\Service;
 
 use Buepro\Easyconf\Service\DatabaseService;
 use TYPO3\CMS\Core\Database\Connection;
@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class EasyconfService implements SingletonInterface
+class EasyconfService implements SingletonInterface, MapperServiceInterface
 {
     protected array $configuration = [];
     protected array $fields = [];

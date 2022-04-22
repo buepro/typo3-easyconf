@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Hook;
 
-use Buepro\Easyconf\Configuration\ServiceManager;
 use Buepro\Easyconf\Event\BeforePersistingPropertiesEvent;
 use Buepro\Easyconf\Mapper\MapperInterface;
 use Buepro\Easyconf\Mapper\MapperRegistry;
+use Buepro\Easyconf\Mapper\ServiceManager;
 use Buepro\Easyconf\Service\DatabaseService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;

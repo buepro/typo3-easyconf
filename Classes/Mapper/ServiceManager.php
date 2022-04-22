@@ -9,11 +9,11 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Buepro\Easyconf\Configuration;
+namespace Buepro\Easyconf\Mapper;
 
-use Buepro\Easyconf\Configuration\Service\EasyconfService;
-use Buepro\Easyconf\Configuration\Service\SiteConfigurationService;
-use Buepro\Easyconf\Configuration\Service\TypoScriptService;
+use Buepro\Easyconf\Mapper\Service\EasyconfService;
+use Buepro\Easyconf\Mapper\Service\SiteConfigurationService;
+use Buepro\Easyconf\Mapper\Service\TypoScriptService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

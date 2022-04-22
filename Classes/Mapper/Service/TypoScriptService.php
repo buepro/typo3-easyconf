@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Buepro\Easyconf\Configuration\Service;
+namespace Buepro\Easyconf\Mapper\Service;
 
 use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Service\DatabaseService;
@@ -23,7 +23,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 
-class TypoScriptService implements SingletonInterface, LoggerAwareInterface
+class TypoScriptService implements SingletonInterface, MapperServiceInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 

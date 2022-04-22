@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Mapper;
 
-use Buepro\Easyconf\Configuration\Service\EasyconfService;
+use Buepro\Easyconf\Mapper\Service\EasyconfService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 

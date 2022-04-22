@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\DataProvider;
 
-use Buepro\Easyconf\Configuration\ServiceManager;
 use Buepro\Easyconf\Event\AfterReadingPropertiesEvent;
 use Buepro\Easyconf\Mapper\MapperInterface;
+use Buepro\Easyconf\Mapper\ServiceManager;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;

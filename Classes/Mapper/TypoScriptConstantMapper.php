@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Mapper;
 
-use Buepro\Easyconf\Configuration\Service\TypoScriptService;
+use Buepro\Easyconf\Mapper\Service\TypoScriptService;
 use Buepro\Easyconf\Service\FileService;
 use Buepro\Easyconf\Utility\GeneralUtility as EasyconfGeneralUtility;
 use TYPO3\CMS\Core\Core\Environment;
