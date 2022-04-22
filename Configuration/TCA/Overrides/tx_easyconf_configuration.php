@@ -30,7 +30,7 @@ defined('TYPO3') or die('Access denied.');
         ),
         TcaUtility::getPropertyMap(
             SiteConfigurationMapper::class,
-            'easyconf.demo',
+            'easyconf.data.demo',
             'company, contact, email, phone',
             'agency'
         ),
