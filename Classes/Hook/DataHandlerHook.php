@@ -16,6 +16,7 @@ use Buepro\Easyconf\Mapper\MapperInterface;
 use Buepro\Easyconf\Mapper\MapperRegistry;
 use Buepro\Easyconf\Mapper\ServiceManager;
 use Buepro\Easyconf\Service\DatabaseService;
+use Buepro\Easyconf\Utility\TcaUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -90,15 +91,11 @@ class DataHandlerHook implements SingletonInterface
         ) {
             foreach ($columns as $columnName => $columnConfig) {
                 if (
-                    isset($data[$columnName]) &&
-                    ($mapperClass = $columnConfig['tx_easyconf']['mapper'] ?? '') !== '' &&
-                    ($path = $columnConfig['tx_easyconf']['path'] ?? '') !== '' &&
-                    class_exists($mapperClass) &&
-                    ($mapper = GeneralUtility::makeInstance($mapperClass)) instanceof MapperInterface
+                    ($path = TcaUtility::getMappingPath($columnName)) !== null &&
+                    ($class = TcaUtility::getMappingClass($columnName)) !== null &&
+                    ($mapper = GeneralUtility::makeInstance($class)) instanceof MapperInterface
                 ) {
-                    $value = $data[$columnName];
-                    $value = $columnConfig['tx_easyconf']['valueMap'][$value] ?? $value;
-                    $mapper->bufferProperty($path, $value);
+                    $mapper->bufferProperty($path, TcaUtility::mapFormToMapperValue($columnName, $data[$columnName]));
                 }
             }
         }

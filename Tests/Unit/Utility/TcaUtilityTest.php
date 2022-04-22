@@ -11,6 +11,7 @@ declare(strict_types = 1);
 
 namespace Buepro\Easyconf\Tests\Unit\Utility;
 
+use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Utility\TcaUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -210,5 +211,100 @@ class TcaUtilityTest extends UnitTestCase
             $expected,
             TcaUtility::excludeProperties($propertyList, $excluded)
         );
+    }
+
+    public function testGetMappingPath(): void
+    {
+        $column = 'my_column';
+        $path = 'path.to.myColumn';
+        $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$column] = [];
+        $columnTca = &$GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$column];
+        self::assertNull(TcaUtility::getMappingPath($column));
+        $columnTca['tx_easyconf'] = [];
+        self::assertNull(TcaUtility::getMappingPath($column));
+        $columnTca['tx_easyconf']['path'] = '';
+        self::assertNull(TcaUtility::getMappingPath($column));
+        $columnTca['tx_easyconf']['path'] = $path;
+        self::assertSame($path, TcaUtility::getMappingPath($column));
+        unset($columnTca, $GLOBALS['TCA']['tx_easyconf_configuration']);
+    }
+
+    public function testGetMappingClass(): void
+    {
+        $column = 'my_column';
+        $class = TypoScriptConstantMapper::class;
+        $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$column] = [];
+        $columnTca = &$GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$column];
+        self::assertNull(TcaUtility::getMappingClass($column));
+        $columnTca['tx_easyconf'] = [];
+        self::assertNull(TcaUtility::getMappingClass($column));
+        $columnTca['tx_easyconf']['mapper'] = 'SomeNonExistingClass';
+        self::assertNull(TcaUtility::getMappingClass($column));
+        $columnTca['tx_easyconf']['mapper'] = $class;
+        self::assertSame($class, TcaUtility::getMappingClass($column));
+        unset($columnTca, $GLOBALS['TCA']['tx_easyconf_configuration']);
+    }
+
+    public function testGetColumnConfiguration(): void
+    {
+        $column = 'my_column';
+        $config = ['mapper' => TypoScriptConstantMapper::class, 'path' => 'path.to.myColumn'];
+        self::assertNull(TcaUtility::getColumnConfiguration($column));
+        $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$column]['tx_easyconf'] = $config;
+        // @phpstan-ignore-next-line
+        self::assertSame($config, TcaUtility::getColumnConfiguration($column));
+        unset($GLOBALS['TCA']['tx_easyconf_configuration']);
+    }
+
+    public function testMapMapperToFormValue(): void
+    {
+        $column = 'my_column';
+        $valueMap = [0 => 'false', 1 => 'true'];
+        $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$column]['tx_easyconf'] = [];
+        $columnTca = &$GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$column]['tx_easyconf'];
+        $mapperValue = 0;
+        self::assertSame($mapperValue, TcaUtility::mapMapperToFormValue($column, $mapperValue));
+        $mapperValue = 1;
+        self::assertSame($mapperValue, TcaUtility::mapMapperToFormValue($column, $mapperValue));
+        $mapperValue = 'test';
+        self::assertSame($mapperValue, TcaUtility::mapMapperToFormValue($column, $mapperValue));
+        $columnTca['valueMap'] = $valueMap;
+        $mapperValue = 0;
+        self::assertSame($mapperValue, TcaUtility::mapMapperToFormValue($column, $mapperValue));
+        $mapperValue = 1;
+        self::assertSame($mapperValue, TcaUtility::mapMapperToFormValue($column, $mapperValue));
+        $mapperValue = 'test';
+        self::assertSame($mapperValue, TcaUtility::mapMapperToFormValue($column, $mapperValue));
+        $mapperValue = 'false';
+        self::assertSame(0, TcaUtility::mapMapperToFormValue($column, $mapperValue));
+        $mapperValue = 'true';
+        self::assertSame(1, TcaUtility::mapMapperToFormValue($column, $mapperValue));
+        unset($columnTca, $GLOBALS['TCA']['tx_easyconf_configuration']);
+    }
+
+    public function testMapFormToMapperValue(): void
+    {
+        $column = 'my_column';
+        $valueMap = ['false' => 0, 'true' => 1];
+        $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$column]['tx_easyconf'] = [];
+        $columnTca = &$GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$column]['tx_easyconf'];
+        $formValue = 0;
+        self::assertSame($formValue, TcaUtility::mapFormToMapperValue($column, $formValue));
+        $formValue = 1;
+        self::assertSame($formValue, TcaUtility::mapFormToMapperValue($column, $formValue));
+        $formValue = 'test';
+        self::assertSame($formValue, TcaUtility::mapFormToMapperValue($column, $formValue));
+        $columnTca['valueMap'] = $valueMap;
+        $formValue = 0;
+        self::assertSame($formValue, TcaUtility::mapFormToMapperValue($column, $formValue));
+        $formValue = 1;
+        self::assertSame($formValue, TcaUtility::mapFormToMapperValue($column, $formValue));
+        $formValue = 'test';
+        self::assertSame($formValue, TcaUtility::mapFormToMapperValue($column, $formValue));
+        $formValue = 'false';
+        self::assertSame(0, TcaUtility::mapFormToMapperValue($column, $formValue));
+        $formValue = 'true';
+        self::assertSame(1, TcaUtility::mapFormToMapperValue($column, $formValue));
+        unset($columnTca, $GLOBALS['TCA']['tx_easyconf_configuration']);
     }
 }

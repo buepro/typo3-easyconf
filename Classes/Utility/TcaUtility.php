@@ -13,6 +13,20 @@ namespace Buepro\Easyconf\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Columns contain the field `tx_easyconf` with the following structure:
+ *      'my_field' => [
+ *          ...
+ *          'tx_easyconf' => [
+ *              'mapper' => 'Buepro\Easyconf\Mapper\TypoScriptConstantMapper',
+ *              'path' => 'path.to.myField',
+ *              'valueMap' => [
+ *                  0 => 'false',  // path.to.myField = false
+ *                  1 => 'true',   // path.to.myField = true
+ *              ],
+ *          ],
+ *      ]
+ */
 class TcaUtility
 {
     public static function getFields(
@@ -153,6 +167,50 @@ class TcaUtility
 
     public static function getMappingPath(string $field): ?string
     {
-        return $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$field]['tx_easyconf']['path'] ?? null;
+        $path = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$field]['tx_easyconf']['path'] ?? '';
+        return $path !== '' ? $path : null;
+    }
+
+    public static function getMappingClass(string $field): ?string
+    {
+        $class = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$field]['tx_easyconf']['mapper'] ?? '';
+        return  class_exists($class) ? $class : null;
+    }
+
+    public static function getColumnConfiguration(string $field): ?array
+    {
+        return $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$field]['tx_easyconf'] ?? null;
+    }
+
+    /**
+     * @param string $field
+     * @param mixed $mapperValue
+     * @return mixed
+     */
+    public static function mapMapperToFormValue(string $field, $mapperValue)
+    {
+        if (
+            ($configuration = self::getColumnConfiguration($field)) !== null &&
+            isset($configuration['valueMap']) && is_array($configuration['valueMap'])
+        ) {
+            return array_flip($configuration['valueMap'])[(string)$mapperValue] ?? $mapperValue;
+        }
+        return $mapperValue;
+    }
+
+    /**
+     * @param string $field
+     * @param mixed $formValue
+     * @return mixed
+     */
+    public static function mapFormToMapperValue(string $field, $formValue)
+    {
+        if (
+            ($configuration = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$field]['tx_easyconf']) !== null &&
+            isset($configuration['valueMap']) && is_array($configuration['valueMap'])
+        ) {
+            return $configuration['valueMap'][(string)$formValue] ?? $formValue;
+        }
+        return $formValue;
     }
 }

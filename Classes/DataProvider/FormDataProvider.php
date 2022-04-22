@@ -14,6 +14,7 @@ namespace Buepro\Easyconf\DataProvider;
 use Buepro\Easyconf\Event\AfterReadingPropertiesEvent;
 use Buepro\Easyconf\Mapper\MapperInterface;
 use Buepro\Easyconf\Mapper\ServiceManager;
+use Buepro\Easyconf\Utility\TcaUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -46,16 +47,12 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
             // Read in properties
             foreach ($columns as $columnName => $columnConfig) {
                 if (
-                    ($mapperClass = $columnConfig['tx_easyconf']['mapper'] ?? '') !== '' &&
-                    ($path = $columnConfig['tx_easyconf']['path'] ?? '') !== '' &&
-                    class_exists($mapperClass) &&
-                    ($mapper = GeneralUtility::makeInstance($mapperClass)) instanceof MapperInterface
+                    ($path = TcaUtility::getMappingPath($columnName)) !== null &&
+                    ($class = TcaUtility::getMappingClass($columnName)) !== null &&
+                    ($mapper = GeneralUtility::makeInstance($class)) instanceof MapperInterface
                 ) {
                     $value = $mapper->getProperty($path);
-                    if (isset($columnConfig['tx_easyconf']['valueMap']) && is_array($columnConfig['tx_easyconf']['valueMap'])) {
-                        $value = array_flip($columnConfig['tx_easyconf']['valueMap'])[$value] ?? $value;
-                    }
-                    $result['databaseRow'][$columnName] = $value;
+                    $result['databaseRow'][$columnName] = TcaUtility::mapMapperToFormValue($columnName, $value);
                 }
             }
             $event = new AfterReadingPropertiesEvent($result['databaseRow']);
