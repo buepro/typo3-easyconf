@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 
 class FileService implements SingletonInterface
 {
+    public const STORAGE_ROOT_PATH = 'module.tx_easyconf.persistence.storageRootPath';
     protected TypoScriptService $typoScriptService;
 
     public function __construct(TypoScriptService $typoScriptService)
@@ -50,7 +51,7 @@ class FileService implements SingletonInterface
     public function getRootPath(): string
     {
         return EasyconfGeneralUtility::trimRelativePath($this->typoScriptService->getConstantByPath(
-            'module.tx_easyconf.general.storageRoot'
+            self::STORAGE_ROOT_PATH
         ));
     }
 

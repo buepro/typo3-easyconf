@@ -1,16 +1,17 @@
-# customsubcategory=1650434403=General
-# customsubcategory=1650002365=TypoScript constant mapper
-# customsubcategory=1650002409=Site configuration
+# customsubcategory=1650551526=Storage
+# customsubcategory=1650551566=TypoScript constant mapper
 
 module.tx_easyconf {
-    general {
-        # cat=easyconf/1650434403; type=string; label=Storage root:Folder reference to access files (e.g. fileadmin/ or EXT:my_ext/). The final file location might be in a sub folder.
-        storageRoot = fileadmin/easyconf/
+    persistence {
+        # cat=easyconf/1650551526; type=string; label=Root path:E.g. fileadmin/easyconf/ or EXT:my_ext/. The final storage location comprises of this path and a relative path.
+        storageRootPath = fileadmin/easyconf/
+        # cat=easyconf/1650551526; type=string; label=Relative TypoScript path:Path to TypoScript files relative to the root path
+        storageRelativeTypoScriptPath = Configuration/TypoScript/
     }
-    typoScriptConstantMapper {
-        # cat=easyconf/1650002365; type=string; label=TypoScript storage:Relative folder path to store files from TypoScript mapping
-        storage = Configuration/TypoScript/
-        # cat=easyconf/1650002365; type=options[Add once=addOnce, Maintain at end=maintainAtEnd]; label=Import statement handling
-        importStatementHandling = maintainAtEnd
+    settings {
+        typoScriptConstantMapper {
+            # cat=easyconf/1650551566; type=options[Add once=addOnce, Maintain at end=maintainAtEnd]; label=Import statement handling
+            importStatementHandling = maintainAtEnd
+        }
     }
 }

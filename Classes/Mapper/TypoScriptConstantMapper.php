@@ -23,6 +23,8 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 
 class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterface
 {
+    public const RELATIVE_STORAGE_TS_PATH = 'module.tx_easyconf.persistence.storageRelativeTypoScriptPath';
+    public const IMPORT_STATEMENT_HANDLING_TS_PATH = 'module.tx_easyconf.settings.typoScriptConstantMapper.importStatementHandling';
     public const FILE_NAME = 'EasyconfConstantsP%dT%d.typoscript';
     public const TEMPLATE_TOKEN = '# The following line has been added automatically by the extension easyconf';
     public const PROPERTY_BUFFER_KEY = 'properties';
@@ -44,10 +46,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     protected function initializeStorage(): self
     {
-        if (($storage = $this->fileService->getFullPath(
-            'module.tx_easyconf.typoScriptConstantMapper.storage'
-        )) !== ''
-        ) {
+        if (($storage = $this->fileService->getFullPath(self::RELATIVE_STORAGE_TS_PATH)) !== '') {
             $this->storage = $storage;
         }
         return $this;
@@ -56,7 +55,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     protected function initializeImportStatementHandling(): self
     {
         $importStatementHandling = trim($this->typoScriptService->getConstantByPath(
-            'module.tx_easyconf.typoScriptConstantMapper.importStatementHandling'
+            self::IMPORT_STATEMENT_HANDLING_TS_PATH
         ));
         if (in_array($importStatementHandling, ['addOnce', 'maintainAtEnd'], true)) {
             $this->importStatementHandling = $importStatementHandling;
