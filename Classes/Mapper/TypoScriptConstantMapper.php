@@ -75,6 +75,7 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     public function bufferProperty(string $path, $value): MapperInterface
     {
+        $this->removePropertyFromBuffer($path);
         if ($this->getInheritedProperty($path) !== $value) {
             $this->buffer[self::PROPERTY_BUFFER_KEY][$path] = $value;
         }
