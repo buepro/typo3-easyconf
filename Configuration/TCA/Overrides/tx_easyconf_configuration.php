@@ -72,8 +72,17 @@ defined('TYPO3') or die('Access denied.');
     TcaUtility::modifyColumns(
         $tca['columns'],
         'showAllProperties',
-        ['config' => ['type' => 'check', 'renderType' => 'checkboxToggle']],
+        [
+            'onChange' => 'reload',
+            'config' => ['type' => 'check', 'renderType' => 'checkboxToggle'],
+        ],
         'easyconf'
+    );
+    TcaUtility::modifyColumns(
+        $tca['columns'],
+        'firstName, lastName',
+        ['displayCond' => 'FIELD:easyconf_show_all_properties:REQ:true'],
+        'owner'
     );
 
     unset($tca);

@@ -15,6 +15,7 @@ use Buepro\Easyconf\Event\BeforePersistingPropertiesEvent;
 use Buepro\Easyconf\Mapper\MapperInterface;
 use Buepro\Easyconf\Mapper\MapperRegistry;
 use Buepro\Easyconf\Mapper\ServiceManager;
+use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Service\DatabaseService;
 use Buepro\Easyconf\Utility\TcaUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -95,7 +96,25 @@ class DataHandlerHook implements SingletonInterface
                     ($class = TcaUtility::getMappingClass($columnName)) !== null &&
                     ($mapper = GeneralUtility::makeInstance($class)) instanceof MapperInterface
                 ) {
-                    $mapper->bufferProperty($path, TcaUtility::mapFormToMapperValue($columnName, $data[$columnName]));
+                    // Buffer all properties visible in the form
+                    if (isset($data[$columnName])) {
+                        $mapper->bufferProperty(
+                            $path,
+                            TcaUtility::mapFormToMapperValue($columnName, $data[$columnName])
+                        );
+                        continue;
+                    }
+                    // Buffer as well all TS constant properties where the value differs from the inherited value.
+                    // Like this once set values are not overwritten when a field isn't visible.
+                    if (
+                        $mapper instanceof TypoScriptConstantMapper &&
+                        $mapper->getProperty($path) !== $mapper->getInheritedProperty($path)
+                    ) {
+                        $mapper->bufferProperty(
+                            $path,
+                            TcaUtility::mapFormToMapperValue($columnName, $mapper->getProperty($path))
+                        );
+                    }
                 }
             }
         }
