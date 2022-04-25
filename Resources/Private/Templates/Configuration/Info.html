@@ -12,7 +12,17 @@
         <f:if condition="{templateUid} == 0">
             <f:be.infobox state="-2" title="{f:translate(key: 'noTemplate.title')}">
                 <p>{f:translate(key: 'noTemplate.description')}</p>
-                <a class="btn btn-primary" href="{be:moduleLink(route: 'web_ts', arguments: '{id: pageUid}')}">{f:translate(key: 'switchTemplateModule')}</a>
+                <f:for each="{sites}" as="site">
+                    <be:link.editRecord
+                        class="btn btn-success me-2 mb-2"
+                        returnUrl="{f:be.uri(route: 'web_EasyconfConfiguration')}"
+                        table="tx_easyconf_configuration"
+                        uid="{site.configurationUid}"
+                    >
+                        <f:format.printf arguments="{pageTitle: site.rootPageTitle}">{f:translate(key: 'selectPage')}</f:format.printf>
+                    </be:link.editRecord>
+                </f:for>
+                <a class="btn btn-primary mb-2" href="{be:moduleLink(route: 'web_ts', arguments: '{id: pageUid}')}">{f:translate(key: 'switchTemplateModule')}</a>
             </f:be.infobox>
         </f:if>
         <f:be.infobox state="0" title="{f:translate(key: 'support.title')}">

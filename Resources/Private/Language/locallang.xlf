@@ -19,6 +19,9 @@
 					or switch to the template module to create one for the current page.
 				</source>
 			</trans-unit>
+			<trans-unit id="selectPage" resname="selectPage">
+				<source>Select page "%s"</source>
+			</trans-unit>
 			<trans-unit id="switchTemplateModule" resname="switchTemplateModule">
 				<source>Switch to template module</source>
 			</trans-unit>
@@ -30,7 +33,6 @@
 					TYPO3 is known for its flexibility. Almost all is possible...! This flexibility
 					increases as well the complexity and therefore more detailed adjustments require deeper
 					understanding. Don't lose precious time on further configuration and let the experts help you.
-					Mention "easyconf" and get 50% off from the first hour.
 				</source>
 			</trans-unit>
 			<trans-unit id="support.action.info" resname="support.action.info">
@@ -41,9 +43,6 @@
 			</trans-unit>
 			<trans-unit id="support.action.email" resname="support.action.email">
 				<source>Send an email</source>
-			</trans-unit>
-			<trans-unit id="" resname="">
-				<source></source>
 			</trans-unit>
 		</body>
 	</file>
