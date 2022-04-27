@@ -38,7 +38,7 @@ the extension. To setup the edit form the following steps are involved:
 #. If needed create event handlers for advanced configurations
 
 An example setup can be found in the commit
-`aeae99b <https://github.com/buepro/typo3-pizpalue/commit/aeae99b5764394f0cb4bb827ae9198f5a3589f86>`__
+`29d47cc4 <https://github.com/buepro/typo3-pizpalue/commit/29d47cc4d6a27da66fecd947a6751862f9dca77e>`__
 from the extension pizpalue.
 
 :Repository:  https://github.com/buepro/typo3-easyconf
