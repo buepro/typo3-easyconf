@@ -66,7 +66,7 @@ class EasyconfService implements SingletonInterface, MapperServiceInterface
                 'tx_easyconf_configuration',
                 ['fields' => \json_encode($this->fields)],
                 ['uid' => (int)$this->configuration['uid']],
-                [Connection::PARAM_INT]
+                [Connection::PARAM_STR]
             );
         $this->init((int)$this->configuration['pid']);
         return $this;
