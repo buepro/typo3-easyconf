@@ -1,3 +1,5 @@
+.. include:: /Includes.rst.txt
+
 .. image:: https://poser.pugx.org/buepro/typo3-easyconf/v/stable.svg
    :alt: Latest Stable Version
    :target: https://extensions.typo3.org/extension/easyconf/
@@ -18,16 +20,18 @@
    :alt: Continuous Integration Status
    :target: https://github.com/buepro/typo3-easyconf/actions?query=workflow%3ACI
 
-============================
-TYPO3 extension ``easyconf``
-============================
+.. _introduction:
+
+============
+Introduction
+============
 
 Provides a module to easily configure main aspects from a website.
 
 Once set up the module allows website owners without any TYPO3 knowledge to
 configure main aspects from the website.
 
-.. image:: Documentation/Images/EditForm.jpg
+.. image:: ../Images/EditForm.jpg
    :alt: Easyconf edit form
 
 Behind the scene the extension provides mappers to bind form fields with
@@ -40,7 +44,3 @@ the extension. To setup the edit form the following steps are involved:
 An example setup can be found in the commit
 `aeae99b <https://github.com/buepro/typo3-pizpalue/commit/aeae99b5764394f0cb4bb827ae9198f5a3589f86>`__
 from the extension pizpalue.
-
-:Repository:  https://github.com/buepro/typo3-easyconf
-:Read online: https://docs.typo3.org/p/buepro/typo3-easyconf/main/en-us/
-:TER:         https://extensions.typo3.org/extension/easyconf

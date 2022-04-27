@@ -32,3 +32,10 @@ Provides a module to easily configure main aspects from a website.
 
 Once set up the module allows website owners without any TYPO3 knowledge to
 configure main aspects from the website.
+
+**Table of Contents**
+
+.. toctree::
+   :maxdepth: 2
+
+   Introduction/Index
