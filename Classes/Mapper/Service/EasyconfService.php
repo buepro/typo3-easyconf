@@ -29,7 +29,8 @@ class EasyconfService implements SingletonInterface, MapperServiceInterface
             ->getRecord('tx_easyconf_configuration', ['pid' => $pageUid]) ?? []);
         if (isset($this->configuration['fields']) && (string)$this->configuration['fields'] !== '') {
             try {
-                $this->fields = json_decode($this->configuration['fields'], true, 512, JSON_THROW_ON_ERROR);
+                $decoded = json_decode($this->configuration['fields'], true, 512, JSON_THROW_ON_ERROR);
+                $this->fields = is_array($decoded) ? $decoded : [];
             } catch (\JsonException $e) {
                 $this->fields = [];
             }
