@@ -37,8 +37,7 @@ An example setup can be found in the commit
 `29d47cc4 <https://github.com/buepro/typo3-pizpalue/commit/29d47cc4d6a27da66fecd947a6751862f9dca77e>`__
 from the extension pizpalue.
 
-.. note::
-   To setup the configuration form integrator or developer skills are required.
+To setup the configuration form integrator or developer skills are required.
 
 :Repository:  https://github.com/buepro/typo3-easyconf
 :Read online: https://docs.typo3.org/p/buepro/typo3-easyconf/main/en-us/
@@ -47,7 +46,7 @@ from the extension pizpalue.
 Screenshots
 ===========
 
-.. figure:: ../Images/EditForm.jpg
+.. figure:: Documentation/Images/EditForm.jpg
    :class: with-shadow
    :alt: Website configuration form
 
