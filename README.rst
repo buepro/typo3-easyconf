@@ -34,7 +34,7 @@ the extension. To setup the edit form the following steps are involved:
 #. If needed create event handlers for advanced configurations
 
 An example setup can be found in the commit
-`29d47cc4 <https://github.com/buepro/typo3-pizpalue/commit/29d47cc4d6a27da66fecd947a6751862f9dca77e>`__
+`351c6af <https://github.com/buepro/typo3-pizpalue/commit/351c6af352ed195a325a153fcce7ecc723344de6>`__
 from the extension pizpalue.
 
 To setup the configuration form integrator or developer skills are required.
