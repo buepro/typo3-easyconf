@@ -19,6 +19,7 @@ use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Service\DatabaseService;
 use Buepro\Easyconf\Utility\TcaUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -77,6 +78,11 @@ class DataHandlerHook implements SingletonInterface
             ));
             foreach (MapperRegistry::getInstances() as $mapper) {
                 $mapper->persistBuffer();
+            }
+            if ((bool)GeneralUtility::makeInstance(TypoScriptConstantMapper::class)->getProperty(
+                'module.tx_easyconf.persistence.clearPageCache'
+            )) {
+                GeneralUtility::makeInstance(CacheManager::class)->flushCachesInGroup('pages');
             }
             self::$configurationData = null;
         }

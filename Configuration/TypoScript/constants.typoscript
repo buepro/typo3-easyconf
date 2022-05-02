@@ -3,10 +3,12 @@
 
 module.tx_easyconf {
     persistence {
-        # cat=easyconf/1650551526; type=string; label=Root path:E.g. fileadmin/easyconf/ or EXT:my_ext/. The final storage location comprises of this path and a relative path.
+        # cat=easyconf/1650551526/010; type=string; label=Root path:E.g. fileadmin/easyconf/ or EXT:my_ext/. The final storage location comprises of this path and a relative path.
         storageRootPath = fileadmin/easyconf/
-        # cat=easyconf/1650551526; type=string; label=Relative TypoScript path:Path to TypoScript files relative to the root path
+        # cat=easyconf/1650551526/020; type=string; label=Relative TypoScript path:Path to TypoScript files relative to the root path
         storageRelativeTypoScriptPath = Configuration/TypoScript/
+        # cat=easyconf/1650551526/110; type=boolean; label=Clear page cache:Enable to clear the page cache upon saving the configuration.
+        clearPageCache = 1
     }
     settings {
         typoScriptConstantMapper {
