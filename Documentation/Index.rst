@@ -40,3 +40,4 @@ configure main aspects from the website.
 
    Introduction/Index
    Tutorials/Index
+   Changelog/Index
