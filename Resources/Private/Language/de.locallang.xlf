@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z" product-name="easyconf" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="index.title" resname="index.title">
+        <source>Website configuration</source>
+        <target state="needs-translation">Website configuration</target>
+      </trans-unit>
+      <trans-unit id="index.description" resname="index.description">
+        <source/>
+      </trans-unit>
+      <trans-unit id="noTemplate.title" resname="noTemplate.title">
+        <source>Template required</source>
+        <target state="needs-translation">Template required</target>
+      </trans-unit>
+      <trans-unit id="noTemplate.description" resname="noTemplate.description">
+        <source>
+					For the selected page no template record is available. Select a page having a template record
+					or switch to the template module to create one for the current page.
+				</source>
+        <target state="needs-translation">
+					For the selected page no template record is available. Select a page having a template record
+					or switch to the template module to create one for the current page.
+				</target>
+      </trans-unit>
+      <trans-unit id="selectPage" resname="selectPage">
+        <source>Select page "%s"</source>
+        <target state="needs-translation">Select page "%s"</target>
+      </trans-unit>
+      <trans-unit id="switchTemplateModule" resname="switchTemplateModule">
+        <source>Switch to template module</source>
+        <target state="needs-translation">Switch to template module</target>
+      </trans-unit>
+      <trans-unit id="support.title" resname="support.title">
+        <source>Need help?</source>
+        <target state="needs-translation">Need help?</target>
+      </trans-unit>
+      <trans-unit id="support.description" resname="support.description">
+        <source>
+					TYPO3 is known for its flexibility. Almost all is possible...! This flexibility
+					increases as well the complexity and therefore more detailed adjustments require deeper
+					understanding. Don't lose precious time on further configuration and let the experts help you.
+				</source>
+        <target state="needs-translation">
+					TYPO3 is known for its flexibility. Almost all is possible...! This flexibility
+					increases as well the complexity and therefore more detailed adjustments require deeper
+					understanding. Don't lose precious time on further configuration and let the experts help you.
+				</target>
+      </trans-unit>
+      <trans-unit id="support.action.info" resname="support.action.info">
+        <source>Get more information</source>
+        <target state="needs-translation">Get more information</target>
+      </trans-unit>
+      <trans-unit id="support.action.call" resname="support.action.call">
+        <source>Call us</source>
+        <target state="needs-translation">Call us</target>
+      </trans-unit>
+      <trans-unit id="support.action.email" resname="support.action.email">
+        <source>Send an email</source>
+        <target state="needs-translation">Send an email</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
