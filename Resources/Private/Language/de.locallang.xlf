@@ -3,62 +3,59 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z" product-name="easyconf" target-language="de">
     <header/>
     <body>
-      <trans-unit id="index.title" resname="index.title">
+      <trans-unit id="index.title" resname="index.title" approved="yes">
         <source>Website configuration</source>
-        <target state="needs-translation">Website configuration</target>
+        <target state="final">Webseitenkonfiguration</target>
       </trans-unit>
       <trans-unit id="index.description" resname="index.description">
         <source/>
       </trans-unit>
-      <trans-unit id="noTemplate.title" resname="noTemplate.title">
+      <trans-unit id="noTemplate.title" resname="noTemplate.title" approved="yes">
         <source>Template required</source>
-        <target state="needs-translation">Template required</target>
+        <target state="final">Template erforderlich</target>
       </trans-unit>
-      <trans-unit id="noTemplate.description" resname="noTemplate.description">
+      <trans-unit id="noTemplate.description" resname="noTemplate.description" approved="yes">
         <source>
 					For the selected page no template record is available. Select a page having a template record
 					or switch to the template module to create one for the current page.
 				</source>
-        <target state="needs-translation">
-					For the selected page no template record is available. Select a page having a template record
-					or switch to the template module to create one for the current page.
+        <target state="final">
+Für die ausgewählte Seite ist kein Template verfügbar. Wählen Sie eine Seite mit einem Template oder wechseln Sie zum Template-Modul, um eines für die aktuelle Seite zu erstellen.
 				</target>
       </trans-unit>
-      <trans-unit id="selectPage" resname="selectPage">
+      <trans-unit id="selectPage" resname="selectPage" approved="yes">
         <source>Select page "%s"</source>
-        <target state="needs-translation">Select page "%s"</target>
+        <target state="final">Wähle Seite "%s"</target>
       </trans-unit>
-      <trans-unit id="switchTemplateModule" resname="switchTemplateModule">
+      <trans-unit id="switchTemplateModule" resname="switchTemplateModule" approved="yes">
         <source>Switch to template module</source>
-        <target state="needs-translation">Switch to template module</target>
+        <target state="final">Zum Template-Modul wechseln</target>
       </trans-unit>
-      <trans-unit id="support.title" resname="support.title">
+      <trans-unit id="support.title" resname="support.title" approved="yes">
         <source>Need help?</source>
-        <target state="needs-translation">Need help?</target>
+        <target state="final">Benötigen Sie Unterstützung?</target>
       </trans-unit>
-      <trans-unit id="support.description" resname="support.description">
+      <trans-unit id="support.description" resname="support.description" approved="yes">
         <source>
 					TYPO3 is known for its flexibility. Almost all is possible...! This flexibility
 					increases as well the complexity and therefore more detailed adjustments require deeper
 					understanding. Don't lose precious time on further configuration and let the experts help you.
 				</source>
-        <target state="needs-translation">
-					TYPO3 is known for its flexibility. Almost all is possible...! This flexibility
-					increases as well the complexity and therefore more detailed adjustments require deeper
-					understanding. Don't lose precious time on further configuration and let the experts help you.
+        <target state="final">
+TYPO3 ist bekannt für seine Flexibilität. Fast alles ist möglich... Diese Flexibilität erhöht auch die Komplexität und führt dazu, dass weitergehende Anpassungen vertiefte Kenntnisse erfordern. Verlieren Sie keine wertvolle Zeit bei anspruchsvollen Konfigurationen und kontaktieren Sie uns.
 				</target>
       </trans-unit>
-      <trans-unit id="support.action.info" resname="support.action.info">
+      <trans-unit id="support.action.info" resname="support.action.info" approved="yes">
         <source>Get more information</source>
-        <target state="needs-translation">Get more information</target>
+        <target state="final">Mehr Informationen</target>
       </trans-unit>
-      <trans-unit id="support.action.call" resname="support.action.call">
+      <trans-unit id="support.action.call" resname="support.action.call" approved="yes">
         <source>Call us</source>
-        <target state="needs-translation">Call us</target>
+        <target state="final">Anrufen</target>
       </trans-unit>
-      <trans-unit id="support.action.email" resname="support.action.email">
+      <trans-unit id="support.action.email" resname="support.action.email" approved="yes">
         <source>Send an email</source>
-        <target state="needs-translation">Send an email</target>
+        <target state="final">E-Mail senden</target>
       </trans-unit>
     </body>
   </file>
