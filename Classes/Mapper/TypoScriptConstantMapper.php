@@ -103,7 +103,10 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
 
     protected function getFileWithRelativePath(): ?string
     {
-        return PathUtility::getRelativePath(Environment::getPublicPath(), $this->getFileWithAbsolutePath());
+        $targetDir = PathUtility::dirname($this->getFileWithAbsolutePath());
+        $fileName = PathUtility::basename($this->getFileWithAbsolutePath());
+        $relativePath = PathUtility::getRelativePath(Environment::getPublicPath(), $targetDir);
+        return $relativePath . $fileName;
     }
 
     protected function getFileWithAbsolutePath(): string
