@@ -72,6 +72,7 @@ class DataHandlerHook implements SingletonInterface
                 ->select(['*'], 'tx_easyconf_configuration', ['uid' => self::$configurationData['tableUid']])
                 ->fetchAssociative())
         ) {
+            $this->substituteNewWithUid($dataHandler);
             $this->eventDispatcher->dispatch(new BeforePersistingPropertiesEvent(
                 self::$configurationData['formFields'],
                 $configurationRecord
@@ -137,5 +138,27 @@ class DataHandlerHook implements SingletonInterface
             static fn ($field) => isset($allowedFields[$field]),
             ARRAY_FILTER_USE_KEY
         );
+    }
+
+    protected function substituteNewWithUid(DataHandler $dataHandler): void
+    {
+        if (self::$configurationData === null) {
+            return;
+        }
+        foreach (self::$configurationData['formFields'] as $formFieldName => $formFieldValue) {
+            if (
+                strpos($formFieldValue, 'NEW') === false
+            ) {
+                continue;
+            }
+            $mixedUids = GeneralUtility::trimExplode(',', $formFieldValue, true);
+            $uids = [];
+            foreach ($mixedUids as $mixedUid) {
+                if (($uid = (int)($dataHandler->substNEWwithIDs[$mixedUid] ?? 0)) > 0) {
+                    $uids[] = $uid;
+                }
+            }
+            self::$configurationData['formFields'][$formFieldName] = implode(',', $uids);
+        }
     }
 }
