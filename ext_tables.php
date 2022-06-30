@@ -17,7 +17,7 @@ defined('TYPO3') || die('Access denied.');
         'before:ts',
         [\Buepro\Easyconf\Controller\ConfigurationController::class => 'edit,info'],
         [
-            'access' => 'admin',
+            'access' => 'user,group',
             'iconIdentifier' => 'easyconf-extension',
             'labels' => 'LLL:EXT:easyconf/Resources/Private/Language/locallang_module.xlf',
             'navigationComponentId' => 'TYPO3/CMS/Backend/PageTree/PageTreeElement',
