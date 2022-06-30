@@ -15,5 +15,6 @@ Releases
 .. toctree::
    :maxdepth: 1
 
+   Release: 1.3.0 (30.06.2022) <v1.3.0>
    Release: 1.2.0 (23.06.2022) <v1.2.0>
    Release: 1.1.0 (02.05.2022) <v1.1.0>
