@@ -50,20 +50,10 @@
                 </span>
             </a>
         </f:be.infobox>
+        <f:be.infobox state="-1" title="{f:translate(key: 'info.restoreFieldValue.title')}">
+            {f:translate(key: 'info.restoreFieldValue.description')}
+        </f:be.infobox>
     </div>
-</f:section>
-
-<f:section name="Debug"><f:debug>{_all}</f:debug>
-    <p>
-        <be:link.editRecord uid="1" table="tx_easyconf_configuration" returnUrl="{f:be.uri(route: 'web_EasyconfConfiguration')}">
-            Edit
-        </be:link.editRecord>
-    </p>
-    <p>
-        <be:link.newRecord pid="1" table="tx_easyconf_configuration" returnUrl="{f:be.uri(route: 'web_EasyconfConfiguration')}">
-            New
-        </be:link.newRecord>
-    </p>
 </f:section>
 
 </html>

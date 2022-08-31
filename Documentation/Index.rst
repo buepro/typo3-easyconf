@@ -39,5 +39,6 @@ configure main aspects from the website.
    :maxdepth: 2
 
    Introduction/Index
+   User/Index
    Tutorials/Index
    Changelog/Index
