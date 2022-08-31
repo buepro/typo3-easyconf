@@ -57,6 +57,14 @@ TYPO3 ist bekannt für seine Flexibilität. Fast alles ist möglich... Diese Fle
         <source>Send an email</source>
         <target state="final">E-Mail senden</target>
       </trans-unit>
+      <trans-unit id="info.restoreFieldValue.title" resname="info.restoreFieldValue.title">
+        <source>Restore field values</source>
+        <target state="needs-translation">Restore field values</target>
+      </trans-unit>
+      <trans-unit id="info.restoreFieldValue.description" resname="info.restoreFieldValue.description">
+        <source>Inherited field values can be restored by saving double question marks (`??`) as field value.</source>
+        <target state="needs-translation">Inherited field values can be restored by saving double question marks (`??`) as field value.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
