@@ -6,8 +6,21 @@ module.tx_easyconf {
     settings {
         support {
             url = https://www.buechler.pro
-            phone = +41445159855
+            phone = +41 44 515 98 55
             email = info@buechler.pro
+        }
+    }
+}
+lib.tx_easyconf {
+    fluid {
+        phone = TEXT
+        phone {
+            current = 1
+            replacement.10 {
+                search = #(\s|\.|\/)#i
+                replace =
+                useRegExp = 1
+            }
         }
     }
 }
