@@ -193,7 +193,7 @@ class TcaUtility
             ($configuration = self::getColumnConfiguration($field)) !== null &&
             isset($configuration['valueMap']) && is_array($configuration['valueMap'])
         ) {
-            return array_flip($configuration['valueMap'])[(string)$mapperValue] ?? $mapperValue;
+            return array_flip($configuration['valueMap'])[strval($mapperValue)] ?? $mapperValue;
         }
         return $mapperValue;
     }
@@ -209,7 +209,7 @@ class TcaUtility
             ($configuration = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$field]['tx_easyconf']) !== null &&
             isset($configuration['valueMap']) && is_array($configuration['valueMap'])
         ) {
-            return $configuration['valueMap'][(string)$formValue] ?? $formValue;
+            return $configuration['valueMap'][strval($formValue)] ?? $formValue;
         }
         return $formValue;
     }

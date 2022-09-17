@@ -6,6 +6,12 @@ easyconf:
       contact: 'Bruno Häberli'
       email: bh@agency.ch
       phone: '111 111 11 11'
+    admin:
+      easyconf:
+        showAllProperties: '0'
+    style:
+      global:
+        enableScss: '0'
 languages:
   -
     title: English

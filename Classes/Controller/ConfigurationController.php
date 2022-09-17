@@ -47,7 +47,7 @@ class ConfigurationController extends ActionController
         parent::initializeAction();
         $databaseService = GeneralUtility::makeInstance(DatabaseService::class);
         $this->pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
-        $this->templateUid = (int)$databaseService->getField('sys_template', 'uid', ['pid' => $this->pageUid]);
+        $this->templateUid = intval($databaseService->getField('sys_template', 'uid', ['pid' => $this->pageUid]));
         $this->configuration = $databaseService->getRecord('tx_easyconf_configuration', ['pid' => $this->pageUid]);
         if ($this->pageUid > 0 && $this->templateUid > 0 && $this->configuration === null) {
             $this->configuration = $databaseService->addRecord(
