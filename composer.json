@@ -23,7 +23,6 @@
 	],
 	"homepage": "https://github.com/buepro/typo3-easyconf",
 	"require": {
-		"php": ">=7.4.0",
 		"typo3/cms-core": "^11.5"
 	},
 	"require-dev": {
