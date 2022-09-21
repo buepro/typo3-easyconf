@@ -17,7 +17,7 @@ lib.tx_easyconf {
         phone {
             current = 1
             replacement.10 {
-                search = #(\s|\.|\/)#i
+                search = #(\s|\.|\/|-)#i
                 replace =
                 useRegExp = 1
             }
