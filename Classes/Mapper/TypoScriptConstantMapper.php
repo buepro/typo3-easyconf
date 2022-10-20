@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Buepro\Easyconf\Mapper;
 
 use Buepro\Easyconf\Mapper\Service\TypoScriptService;
+use Buepro\Easyconf\Mapper\Utility\TypoScriptConstantMapperUtility;
 use Buepro\Easyconf\Service\FileService;
 use Buepro\Easyconf\Utility\GeneralUtility as EasyconfGeneralUtility;
 use TYPO3\CMS\Core\Core\Environment;
@@ -141,6 +142,11 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
             return;
         }
         $constants = $this->typoScriptService->getTemplateRow()['constants'] ?? '';
+        $constants = TypoScriptConstantMapperUtility::removeUnusedImportStatements(
+            $constants,
+            $this->typoScriptService->getTemplateRow()['pid'],
+            $this->typoScriptService->getTemplateRow()['uid'],
+        );
         $tokenAndImportStatement = sprintf("%s\r\n@import '%s'", self::TEMPLATE_TOKEN, $fileName);
         $constantsContainsToken = strpos($constants, self::TEMPLATE_TOKEN) !== false;
         if ($constantsContainsToken && $this->importStatementHandling !== 'maintainAtEnd') {
