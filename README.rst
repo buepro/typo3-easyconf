@@ -1,22 +1,22 @@
-.. image:: https://poser.pugx.org/buepro/typo3-easyconf/v/stable.svg
-   :alt: Latest Stable Version
-   :target: https://extensions.typo3.org/extension/easyconf/
+..  image:: https://poser.pugx.org/buepro/typo3-easyconf/v/stable.svg
+    :alt: Latest Stable Version
+    :target: https://extensions.typo3.org/extension/easyconf/
 
-.. image:: https://img.shields.io/badge/TYPO3-11-orange.svg
-   :alt: TYPO3 11
-   :target: https://get.typo3.org/version/11
+..  image:: https://img.shields.io/badge/TYPO3-11-orange.svg
+    :alt: TYPO3 11
+    :target: https://get.typo3.org/version/11
 
-.. image:: https://poser.pugx.org/buepro/typo3-easyconf/d/total.svg
-   :alt: Total Downloads
-   :target: https://packagist.org/packages/buepro/typo3-easyconf
+..  image:: https://poser.pugx.org/buepro/typo3-easyconf/d/total.svg
+    :alt: Total Downloads
+    :target: https://packagist.org/packages/buepro/typo3-easyconf
 
-.. image:: https://poser.pugx.org/buepro/typo3-easyconf/d/monthly
-   :alt: Monthly Downloads
-   :target: https://packagist.org/packages/buepro/typo3-easyconf
+..  image:: https://poser.pugx.org/buepro/typo3-easyconf/d/monthly
+    :alt: Monthly Downloads
+    :target: https://packagist.org/packages/buepro/typo3-easyconf
 
-.. image:: https://github.com/buepro/typo3-easyconf/workflows/CI/badge.svg
-   :alt: Continuous Integration Status
-   :target: https://github.com/buepro/typo3-easyconf/actions?query=workflow%3ACI
+..  image:: https://github.com/buepro/typo3-easyconf/workflows/CI/badge.svg
+    :alt: Continuous Integration Status
+    :target: https://github.com/buepro/typo3-easyconf/actions?query=workflow%3ACI
 
 ============================
 TYPO3 extension ``easyconf``
@@ -46,8 +46,8 @@ To setup the configuration form integrator or developer skills are required.
 Screenshots
 ===========
 
-.. figure:: Documentation/Images/EditForm.jpg
-   :class: with-shadow
-   :alt: Website configuration form
+..  figure:: Documentation/Images/EditForm.jpg
+    :class: with-shadow
+    :alt: Website configuration form
 
-   Website configuration form
+    Website configuration form

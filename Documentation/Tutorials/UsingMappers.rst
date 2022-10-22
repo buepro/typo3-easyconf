@@ -1,6 +1,6 @@
-.. include:: /Includes.rst.txt
+..  include:: /Includes.rst.txt
 
-.. _usingMappers:
+..  _usingMappers:
 
 =============
 Using mappers
@@ -16,55 +16,55 @@ and assisted by helper functions from the extension `TcaUtility` class.
 Basic TCA-file structure
 ========================
 
-.. code-block:: php
+..  code-block:: php
 
-   <?php
+    <?php
 
-   use Buepro\Easyconf\Mapper\EasyconfMapper;
-   use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
-   use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
-   use Buepro\Easyconf\Utility\TcaUtility;
+    use Buepro\Easyconf\Mapper\EasyconfMapper;
+    use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
+    use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
+    use Buepro\Easyconf\Utility\TcaUtility;
 
-   defined('TYPO3') or die('Access denied.');
+    defined('TYPO3') or die('Access denied.');
 
-   if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('easyconf')) {
-      return;
-   }
+    if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('easyconf')) {
+       return;
+    }
 
-   (static function () {
-       $l10nFile = 'LLL:EXT:site_package/Resources/Private/Language/locallang_db.xlf';
-       $tca = &$GLOBALS['TCA']['tx_easyconf_configuration'];
+    (static function () {
+        $l10nFile = 'LLL:EXT:site_package/Resources/Private/Language/locallang_db.xlf';
+        $tca = &$GLOBALS['TCA']['tx_easyconf_configuration'];
 
-       /**
-        * Define columns
-        */
-       $propertyMaps = [
-           // ***************************
-           // * Here we use the mappers *
-           // ***************************
-       ];
-       $tca['columns'] = TcaUtility::getColumns($propertyMaps, $l10nFile);
+        /**
+         * Define columns
+         */
+        $propertyMaps = [
+            // ***************************
+            // * Here we use the mappers *
+            // ***************************
+        ];
+        $tca['columns'] = TcaUtility::getColumns($propertyMaps, $l10nFile);
 
-       /**
-        * Define palettes
-        */
-       // ...
+        /**
+         * Define palettes
+         */
+        // ...
 
-       /**
-        * Modify columns
-        */
-       // ...
+        /**
+         * Modify columns
+         */
+        // ...
 
-       /**
-        * Define type (tabs from the form with palettes and fields)
-        */
-       // ...
+        /**
+         * Define type (tabs from the form with palettes and fields)
+         */
+        // ...
 
-       unset($tca);
-   })();
+        unset($tca);
+    })();
 
-.. note::
-   Replace **site_package** with the key from your extension key.
+..  note::
+    Replace **site_package** with the key from your extension key.
 
 TypoScript constant mapper
 ==========================
@@ -77,32 +77,32 @@ altered through form fields. This is achieved by creating a template related
 file holding the constant definitions and importing this file through the
 template constants definition.
 
-.. note::
-   The inheritance hierarchy from TypoScript is maintained meaning if you set
-   a field value on the root page it can be overwritten on subpages (if a
-   template record exists for that subpage).
+..  note::
+    The inheritance hierarchy from TypoScript is maintained meaning if you set
+    a field value on the root page it can be overwritten on subpages (if a
+    template record exists for that subpage).
 
-.. note::
-   The way the TypoScript file import is maintained in the template constants
-   field can be adjusted by the TypoScript constant
-   `module.tx_easyconf.settings.typoScriptConstantMapper.importStatementHandling`.
+..  note::
+    The way the TypoScript file import is maintained in the template constants
+    field can be adjusted by the TypoScript constant
+    `module.tx_easyconf.settings.typoScriptConstantMapper.importStatementHandling`.
 
 Definition
 ----------
 
-.. code-block:: php
+..  code-block:: php
 
-   /**
-   * Define columns
-   */
-   $propertyMaps = [
-       TcaUtility::getPropertyMap(
-           TypoScriptConstantMapper::class,
-           'easyconf.demo',
-           'company, domain, firstName, lastName',
-           'owner'
-       ),
-   ]
+    /**
+    * Define columns
+    */
+    $propertyMaps = [
+        TcaUtility::getPropertyMap(
+            TypoScriptConstantMapper::class,
+            'easyconf.demo',
+            'company, domain, firstName, lastName',
+            'owner'
+        ),
+    ]
 
 Mapping result
 --------------
@@ -125,27 +125,27 @@ Description
 This mapper relates form fields with the site configuration hence writes and
 reads from the site configuration yaml file.
 
-.. note::
-   Since these fields have site scope a change on one page is shown on all
-   other pages having a template record meaning no hierarchical configuration
-   is possible as known from the TypoScript mapping.
+..  note::
+    Since these fields have site scope a change on one page is shown on all
+    other pages having a template record meaning no hierarchical configuration
+    is possible as known from the TypoScript mapping.
 
 Definition
 ----------
 
-.. code-block:: php
+..  code-block:: php
 
-   /**
-   * Define columns
-   */
-   $propertyMaps = [
-       TcaUtility::getPropertyMap(
-           SiteConfigurationMapper::class,
-           'easyconf.data.demo',
-           'company, contact, email, phone',
-           'agency'
-       ),
-   ]
+    /**
+    * Define columns
+    */
+    $propertyMaps = [
+        TcaUtility::getPropertyMap(
+            SiteConfigurationMapper::class,
+            'easyconf.data.demo',
+            'company, contact, email, phone',
+            'agency'
+        ),
+    ]
 
 Mapping result
 --------------
@@ -173,17 +173,17 @@ these form values have a template scope.
 Definition
 ----------
 
-.. code-block:: php
+..  code-block:: php
 
-   /**
-   * Define columns
-   */
-   TcaUtility::getPropertyMap(
-       EasyconfMapper::class,
-       'demo',
-       'showAllProperties',
-       'easyconf'
-   ),
+    /**
+    * Define columns
+    */
+    TcaUtility::getPropertyMap(
+        EasyconfMapper::class,
+        'demo',
+        'showAllProperties',
+        'easyconf'
+    ),
 
 Mapping result
 --------------
@@ -197,91 +197,91 @@ easyconf_demo              demo.showAllProperties
 Complete code
 =============
 
-.. code-block:: php
+..  code-block:: php
 
-   <?php
+    <?php
 
-   use Buepro\Easyconf\Mapper\EasyconfMapper;
-   use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
-   use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
-   use Buepro\Easyconf\Utility\TcaUtility;
+    use Buepro\Easyconf\Mapper\EasyconfMapper;
+    use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
+    use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
+    use Buepro\Easyconf\Utility\TcaUtility;
 
-   defined('TYPO3') or die('Access denied.');
+    defined('TYPO3') or die('Access denied.');
 
-   if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('easyconf')) {
-       return;
-   }
+    if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('easyconf')) {
+        return;
+    }
 
-   (static function () {
-       $l10nFile = 'LLL:EXT:site_package/Resources/Private/Language/locallang_db.xlf';
-       $tca = &$GLOBALS['TCA']['tx_easyconf_configuration'];
+    (static function () {
+        $l10nFile = 'LLL:EXT:site_package/Resources/Private/Language/locallang_db.xlf';
+        $tca = &$GLOBALS['TCA']['tx_easyconf_configuration'];
 
-       /**
+        /**
         * Define columns
         */
-       $propertyMaps = [
-           TcaUtility::getPropertyMap(
-               TypoScriptConstantMapper::class,
-               'easyconf.demo',
-               'company, domain, firstName, lastName',
-               'owner'
-           ),
-           TcaUtility::getPropertyMap(
-               SiteConfigurationMapper::class,
-               'easyconf.data.demo',
-               'company, contact, email, phone',
-               'agency'
-           ),
-           TcaUtility::getPropertyMap(
-               EasyconfMapper::class,
-               'demo',
-               'showAllProperties',
-               'easyconf'
-           ),
-       ];
-       $tca['columns'] = TcaUtility::getColumns($propertyMaps, $l10nFile);
+        $propertyMaps = [
+            TcaUtility::getPropertyMap(
+                TypoScriptConstantMapper::class,
+                'easyconf.demo',
+                'company, domain, firstName, lastName',
+                'owner'
+            ),
+            TcaUtility::getPropertyMap(
+                SiteConfigurationMapper::class,
+                'easyconf.data.demo',
+                'company, contact, email, phone',
+                'agency'
+            ),
+            TcaUtility::getPropertyMap(
+                EasyconfMapper::class,
+                'demo',
+                'showAllProperties',
+                'easyconf'
+            ),
+        ];
+        $tca['columns'] = TcaUtility::getColumns($propertyMaps, $l10nFile);
 
-       /**
+        /**
         * Define palettes
         */
-       $tca['palettes'] = [
-           'paletteCompany' => TcaUtility::getPalette(
-               'company, domain',
-               'owner'
-           ),
-       ];
+        $tca['palettes'] = [
+            'paletteCompany' => TcaUtility::getPalette(
+                'company, domain',
+                'owner'
+            ),
+        ];
 
-       /**
+        /**
         * Modify columns
         */
-       TcaUtility::modifyColumns(
-           $tca['columns'],
-           'showAllProperties',
-           [
-               'onChange' => 'reload',
-               'config' => ['type' => 'check', 'renderType' => 'checkboxToggle'],
-           ],
-           'easyconf'
-       );
-       TcaUtility::modifyColumns(
-           $tca['columns'],
-           'firstName, lastName',
-           ['displayCond' => 'FIELD:easyconf_show_all_properties:REQ:true'],
-           'owner'
-       );
+        TcaUtility::modifyColumns(
+            $tca['columns'],
+            'showAllProperties',
+            [
+                'onChange' => 'reload',
+                'config' => ['type' => 'check', 'renderType' => 'checkboxToggle'],
+            ],
+            'easyconf'
+        );
+        TcaUtility::modifyColumns(
+            $tca['columns'],
+            'firstName, lastName',
+            ['displayCond' => 'FIELD:easyconf_show_all_properties:REQ:true'],
+            'owner'
+        );
 
-       /**
+        /**
         * Define type (tabs from the form with palettes and fields)
         */
-       $tabs = [
-           'tabTypoScript' => implode(', ', [
-               '--palette--;;paletteCompany',
-               TcaUtility::getFieldList('firstName, lastName', 'owner'),
-           ]),
-           'tabSiteConfiguration' => TcaUtility::getFieldList('company, contact, email, phone', 'agency'),
-           'tabEasyconf' => TcaUtility::getFieldList('showAllProperties', 'easyconf'),
-       ];
-       $tca['types'][0] = TcaUtility::getType($tabs, $l10nFile);
+        $tabs = [
+            'tabTypoScript' => implode(', ', [
+                '--palette--;;paletteCompany',
+                TcaUtility::getFieldList('firstName, lastName', 'owner'),
+            ]),
+            'tabSiteConfiguration' => TcaUtility::getFieldList('company, contact, email, phone', 'agency'),
+            'tabEasyconf' => TcaUtility::getFieldList('showAllProperties', 'easyconf'),
+        ];
+        $tca['types'][0] = TcaUtility::getType($tabs, $l10nFile);
 
-       unset($tca);
-   })();
+        unset($tca);
+    })();

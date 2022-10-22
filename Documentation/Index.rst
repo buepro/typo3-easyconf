@@ -1,45 +1,49 @@
-.. include:: /Includes.rst.txt
+..  include:: /Includes.rst.txt
 
-.. _start:
+..  _start:
 
 ========
 Easyconf
 ========
 
 :Extension key:
-   easyconf
+    easyconf
 
 :Version:
-   |release|
+    |release|
 
 :Language:
-   en
+    en
 
 :Author:
-   Roman Büchler
+    Roman Büchler
 
 :Email:
-   rb@buechler.pro
+    rb@buechler.pro
 
 :License:
-   This document is published under the Open Content License
-   available from https://www.openhub.net/licenses/opl.
+    This document is published under the Open Content License
+    available from https://www.openhub.net/licenses/opl.
 
 :Rendered:
-   |today|
+    |today|
+
+----
 
 Provides a module to easily configure main aspects from a website.
 
 Once set up the module allows website owners without any TYPO3 knowledge to
 configure main aspects from the website.
 
+----
+
 **Table of Contents**
 
-.. toctree::
-   :maxdepth: 2
+..  toctree::
+    :maxdepth: 2
 
-   Introduction/Index
-   Configuration/Index
-   User/Index
-   Tutorials/Index
-   Changelog/Index
+    Introduction/Index
+    Configuration/Index
+    User/Index
+    Tutorials/Index
+    Changelog/Index

@@ -1,12 +1,12 @@
-.. include:: /Includes.rst.txt
+..  include:: /Includes.rst.txt
 
-.. _user:
+..  _user:
 
 ===========
 User manual
 ===========
 
-.. _user_easyconf:
+..  _user_easyconf:
 
 Restore field values
 ====================
