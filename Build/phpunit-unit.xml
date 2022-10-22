@@ -25,7 +25,7 @@
         <testsuite name="unit-tests">
             <directory>../Tests/Unit</directory>
 <!--            <file>-->
-<!--                ../Tests/Unit/Mapper/Utility/TypoScriptConstantMapperUtilityTest.php-->
+<!--                ../Tests/Unit/Data/PropertyFieldMapTest.php-->
 <!--            </file>-->
         </testsuite>
     </testsuites>

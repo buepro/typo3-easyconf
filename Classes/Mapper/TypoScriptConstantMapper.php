@@ -11,10 +11,12 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Mapper;
 
+use Buepro\Easyconf\Data\PropertyFieldMap;
 use Buepro\Easyconf\Mapper\Service\TypoScriptService;
 use Buepro\Easyconf\Mapper\Utility\TypoScriptConstantMapperUtility;
 use Buepro\Easyconf\Service\FileService;
 use Buepro\Easyconf\Utility\GeneralUtility as EasyconfGeneralUtility;
+use Buepro\Easyconf\Utility\TcaUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -36,12 +38,17 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     protected string $importStatementHandling = 'maintainAtEnd';
     protected TypoScriptService $typoScriptService;
     protected FileService $fileService;
+    protected PropertyFieldMap $propertyFieldMap;
 
-    public function __construct(TypoScriptService $typoScriptService, FileService $fileService)
-    {
+    public function __construct(
+        TypoScriptService $typoScriptService,
+        FileService $fileService,
+        PropertyFieldMap $propertyFieldMap
+    ) {
         parent::__construct();
         $this->typoScriptService = $typoScriptService;
         $this->fileService = $fileService;
+        $this->propertyFieldMap = $propertyFieldMap;
         $this->initializeStorage()->initializeImportStatementHandling();
     }
 
@@ -77,7 +84,9 @@ class TypoScriptConstantMapper extends AbstractMapper implements SingletonInterf
     public function bufferProperty(string $path, $value): MapperInterface
     {
         $this->removePropertyFromBuffer($path);
-        if ($this->getInheritedProperty($path) !== $value) {
+        $mapAlways = ($fieldName = $this->propertyFieldMap->getFieldName($path)) !== null &&
+            (bool)(TcaUtility::getColumnConfiguration($fieldName)['mapAlways'] ?? false);
+        if ($mapAlways || $this->getInheritedProperty($path) !== $value) {
             $this->buffer[self::PROPERTY_BUFFER_KEY][$path] = $value;
         }
         return $this;
