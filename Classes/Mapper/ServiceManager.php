@@ -25,11 +25,14 @@ class ServiceManager implements SingletonInterface
 
     public function init(int $pageUid): bool
     {
+        /** @extensionScannerIgnoreLine */
         $this->typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class)->init($pageUid);
         if (($rootPageUid = $this->typoScriptService->getRootPageUid()) > 0) {
+            /** @extensionScannerIgnoreLine */
             $this->siteConfigurationService = GeneralUtility::makeInstance(SiteConfigurationService::class)
                 ->init($rootPageUid);
         }
+        /** @extensionScannerIgnoreLine */
         $this->easyconfService = GeneralUtility::makeInstance(EasyconfService::class)->init($pageUid);
         return $this->servicesAvailable();
     }

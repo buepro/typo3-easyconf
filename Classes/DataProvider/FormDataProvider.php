@@ -39,6 +39,7 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
             $result['tableName'] === 'tx_easyconf_configuration' &&
             ($pageUid = (int)($result['parentPageRow']['uid'] ?? 0)) > 0 &&
             ($columns = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'] ?? null) !== null &&
+            /** @extensionScannerIgnoreLine */
             GeneralUtility::makeInstance(ServiceManager::class)->init($pageUid)
         ) {
             // Include JS to hide new and delete button

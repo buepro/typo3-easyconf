@@ -6,6 +6,22 @@
 Configuration
 =============
 
+Support information
+===================
+
+When closing the form editor an info panel is shown providing agency related
+links. The links can be defined in the site configuration:
+
+..  code-block:: yaml
+
+    easyconf:
+      data:
+        admin:
+          agency:
+            email: bh@agency.ch
+            phone: '111 111 11 11'
+            url: 'https://www.agency.ch'
+
 TCA
 ===
 

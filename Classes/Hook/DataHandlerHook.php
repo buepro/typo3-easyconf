@@ -95,6 +95,7 @@ class DataHandlerHook implements SingletonInterface
             ($columns = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'] ?? null) !== null &&
             ($pageUid = intval(GeneralUtility::makeInstance(DatabaseService::class)
                 ->getField('tx_easyconf_configuration', 'pid', ['uid' => $id]))) > 0 &&
+            /** @extensionScannerIgnoreLine */
             GeneralUtility::makeInstance(ServiceManager::class)->init($pageUid)
         ) {
             foreach ($columns as $columnName => $columnConfig) {

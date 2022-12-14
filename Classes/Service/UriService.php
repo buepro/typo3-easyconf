@@ -43,15 +43,13 @@ class UriService
     {
         $params = [
             'id' => $pageUid,
-            'tx_easyconf_web_easyconfconfiguration' => [
-                'controller' => 'Configuration',
-                'action' => 'info',
-            ],
+            'controller' => 'Configuration',
+            'action' => 'info',
         ];
         if ($withPreview) {
             $params['showPreview'] = true;
             $params['popViewId'] = $pageUid;
         }
-        return (string)$this->uriBuilder->buildUriFromRoute('web_EasyconfConfiguration', $params);
+        return (string)$this->uriBuilder->buildUriFromRoute('web_Easyconf', $params);
     }
 }

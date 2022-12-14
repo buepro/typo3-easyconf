@@ -11,14 +11,14 @@ $EM_CONF[$_EXTKEY] = [
     'title'            => 'Easyconf',
     'description'      => 'Provides a module to easily configure main aspects from a website.',
     'category'         => 'module',
-    'version'          => '1.4.0-dev',
+    'version'          => '2.0.0-dev',
     'state'            => 'stable',
     'clearCacheOnLoad' => 1,
     'author'           => 'Roman Büchler',
     'author_email'     => 'rb@buechler.pro',
     'constraints'      => [
         'depends'   => [
-            'typo3'                 => '11.5.0-11.5.99',
+            'typo3'                 => '12.1.0-12.1.99',
         ],
         'conflicts' => [],
     ],

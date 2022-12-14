@@ -60,24 +60,23 @@ class ConfigurationController extends ActionController
 
     public function infoAction(): ResponseInterface
     {
-        $this->view->assignMultiple([
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $moduleTemplate->assignMultiple([
             'pageUid' => $this->pageUid,
             'templateUid' => $this->templateUid,
             'queryParams' => $this->request->getQueryParams(),
             'sites' => $this->getSitesData(),
+            'agency' => $this->getAgencyData(),
         ]);
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        // Adding title, menus, buttons, etc. using $moduleTemplate ...
-        $moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($moduleTemplate->renderContent());
+        return $moduleTemplate->renderResponse('Info');
     }
 
-    public function editAction(): void
+    public function editAction(): ResponseInterface
     {
         if ($this->pageUid > 0 && $this->templateUid > 0 && $this->configuration !== null) {
-            $this->redirectToUri((new UriService())->getEditUri($this->configuration, false));
+            return $this->redirectToUri((new UriService())->getEditUri($this->configuration, false));
         }
-        $this->redirect('info');
+        return $this->redirect('info');
     }
 
     protected function getSitesData(): array
@@ -101,5 +100,21 @@ class ConfigurationController extends ActionController
             GeneralUtility::makeInstance(SiteFinder::class)->getAllSites()
         );
         return array_filter($sites, static fn (array $site): bool => $site !== []);
+    }
+
+    protected function getAgencyData(): array
+    {
+        $site = $this->request->getAttribute('site');
+        if (
+            $site instanceof Site &&
+            is_array($settings = $site->getAttribute('easyconf')) &&
+            is_array($agency = $settings['data']['admin']['agency'] ?? false)
+        ) {
+            if (isset($agency['phone'])) {
+                $agency['phone'] = preg_replace('#(\s|\.|\/|-|\(|\))#i', '', $agency['phone']) ?? '';
+            }
+            return $agency;
+        }
+        return [];
     }
 }
