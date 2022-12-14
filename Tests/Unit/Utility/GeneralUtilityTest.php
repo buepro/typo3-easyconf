@@ -10,11 +10,19 @@
 namespace Buepro\Easyconf\Tests\Unit\Utility;
 
 use Buepro\Easyconf\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class GeneralUtilityTest extends UnitTestCase
 {
-    public function testTrimRelativePathDataProvider(): array
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Define global variables LF, CR and CRLF that are used by the utility class
+        SystemEnvironmentBuilder::run();
+    }
+
+    public function trimRelativePathRemovesLeadingSlashAndAddsTailingSlashDataProvider(): array
     {
         return [
             'empty' => ['', ''],
@@ -28,14 +36,18 @@ class GeneralUtilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider testTrimRelativePathDataProvider
+     * @dataProvider trimRelativePathRemovesLeadingSlashAndAddsTailingSlashDataProvider
+     * @test
      */
-    public function testTrimRelativePath(string $path, string $expected): void
+    public function trimRelativePathRemovesLeadingSlashAndAddsTailingSlash(string $path, string $expected): void
     {
         self::assertSame($expected, GeneralUtility::trimRelativePath($path));
     }
 
-    public function testConvertToUnixLineBreaks(): void
+    /**
+     * @test
+     */
+    public function convertToUnixLineBreaksOnlyContainsUnixLineBreaks(): void
     {
         self::assertSame(
             "Line1\nLine2\nLine3",
@@ -43,7 +55,10 @@ class GeneralUtilityTest extends UnitTestCase
         );
     }
 
-    public function testConvertToWindowsLineBreaks(): void
+    /**
+     * @test
+     */
+    public function convertToWindowsLineBreaksOnlyContainsWindowsLineBreaks(): void
     {
         self::assertSame(
             "Line1\r\nLine2\r\nLine3",
