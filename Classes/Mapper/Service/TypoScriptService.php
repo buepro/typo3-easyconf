@@ -75,7 +75,10 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
             $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $this->pageUid);
             $this->inheritedConstants = $this->getConstantsForRootLine($rootLineUtility->get());
         } catch (\Exception $e) {
-            // @phpstan-ignore-next-line
+            /**
+             * @phpstan-ignore-next-line
+             * @extensionScannerIgnoreLine
+             */
             $this->logger->error('Inherited constants initialization error. Code: 1650372424');
         }
         $this->updateTemplateConstants($this->templateRow['constants']);
