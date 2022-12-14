@@ -12,13 +12,16 @@ declare(strict_types=1);
 namespace Buepro\Easyconf\Mapper\Service;
 
 use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
-use Buepro\Easyconf\Service\DatabaseService;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\TypoScript\TemplateService;
+use TYPO3\CMS\Core\TypoScript\IncludeTree\SysTemplateRepository;
+use TYPO3\CMS\Core\TypoScript\IncludeTree\SysTemplateTreeBuilder;
+use TYPO3\CMS\Core\TypoScript\IncludeTree\Traverser\IncludeTreeTraverser;
+use TYPO3\CMS\Core\TypoScript\IncludeTree\Visitor\IncludeTreeAstBuilderVisitor;
+use TYPO3\CMS\Core\TypoScript\Tokenizer\LosslessTokenizer;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
@@ -34,6 +37,14 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
     protected array $constants = [];
     protected array $inheritedConstants = [];
 
+    public function __construct(
+        private readonly SysTemplateRepository  $sysTemplateRepository,
+        private readonly IncludeTreeTraverser   $includeTreeTraverser,
+        private readonly SysTemplateTreeBuilder $treeBuilder,
+        private readonly LosslessTokenizer      $losslessTokenizer,
+    ) {
+    }
+
     public function init(int $pageUid): self
     {
         $this->pageUid = $pageUid;
@@ -46,12 +57,10 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
     protected function initializeActivePageProperties(array $rootLine): void
     {
         $this->rootPageUid = $rootLine[0]['uid'] ?? 0;
-        $templateService = GeneralUtility::makeInstance(TemplateService::class);
-        $this->constants = $this->getConstantsForRootLine($rootLine, $templateService);
-        $this->treeLevel = $templateService->getRootlineLevel((string)$this->pageUid);
-        $templateUid = (int)(array_reverse($templateService->hierarchyInfo)[0]['uid'] ?? 0);
-        $this->templateRow = (GeneralUtility::makeInstance(DatabaseService::class)
-            ->getRecord('sys_template', ['uid' => $templateUid]) ?? []);
+        $this->constants = $this->getConstantsForRootLine($rootLine);
+        $this->treeLevel = count($rootLine) - 1;
+        $sysTemplateRows = $this->sysTemplateRepository->getSysTemplateRowsByRootline($rootLine);
+        $this->templateRow = $sysTemplateRows[count($sysTemplateRows) - 1];
     }
 
     protected function initializeInheritedConstants(array $rootLine): void
@@ -64,10 +73,7 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
             $constants = substr($this->templateRow['constants'], 0, $tokenPos);
             $this->updateTemplateConstants($constants);
             $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $this->pageUid);
-            $this->inheritedConstants = $this->getConstantsForRootLine(
-                $rootLineUtility->get(),
-                GeneralUtility::makeInstance(TemplateService::class)
-            );
+            $this->inheritedConstants = $this->getConstantsForRootLine($rootLineUtility->get());
         } catch (\Exception $e) {
             // @phpstan-ignore-next-line
             $this->logger->error('Inherited constants initialization error. Code: 1650372424');
@@ -87,12 +93,16 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
             );
     }
 
-    protected function getConstantsForRootLine(array $rootLine, TemplateService $templateService): array
+    protected function getConstantsForRootLine(array $rootLine): array
     {
-        $templateService->runThroughTemplates($rootLine);
-        $templateService->generateConfig();
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)
-            ->convertTypoScriptArrayToPlainArray($templateService->setup_constants);
+        $sysTemplateRows = $this->sysTemplateRepository->getSysTemplateRowsByRootline($rootLine);
+        $constantAstBuilderVisitor = GeneralUtility::makeInstance(IncludeTreeAstBuilderVisitor::class);
+        $constantIncludeTree = $this->treeBuilder->getTreeBySysTemplateRowsAndSite('constants', $sysTemplateRows, $this->losslessTokenizer);
+        $this->includeTreeTraverser->resetVisitors();
+        $this->includeTreeTraverser->addVisitor($constantAstBuilderVisitor);
+        $this->includeTreeTraverser->traverse($constantIncludeTree);
+        $constantsAst = $constantAstBuilderVisitor->getAst();
+        return GeneralUtility::removeDotsFromTS($constantsAst->toArray());
     }
 
     public function getConstants(): array
