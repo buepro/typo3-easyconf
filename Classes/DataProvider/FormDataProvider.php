@@ -44,7 +44,7 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
         ) {
             // Include JS to hide new and delete button
             GeneralUtility::makeInstance(PageRenderer::class)
-                ->loadRequireJsModule('TYPO3/CMS/Easyconf/FormDataProvider');
+                ->loadJavaScriptModule('@buepro/easyconf/FormDataProvider.js');
             // Read in properties
             foreach ($columns as $columnName => $columnConfig) {
                 if (
