@@ -1,0 +1,21 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$className of static method TYPO3\\\\CMS\\\\Core\\\\Utility\\\\GeneralUtility\\:\\:makeInstance\\(\\) expects class\\-string\\<object\\>, string given\\.$#"
+			count: 1
+			path: ../Classes/DataProvider/FormDataProvider.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to method static method TYPO3\\\\CMS\\\\Core\\\\Utility\\\\GeneralUtility\\:\\:makeInstance\\(\\)$#"
+			count: 1
+			path: ../Classes/DataProvider/FormDataProvider.php
+
+		-
+			message: "#^Parameter \\#1 \\$className of static method TYPO3\\\\CMS\\\\Core\\\\Utility\\\\GeneralUtility\\:\\:makeInstance\\(\\) expects class\\-string\\<object\\>, string given\\.$#"
+			count: 1
+			path: ../Classes/Hook/DataHandlerHook.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to method static method TYPO3\\\\CMS\\\\Core\\\\Utility\\\\GeneralUtility\\:\\:makeInstance\\(\\)$#"
+			count: 1
+			path: ../Classes/Hook/DataHandlerHook.php

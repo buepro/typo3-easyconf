@@ -38,10 +38,10 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
     protected array $inheritedConstants = [];
 
     public function __construct(
-        private readonly SysTemplateRepository  $sysTemplateRepository,
-        private readonly IncludeTreeTraverser   $includeTreeTraverser,
+        private readonly SysTemplateRepository $sysTemplateRepository,
+        private readonly IncludeTreeTraverser $includeTreeTraverser,
         private readonly SysTemplateTreeBuilder $treeBuilder,
-        private readonly LosslessTokenizer      $losslessTokenizer,
+        private readonly LosslessTokenizer $losslessTokenizer,
     ) {
     }
 
