@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "40adf2fd68aa7f5f0fe423d170f6ca34",
+    "content-hash": "83aab6a55df70a9b8faec417b0945c23",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4552,12 +4552,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/buepro/typo3-pizpalue.git",
-                "reference": "a0077a7cc1030334bd97ae776c08c337be27eb3c"
+                "reference": "90959561f75ac10bd4428497fb7113830e387a73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/buepro/typo3-pizpalue/zipball/a0077a7cc1030334bd97ae776c08c337be27eb3c",
-                "reference": "a0077a7cc1030334bd97ae776c08c337be27eb3c",
+                "url": "https://api.github.com/repos/buepro/typo3-pizpalue/zipball/90959561f75ac10bd4428497fb7113830e387a73",
+                "reference": "90959561f75ac10bd4428497fb7113830e387a73",
                 "shasum": ""
             },
             "require": {
@@ -4566,14 +4566,12 @@
                 "typo3/cms-core": "^11.5 || ^12.1 || 12.*.*@dev"
             },
             "require-dev": {
-                "buepro/typo3-container-elements": "^4.0.0",
-                "buepro/typo3-user-pizpalue": "^5.0.0",
+                "buepro/typo3-container-elements": "^5.0.0",
+                "buepro/typo3-easyconf": "^1.4.0 || ^2.0.0",
+                "buepro/typo3-user-pizpalue": "^4.0.0 || ^5.0.0",
                 "ergebnis/composer-normalize": "^2.15.0",
                 "friendsofphp/php-cs-fixer": "^3.0.0",
                 "friendsoftypo3/phpstan-typo3": "^0.9.0",
-                "friendsoftypo3/tt-address": "^6.0.1",
-                "georgringer/eventnews": "5.0.0",
-                "georgringer/news": "^9.1.0",
                 "helhum/typo3-console": "^7.1.2",
                 "overtrue/phplint": "^3.2.0 || ^4.3.0 || ^5.3.0",
                 "phpspec/prophecy-phpunit": "^2.0",
@@ -4584,7 +4582,7 @@
                 "typo3/cms-base-distribution": "^11.5 || 12.*.*@dev",
                 "typo3/cms-lowlevel": "^11.5 || ^12.1 || 12.*.*@dev",
                 "typo3/cms-recycler": "^11.5 || ^12.1 || 12.*.*@dev",
-                "typo3/testing-framework": "^6.4 || 7.*.*@dev"
+                "typo3/testing-framework": "7.x-dev"
             },
             "suggest": {
                 "buepro/typo3-container-elements": "Flexibel elements to structure the content area with container",
@@ -4613,9 +4611,8 @@
                     "Buepro\\Pizpalue\\Form\\": "Extensions/form/Classes/",
                     "Buepro\\Pizpalue\\Easyconf\\": "Extensions/easyconf/Classes/",
                     "Buepro\\Pizpalue\\Sysext\\Core\\": "Sysext/core/Classes/",
-                    "Buepro\\Pizpalue\\Sysext\\Frontend\\": "Sysext/frontend/Classes/",
-                    "Buepro\\Pizpalue\\Sysext\\Recordlist\\": "Sysext/recordlist/Classes/",
-                    "Buepro\\Pizpalue\\BootstrapPackage\\Compatibility120\\": "Extensions/bootstrap_package/Compatibility120/Classes/"
+                    "Buepro\\Pizpalue\\Sysext\\Backend\\": "Sysext/backend/Classes/",
+                    "Buepro\\Pizpalue\\Sysext\\Frontend\\": "Sysext/frontend/Classes/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4650,7 +4647,7 @@
                 "issues": "https://github.com/buepro/typo3-pizpalue/issues",
                 "source": "https://github.com/buepro/typo3-pizpalue"
             },
-            "time": "2022-12-12T11:23:17+00:00"
+            "time": "2023-01-14T17:41:56+00:00"
         },
         {
             "name": "buepro/typo3-pvh",
@@ -4658,12 +4655,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/buepro/typo3-pvh.git",
-                "reference": "4b82d2e1b51b96d74da5001be679ca980e001d05"
+                "reference": "e709b60352ef88f0572abe0389fed9254b976bb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/buepro/typo3-pvh/zipball/4b82d2e1b51b96d74da5001be679ca980e001d05",
-                "reference": "4b82d2e1b51b96d74da5001be679ca980e001d05",
+                "url": "https://api.github.com/repos/buepro/typo3-pvh/zipball/e709b60352ef88f0572abe0389fed9254b976bb6",
+                "reference": "e709b60352ef88f0572abe0389fed9254b976bb6",
                 "shasum": ""
             },
             "require": {
@@ -4724,7 +4721,7 @@
                 "issues": "https://github.com/buepro/typo3-pvh/issues",
                 "source": "https://github.com/buepro/typo3-pvh/tree/main"
             },
-            "time": "2022-12-11T18:06:08+00:00"
+            "time": "2022-12-14T18:53:30+00:00"
         },
         {
             "name": "composer/pcre",
@@ -10166,6 +10163,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "buepro/typo3-pizpalue": 20,
+        "buepro/typo3-pvh": 20,
         "typo3/cms-base-distribution": 20,
         "typo3/cms-lowlevel": 20,
         "typo3/cms-recycler": 20,

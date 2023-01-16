@@ -66,3 +66,40 @@ It can hold the following properties:
 
     Defines the property path used my the mapper to read and write the
     corresponding configuration.
+
+TypoScript constants substitution
+=================================
+
+Starting with TYPO3 v12 TypoScript constants aren't substituted any more: The
+assignment :typoscript:`b = {$a}` with :typoscript:`a = test` results in
+:typoscript:`b = {$a}` and not in :typoscript:`b = test`. Especially when
+configuring various extensions it would be faster to just set some global
+constants and assign them accordingly. Here the TypoScript substitution feature
+comes into play:
+
+..  code-block:: typoscript
+
+    easyconf.substitutions {
+      someExtenstion {
+        domain = {$globals.customer.domain}
+        dateFormat = {$globals.general.dateFormat}
+      }
+      someOtherExtension {
+        link = <a href="https://www.{$globals.customer.domain}">{$globals.customer.company}</a>
+      }
+    }
+
+The above TypoScript constant definition would result in:
+
+..  code-block:: typoscript
+
+    someExtension {
+        domain = domain.ch
+        dateFormat = j. F Y
+    }
+    someOtherExtension {
+        link = <a href="https://www.domain.ch">Company GmbH</a>
+    }
+
+As demonstrated all constants appearing on the right side from the equal (=)
+sign become substituted.

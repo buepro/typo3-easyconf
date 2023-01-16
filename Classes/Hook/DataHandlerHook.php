@@ -17,6 +17,7 @@ use Buepro\Easyconf\Mapper\MapperRegistry;
 use Buepro\Easyconf\Mapper\ServiceManager;
 use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Service\DatabaseService;
+use Buepro\Easyconf\TypoScript\ConstantSubstitutor;
 use Buepro\Easyconf\Utility\TcaUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
@@ -36,10 +37,16 @@ class DataHandlerHook implements SingletonInterface
     protected static ?array $configurationData = null;
 
     protected EventDispatcherInterface $eventDispatcher;
+    protected ConstantSubstitutor $constantSubstitutor;
 
     public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    public function injectConstantSubstitutor(ConstantSubstitutor $constantSubstitutor): void
+    {
+        $this->constantSubstitutor = $constantSubstitutor;
     }
 
     public function processDatamap_preProcessFieldArray(
@@ -77,6 +84,7 @@ class DataHandlerHook implements SingletonInterface
                 self::$configurationData['formFields'],
                 $configurationRecord
             ));
+            $this->constantSubstitutor->substitute();
             foreach (MapperRegistry::getInstances() as $mapper) {
                 $mapper->persistBuffer();
             }
