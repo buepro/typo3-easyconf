@@ -1,9 +1,11 @@
 # Folders
-.build/
-.idea/
-Documentation-GENERATED-temp/
+/.build/
+/.idea/
+/config/
+/Documentation-GENERATED-temp/
+/var/
 
 # Files
 *.cache
 *.zip
-Build/node_modules
+/Build/node_modules
