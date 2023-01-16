@@ -8,7 +8,15 @@ easyconf:
       phone: '111 111 11 11'
     admin:
       easyconf:
-        showAllProperties: '0'
+        showAllProperties: '1'
+      siteConfiguration:
+        overwriteBase: '0'
+        overwriteBaseVariants: '0'
+        overwriteRobots: '0'
+        overwriteSitemap: '0'
+        manageNewsRouteEnhancer: '0'
+        removeLegacyNewsRouteEnhancers: '0'
+        overwritePageNotFound: '0'
     style:
       global:
         enableScss: '0'
