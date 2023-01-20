@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Buepro\Easyconf\Mapper\Service;
 
 use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
+use Buepro\Easyconf\Utility\GeneralUtility as EasyconfGeneralUtility;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Database\Connection;
@@ -35,13 +36,14 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
     protected int $rootPageUid = 0;
     protected array $templateRow = [];
     protected array $constants = [];
+    //Constants that would be present without easyconf
     protected array $inheritedConstants = [];
 
     public function __construct(
         private readonly SysTemplateRepository $sysTemplateRepository,
         private readonly IncludeTreeTraverser $includeTreeTraverser,
         private readonly SysTemplateTreeBuilder $treeBuilder,
-        private readonly LosslessTokenizer $losslessTokenizer,
+        private readonly LosslessTokenizer $losslessTokenizer
     ) {
     }
 
@@ -70,7 +72,15 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
             return;
         }
         try {
-            $constants = substr($this->templateRow['constants'], 0, $tokenPos);
+            $before = substr($this->templateRow['constants'], 0, $tokenPos);
+            $after = explode(
+                LF,
+                EasyconfGeneralUtility::convertToUnixLineBreaks(substr($this->templateRow['constants'], $tokenPos))
+            );
+            array_shift($after);
+            array_shift($after);
+            $constants = implode(LF, [$before, ...$after]);
+
             $this->updateTemplateConstants($constants);
             $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $this->pageUid);
             $this->inheritedConstants = $this->getConstantsForRootLine($rootLineUtility->get());
