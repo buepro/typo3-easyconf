@@ -51,9 +51,6 @@ class DatabaseService
                 $fields[$fieldName] = $now;
             }
         }
-        if (!isset($fields['cruser_id'])) {
-            $fields['cruser_id'] = (int)$GLOBALS['BE_USER']->user['uid'];
-        }
         $connection->insert(
             $table,
             $fields,
