@@ -22,8 +22,9 @@ use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TypoScript\IncludeTree\SysTemplateRepository;
 use TYPO3\CMS\Core\TypoScript\IncludeTree\SysTemplateTreeBuilder;
-use TYPO3\CMS\Core\TypoScript\IncludeTree\Traverser\IncludeTreeTraverser;
-use TYPO3\CMS\Core\TypoScript\IncludeTree\Visitor\IncludeTreeAstBuilderVisitor;
+use TYPO3\CMS\Core\TypoScript\IncludeTree\Traverser\ConditionVerdictAwareIncludeTreeTraverser;
+use TYPO3\CMS\Core\TypoScript\IncludeTree\Visitor\IncludeTreeCommentAwareAstBuilderVisitor;
+use TYPO3\CMS\Core\TypoScript\IncludeTree\Visitor\IncludeTreeConditionEnforcerVisitor;
 use TYPO3\CMS\Core\TypoScript\Tokenizer\LosslessTokenizer;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -44,9 +45,7 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
 
     public function __construct(
         private readonly SysTemplateRepository $sysTemplateRepository,
-        private readonly IncludeTreeTraverser $includeTreeTraverser,
-        private readonly SysTemplateTreeBuilder $treeBuilder,
-        private readonly LosslessTokenizer $losslessTokenizer
+        private readonly SysTemplateTreeBuilder $treeBuilder
     ) {
     }
 
@@ -113,16 +112,19 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
     protected function getConstantsForRootLine(array $rootLine): array
     {
         $sysTemplateRows = $this->sysTemplateRepository->getSysTemplateRowsByRootline($rootLine);
-        $constantAstBuilderVisitor = GeneralUtility::makeInstance(IncludeTreeAstBuilderVisitor::class);
         $constantIncludeTree = $this->treeBuilder->getTreeBySysTemplateRowsAndSite(
             'constants',
             $sysTemplateRows,
-            $this->losslessTokenizer,
+            new LosslessTokenizer(),
             $this->site
         );
-        $this->includeTreeTraverser->resetVisitors();
-        $this->includeTreeTraverser->addVisitor($constantAstBuilderVisitor);
-        $this->includeTreeTraverser->traverse($constantIncludeTree);
+        $conditionEnforcerVisitor = new IncludeTreeConditionEnforcerVisitor();
+        $conditionEnforcerVisitor->setEnabledConditions([]);
+        $treeTraverser = new ConditionVerdictAwareIncludeTreeTraverser();
+        $treeTraverser->addVisitor($conditionEnforcerVisitor);
+        $constantAstBuilderVisitor = GeneralUtility::makeInstance(IncludeTreeCommentAwareAstBuilderVisitor::class);
+        $treeTraverser->addVisitor($constantAstBuilderVisitor);
+        $treeTraverser->traverse($constantIncludeTree);
         $constantsAst = $constantAstBuilderVisitor->getAst();
         return GeneralUtility::removeDotsFromTS($constantsAst->toArray());
     }
