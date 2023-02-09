@@ -11,8 +11,8 @@ use Buepro\Easyconf\Controller\ConfigurationController;
 
 return [
     'web_Easyconf' => [
-        'parent' => 'web',
-        'position' => ['before' => 'web_ts'],
+        'parent' => 'site',
+        'position' => ['before' => 'site_configuration'],
         'access' => 'user,group',
         'workspaces' => 'live',
         'iconIdentifier' => 'easyconf-extension',
@@ -22,5 +22,6 @@ return [
         'controllerActions' => [
             ConfigurationController::class => ['edit', 'info'],
         ],
+        'navigationComponent' => '@typo3/backend/page-tree/page-tree-element',
     ],
 ];
