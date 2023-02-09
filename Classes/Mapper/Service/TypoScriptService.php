@@ -18,6 +18,8 @@ use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TypoScript\IncludeTree\SysTemplateRepository;
 use TYPO3\CMS\Core\TypoScript\IncludeTree\SysTemplateTreeBuilder;
 use TYPO3\CMS\Core\TypoScript\IncludeTree\Traverser\IncludeTreeTraverser;
@@ -32,6 +34,7 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
     use LoggerAwareTrait;
 
     protected int $pageUid = 0;
+    protected ?Site $site = null;
     protected int $treeLevel = 0;
     protected int $rootPageUid = 0;
     protected array $templateRow = [];
@@ -50,6 +53,7 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
     public function init(int $pageUid): self
     {
         $this->pageUid = $pageUid;
+        $this->site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($pageUid);
         $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
         $this->initializeActivePageProperties($rootLine);
         $this->initializeInheritedConstants($rootLine);
@@ -110,7 +114,12 @@ class TypoScriptService implements SingletonInterface, MapperServiceInterface, L
     {
         $sysTemplateRows = $this->sysTemplateRepository->getSysTemplateRowsByRootline($rootLine);
         $constantAstBuilderVisitor = GeneralUtility::makeInstance(IncludeTreeAstBuilderVisitor::class);
-        $constantIncludeTree = $this->treeBuilder->getTreeBySysTemplateRowsAndSite('constants', $sysTemplateRows, $this->losslessTokenizer);
+        $constantIncludeTree = $this->treeBuilder->getTreeBySysTemplateRowsAndSite(
+            'constants',
+            $sysTemplateRows,
+            $this->losslessTokenizer,
+            $this->site
+        );
         $this->includeTreeTraverser->resetVisitors();
         $this->includeTreeTraverser->addVisitor($constantAstBuilderVisitor);
         $this->includeTreeTraverser->traverse($constantIncludeTree);
