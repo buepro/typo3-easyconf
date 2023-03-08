@@ -6,21 +6,40 @@
 Configuration
 =============
 
-Support information
-===================
+Agency information
+==================
 
 When closing the form editor an info panel is shown providing agency related
-links. The links can be defined in the site configuration:
+links. The links can be defined in the site configuration or in the typoscript
+setup.
 
-..  code-block:: yaml
+..  tabs::
 
-    easyconf:
-      data:
-        admin:
-          agency:
-            email: bh@agency.ch
-            phone: '111 111 11 11'
-            url: 'https://www.agency.ch'
+    ..  group-tab:: Site configuration
+
+        ..  code-block:: yaml
+
+            easyconf:
+              data:
+                admin:
+                  agency:
+                    email: info@agency.ch
+                    phone: '111 111 11 11'
+                    url: 'https://www.agency.ch'
+
+    ..  group-tab:: TypoScript setup
+
+        ..  code-block:: typoscript
+
+            module.tx_easyconf {
+                settings {
+                    agency {
+                        url = info@agency.ch
+                        phone = 111 111 11 11
+                        email = https://www.agency.ch
+                    }
+                }
+            }
 
 TCA
 ===

@@ -104,17 +104,26 @@ class ConfigurationController extends ActionController
 
     protected function getAgencyData(): array
     {
+        $agencyData = $this->getAgencyDataFromSite() ?? $this->settings['agency'] ?? null;
+        if ($agencyData === null) {
+            return [];
+        }
+        if (isset($agencyData['phone'])) {
+            $agencyData['phone'] = preg_replace('#(\s|\.|\/|-|\(|\))#i', '', $agencyData['phone']) ?? '';
+        }
+        return $agencyData;
+    }
+
+    private function getAgencyDataFromSite(): ?array
+    {
         $site = $this->request->getAttribute('site');
         if (
             $site instanceof Site &&
             is_array($settings = $site->getAttribute('easyconf')) &&
             is_array($agency = $settings['data']['admin']['agency'] ?? false)
         ) {
-            if (isset($agency['phone'])) {
-                $agency['phone'] = preg_replace('#(\s|\.|\/|-|\(|\))#i', '', $agency['phone']) ?? '';
-            }
             return $agency;
         }
-        return [];
+        return null;
     }
 }
