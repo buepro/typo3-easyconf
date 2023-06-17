@@ -22,7 +22,7 @@ class GeneralUtilityTest extends UnitTestCase
         SystemEnvironmentBuilder::run();
     }
 
-    public function trimRelativePathRemovesLeadingSlashAndAddsTailingSlashDataProvider(): array
+    public static function trimRelativePathRemovesLeadingSlashAndAddsTailingSlashDataProvider(): array
     {
         return [
             'empty' => ['', ''],

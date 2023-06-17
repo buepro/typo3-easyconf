@@ -16,7 +16,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TypoScriptConstantMapperUtilityTest extends UnitTestCase
 {
-    private function getImportStatement(int $pageUid, int $templateUid): string
+    private static function getImportStatement(int $pageUid, int $templateUid): string
     {
         return sprintf(
             "\n%s\n@import 'path/to/file/%s'\n",
@@ -25,18 +25,18 @@ class TypoScriptConstantMapperUtilityTest extends UnitTestCase
         );
     }
 
-    public function removeUnusedImportStatementsResultContainsOnlyUsedImportStatementDataProvider(): array
+    public static function removeUnusedImportStatementsResultContainsOnlyUsedImportStatementDataProvider(): array
     {
         return [
             'no import statement' => ['foo=1', 1, 1, 'foo=1'],
             'only used import statement' => [
-                $constants = $this->getImportStatement(1, 1),
+                $constants = self::getImportStatement(1, 1),
                 1,
                 1,
                 $constants
             ],
             'only unused import statement' => [
-                $constants = $this->getImportStatement(1, 2),
+                $constants = self::getImportStatement(1, 2),
                 1,
                 1,
                 "\n\n"
@@ -44,9 +44,9 @@ class TypoScriptConstantMapperUtilityTest extends UnitTestCase
             'with unused import statement' => [
                 implode("\n", [
                     "foo=1\n\n",
-                    $this->getImportStatement(1, 10),
+                    self::getImportStatement(1, 10),
                     "bar=2\n\n",
-                    $this->getImportStatement(1, 1),
+                    self::getImportStatement(1, 1),
                     'baz=3'
                 ]),
                 1,
@@ -55,7 +55,7 @@ class TypoScriptConstantMapperUtilityTest extends UnitTestCase
                     "foo=1\n\n",
                     "\n\n",
                     "bar=2\n\n",
-                    $this->getImportStatement(1, 1),
+                    self::getImportStatement(1, 1),
                     'baz=3'
                 ]),
             ],

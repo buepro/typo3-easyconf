@@ -17,7 +17,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TcaUtilityTest extends UnitTestCase
 {
-    public function testGetFieldsDataProvider(): array
+    public static function testGetFieldsDataProvider(): array
     {
         $properties = ['foo', 'bar', 'fooBar', 'subpath.to.bazBar'];
         return [
@@ -189,7 +189,7 @@ class TcaUtilityTest extends UnitTestCase
         self::assertSame($expected, $columns);
     }
 
-    public function testExcludePropertiesDataProvider(): array
+    public static function testExcludePropertiesDataProvider(): array
     {
         $propertyList = 'foo, bar, fooBar, foo_bar';
         return [
