@@ -182,12 +182,7 @@ class TcaUtility
         return $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$field]['tx_easyconf'] ?? null;
     }
 
-    /**
-     * @param string $field
-     * @param mixed $mapperValue
-     * @return mixed
-     */
-    public static function mapMapperToFormValue(string $field, $mapperValue)
+    public static function mapMapperToFormValue(string $field, bool|float|int|string $mapperValue): bool|float|int|string
     {
         if (
             ($configuration = self::getColumnConfiguration($field)) !== null &&
@@ -198,12 +193,7 @@ class TcaUtility
         return $mapperValue;
     }
 
-    /**
-     * @param string $field
-     * @param mixed $formValue
-     * @return mixed
-     */
-    public static function mapFormToMapperValue(string $field, $formValue)
+    public static function mapFormToMapperValue(string $field, bool|float|int|string $formValue): bool|float|int|string
     {
         if (
             ($configuration = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'][$field]['tx_easyconf']) !== null &&

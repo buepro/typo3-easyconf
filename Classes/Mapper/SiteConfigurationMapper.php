@@ -25,9 +25,13 @@ class SiteConfigurationMapper extends AbstractMapper implements SingletonInterfa
         $this->siteConfigurationService = $siteConfigurationService;
     }
 
-    public function getProperty(string $path)
+    public function getProperty(string $path): string|int|float
     {
-        return $this->buffer[$path] ?? $this->siteConfigurationService->getPropertyByPath($path);
+        $result = $this->buffer[$path] ?? $this->siteConfigurationService->getPropertyByPath($path);
+        if (is_string($result) || is_int($result) || is_float($result)) {
+            return $result;
+        }
+        return '';
     }
 
     public function persistBuffer(): MapperInterface

@@ -16,18 +16,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DatabaseService
 {
-    /**
-     * @return false|mixed
-     */
-    public function getField(string $table, string $field, array $constraint)
+    public function getField(string $table, string $field, array $constraint): false|string|int|float
     {
-        return GeneralUtility::makeInstance(ConnectionPool::class)
+        $result = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable($table)
             ->select(
                 [$field],
                 $table,
                 $constraint
             )->fetchOne();
+        if (is_string($result) || is_int($result) || is_float($result)) {
+            return $result;
+        }
+        return false;
     }
 
     public function getRecord(string $table, array $constraint): ?array

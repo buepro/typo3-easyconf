@@ -51,17 +51,20 @@ class SiteConfigurationService implements SingletonInterface, MapperServiceInter
         return $this->siteData;
     }
 
-    /**
-     * @param string $path
-     * @return array|mixed|string
-     */
-    public function getPropertyByPath(string $path)
+    public function getPropertyByPath(string $path): array|string|int|float
     {
-        $result = '';
-        if (ArrayUtility::isValidPath($this->siteData, $path, '.')) {
-            $result = ArrayUtility::getValueByPath($this->siteData, $path, '.');
+        if (
+            ArrayUtility::isValidPath($this->siteData, $path, '.') &&
+            (
+                is_array($candidate = ArrayUtility::getValueByPath($this->siteData, $path, '.')) ||
+                is_string($candidate) ||
+                is_int($candidate) ||
+                is_float($candidate)
+            )
+        ) {
+            return $candidate;
         }
-        return $result;
+        return '';
     }
 
     public function writeSiteData(array $siteData): void
