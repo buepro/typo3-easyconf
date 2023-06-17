@@ -56,7 +56,6 @@ jobs:
       - id: install
         name: Install
         run: |
-          rm composer.lock
           composer u --no-progress
       - id: cgl
         name: CGL

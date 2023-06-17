@@ -8,4 +8,5 @@ var/
 # Files
 *.cache
 *.zip
+composer.lock
 Build/node_modules
