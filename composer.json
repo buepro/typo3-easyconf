@@ -23,7 +23,7 @@
 	],
 	"homepage": "https://github.com/buepro/typo3-easyconf",
 	"require": {
-		"typo3/cms-core": "^12.4"
+		"typo3/cms-core": "^12.4.4"
 	},
 	"require-dev": {
 		"buepro/typo3-pizpalue": "^15.1.0",
