@@ -27,5 +27,8 @@ return [
                 'dataHandlerAllowedFields' => '',
             ]
         ],
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ],
     ],
 ];
