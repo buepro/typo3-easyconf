@@ -5,51 +5,51 @@
     <body>
       <trans-unit id="tabTypoScript" resname="tabTypoScript">
         <source>TypoScript</source>
-        <target state="needs-translation">TypoScript</target>
+        <target state="translated">TypoScript</target>
       </trans-unit>
       <trans-unit id="owner_company" resname="cowner_ompany">
         <source>Company</source>
-        <target state="needs-translation">Company</target>
+        <target state="translated">Azienda</target>
       </trans-unit>
       <trans-unit id="owner_domain" resname="owner_domain">
         <source>Domain</source>
-        <target state="needs-translation">Domain</target>
+        <target state="translated">Dominio</target>
       </trans-unit>
       <trans-unit id="owner_first_name" resname="owner_first_name">
         <source>Firstname</source>
-        <target state="needs-translation">Firstname</target>
+        <target state="translated">Nome</target>
       </trans-unit>
       <trans-unit id="owner_last_name" resname="owner_last_name">
         <source>Lastname</source>
-        <target state="needs-translation">Lastname</target>
+        <target state="translated">Cognome</target>
       </trans-unit>
       <trans-unit id="tabSiteConfiguration" resname="tabSiteConfiguration">
         <source>Site Configuration</source>
-        <target state="needs-translation">Site Configuration</target>
+        <target state="translated">Configurazione del Sito</target>
       </trans-unit>
       <trans-unit id="agency_company" resname="agency_company">
         <source>Company</source>
-        <target state="needs-translation">Company</target>
+        <target state="translated">Azienda</target>
       </trans-unit>
       <trans-unit id="agency_contact" resname="agency_contact">
         <source>Contact</source>
-        <target state="needs-translation">Contact</target>
+        <target state="translated">Contatto</target>
       </trans-unit>
       <trans-unit id="agency_phone" resname="agency_phone">
         <source>Phone</source>
-        <target state="needs-translation">Phone</target>
+        <target state="translated">Telefono</target>
       </trans-unit>
       <trans-unit id="agency_email" resname="agency_email">
         <source>Email</source>
-        <target state="needs-translation">Email</target>
+        <target state="translated">Email</target>
       </trans-unit>
       <trans-unit id="tabEasyconf" resname="tabEasyconf">
         <source>Easyconf</source>
-        <target state="needs-translation">Easyconf</target>
+        <target state="translated">Facile configurazione</target>
       </trans-unit>
       <trans-unit id="easyconf_show_all_properties" resname="easyconf_show_all_properties">
         <source>Show all properties</source>
-        <target state="needs-translation">Show all properties</target>
+        <target state="translated">Mostra tutte le proprietà</target>
       </trans-unit>
     </body>
   </file>
