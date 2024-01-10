@@ -5,36 +5,34 @@
     <body>
       <trans-unit id="index.title" resname="index.title">
         <source>Website configuration</source>
-        <target state="needs-translation">Website configuration</target>
+        <target state="translated">Configurazione del sito web</target>
       </trans-unit>
       <trans-unit id="index.description" resname="index.description">
         <source/>
       </trans-unit>
       <trans-unit id="noTemplate.title" resname="noTemplate.title">
         <source>Template required</source>
-        <target state="needs-translation">Template required</target>
+        <target state="translated">Modello richiesto: template richiesto</target>
       </trans-unit>
       <trans-unit id="noTemplate.description" resname="noTemplate.description">
         <source>
 					For the selected page no template record is available. Select a page having a template record
 					or switch to the template module to create one for the current page.
 				</source>
-        <target state="needs-translation">
-					For the selected page no template record is available. Select a page having a template record
-					or switch to the template module to create one for the current page.
-				</target>
+        <target state="translated">Per la pagina selezionata non è disponibile alcun record modello. 
+Seleziona una pagina con un record modello o passa al modulo modello per crearne uno per la pagina corrente.</target>
       </trans-unit>
       <trans-unit id="selectPage" resname="selectPage">
         <source>Select page "%s"</source>
-        <target state="needs-translation">Select page "%s"</target>
+        <target state="translated">Seleziona pagina "%s"</target>
       </trans-unit>
       <trans-unit id="switchTemplateModule" resname="switchTemplateModule">
         <source>Switch to template module</source>
-        <target state="needs-translation">Switch to template module</target>
+        <target state="translated">Passa al modulo modello</target>
       </trans-unit>
       <trans-unit id="support.title" resname="support.title">
         <source>Need help?</source>
-        <target state="needs-translation">Need help?</target>
+        <target state="translated">Hai bisogno d'aiuto?</target>
       </trans-unit>
       <trans-unit id="support.description" resname="support.description">
         <source>
@@ -42,31 +40,29 @@
 					increases as well the complexity and therefore more detailed adjustments require deeper
 					understanding. Don't lose precious time on further configuration and let the experts help you.
 				</source>
-        <target state="needs-translation">
-					TYPO3 is known for its flexibility. Almost all is possible...! This flexibility
-					increases as well the complexity and therefore more detailed adjustments require deeper
-					understanding. Don't lose precious time on further configuration and let the experts help you.
-				</target>
+        <target state="translated">TYPO3 è noto per la sua flessibilità. Quasi tutto è possibile...!
+Questa flessibilità aumenta anche la complessità e quindi aggiustamenti più dettagliati richiedono una comprensione più approfondita.
+Non perdere tempo prezioso in ulteriori configurazioni e lasciati aiutare dagli esperti.</target>
       </trans-unit>
       <trans-unit id="support.action.info" resname="support.action.info">
         <source>Get more information</source>
-        <target state="needs-translation">Get more information</target>
+        <target state="translated">Ottieni più informazioni</target>
       </trans-unit>
       <trans-unit id="support.action.call" resname="support.action.call">
         <source>Call us</source>
-        <target state="needs-translation">Call us</target>
+        <target state="translated">Chiamaci</target>
       </trans-unit>
       <trans-unit id="support.action.email" resname="support.action.email">
         <source>Send an email</source>
-        <target state="needs-translation">Send an email</target>
+        <target state="translated">Invia una mail</target>
       </trans-unit>
       <trans-unit id="info.restoreFieldValue.title" resname="info.restoreFieldValue.title">
         <source>Restore field values</source>
-        <target state="needs-translation">Restore field values</target>
+        <target state="translated">Ripristina i valori dei campi</target>
       </trans-unit>
       <trans-unit id="info.restoreFieldValue.description" resname="info.restoreFieldValue.description">
         <source>Inherited field values can be restored by saving double question marks (`??`) as field value.</source>
-        <target state="needs-translation">Inherited field values can be restored by saving double question marks (`??`) as field value.</target>
+        <target state="translated">I valori dei campi ereditati possono essere ripristinati salvando i doppi punti (`??`) come valore del campo.</target>
       </trans-unit>
     </body>
   </file>
