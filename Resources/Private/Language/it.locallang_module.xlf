@@ -3,17 +3,17 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z" product-name="easyconf" target-language="it">
     <header/>
     <body>
-      <trans-unit id="mlang_labels_tablabel" resname="mlang_labels_tablabel">
+      <trans-unit id="mlang_labels_tablabel" resname="mlang_labels_tablabel" approved="yes">
         <source>Configuration</source>
-        <target state="translated">Configurazione</target>
+        <target state="final">Configurazione</target>
       </trans-unit>
-      <trans-unit id="mlang_labels_tabdescr" resname="mlang_labels_tabdescr">
+      <trans-unit id="mlang_labels_tabdescr" resname="mlang_labels_tabdescr" approved="yes">
         <source>This module allows you to configure the main aspects from your website</source>
-        <target state="translated">Questo modulo consente di configurare gli aspetti principali dal tuo sito web</target>
+        <target state="final">Questo modulo consente di configurare gli aspetti principali dal tuo sito web</target>
       </trans-unit>
-      <trans-unit id="mlang_tabs_tab" resname="mlang_tabs_tab">
+      <trans-unit id="mlang_tabs_tab" resname="mlang_tabs_tab" approved="yes">
         <source>Configuration</source>
-        <target state="translated">Configurazione</target>
+        <target state="final">Configurazione</target>
       </trans-unit>
     </body>
   </file>
