@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z" product-name="easyconf" target-language="af">
+    <header/>
+    <body>
+      <trans-unit id="tabTypoScript" resname="tabTypoScript">
+        <source>TypoScript</source>
+        <target state="needs-translation">TypoScript</target>
+      </trans-unit>
+      <trans-unit id="owner_company" resname="cowner_ompany">
+        <source>Company</source>
+        <target state="needs-translation">Company</target>
+      </trans-unit>
+      <trans-unit id="owner_domain" resname="owner_domain">
+        <source>Domain</source>
+        <target state="needs-translation">Domain</target>
+      </trans-unit>
+      <trans-unit id="owner_first_name" resname="owner_first_name">
+        <source>Firstname</source>
+        <target state="needs-translation">Firstname</target>
+      </trans-unit>
+      <trans-unit id="owner_last_name" resname="owner_last_name">
+        <source>Lastname</source>
+        <target state="needs-translation">Lastname</target>
+      </trans-unit>
+      <trans-unit id="tabSiteConfiguration" resname="tabSiteConfiguration">
+        <source>Site Configuration</source>
+        <target state="needs-translation">Site Configuration</target>
+      </trans-unit>
+      <trans-unit id="agency_company" resname="agency_company">
+        <source>Company</source>
+        <target state="needs-translation">Company</target>
+      </trans-unit>
+      <trans-unit id="agency_contact" resname="agency_contact">
+        <source>Contact</source>
+        <target state="needs-translation">Contact</target>
+      </trans-unit>
+      <trans-unit id="agency_phone" resname="agency_phone">
+        <source>Phone</source>
+        <target state="needs-translation">Phone</target>
+      </trans-unit>
+      <trans-unit id="agency_email" resname="agency_email">
+        <source>Email</source>
+        <target state="needs-translation">Email</target>
+      </trans-unit>
+      <trans-unit id="tabEasyconf" resname="tabEasyconf">
+        <source>Easyconf</source>
+        <target state="needs-translation">Easyconf</target>
+      </trans-unit>
+      <trans-unit id="easyconf_show_all_properties" resname="easyconf_show_all_properties">
+        <source>Show all properties</source>
+        <target state="needs-translation">Show all properties</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
