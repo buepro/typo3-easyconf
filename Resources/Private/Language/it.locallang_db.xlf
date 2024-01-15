@@ -3,53 +3,53 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z" product-name="easyconf" target-language="it">
     <header/>
     <body>
-      <trans-unit id="tabTypoScript" resname="tabTypoScript">
+      <trans-unit id="tabTypoScript" resname="tabTypoScript" approved="yes">
         <source>TypoScript</source>
-        <target state="translated">TypoScript</target>
+        <target state="final">TypoScript</target>
       </trans-unit>
-      <trans-unit id="owner_company" resname="cowner_ompany">
+      <trans-unit id="owner_company" resname="cowner_ompany" approved="yes">
         <source>Company</source>
-        <target state="translated">Azienda</target>
+        <target state="final">Azienda</target>
       </trans-unit>
-      <trans-unit id="owner_domain" resname="owner_domain">
+      <trans-unit id="owner_domain" resname="owner_domain" approved="yes">
         <source>Domain</source>
-        <target state="translated">Dominio</target>
+        <target state="final">Dominio</target>
       </trans-unit>
-      <trans-unit id="owner_first_name" resname="owner_first_name">
+      <trans-unit id="owner_first_name" resname="owner_first_name" approved="yes">
         <source>Firstname</source>
-        <target state="translated">Nome</target>
+        <target state="final">Nome</target>
       </trans-unit>
-      <trans-unit id="owner_last_name" resname="owner_last_name">
+      <trans-unit id="owner_last_name" resname="owner_last_name" approved="yes">
         <source>Lastname</source>
-        <target state="translated">Cognome</target>
+        <target state="final">Cognome</target>
       </trans-unit>
-      <trans-unit id="tabSiteConfiguration" resname="tabSiteConfiguration">
+      <trans-unit id="tabSiteConfiguration" resname="tabSiteConfiguration" approved="yes">
         <source>Site Configuration</source>
-        <target state="translated">Configurazione del Sito</target>
+        <target state="final">Configurazione del Sito</target>
       </trans-unit>
-      <trans-unit id="agency_company" resname="agency_company">
+      <trans-unit id="agency_company" resname="agency_company" approved="yes">
         <source>Company</source>
-        <target state="translated">Azienda</target>
+        <target state="final">Azienda</target>
       </trans-unit>
-      <trans-unit id="agency_contact" resname="agency_contact">
+      <trans-unit id="agency_contact" resname="agency_contact" approved="yes">
         <source>Contact</source>
-        <target state="translated">Contatto</target>
+        <target state="final">Contatto</target>
       </trans-unit>
-      <trans-unit id="agency_phone" resname="agency_phone">
+      <trans-unit id="agency_phone" resname="agency_phone" approved="yes">
         <source>Phone</source>
-        <target state="translated">Telefono</target>
+        <target state="final">Telefono</target>
       </trans-unit>
-      <trans-unit id="agency_email" resname="agency_email">
+      <trans-unit id="agency_email" resname="agency_email" approved="yes">
         <source>Email</source>
-        <target state="translated">Email</target>
+        <target state="final">Email</target>
       </trans-unit>
-      <trans-unit id="tabEasyconf" resname="tabEasyconf">
+      <trans-unit id="tabEasyconf" resname="tabEasyconf" approved="yes">
         <source>Easyconf</source>
-        <target state="translated">Facile configurazione</target>
+        <target state="final">Facile configurazione</target>
       </trans-unit>
-      <trans-unit id="easyconf_show_all_properties" resname="easyconf_show_all_properties">
+      <trans-unit id="easyconf_show_all_properties" resname="easyconf_show_all_properties" approved="yes">
         <source>Show all properties</source>
-        <target state="translated">Mostra tutte le proprietà</target>
+        <target state="final">Mostra tutte le proprietà</target>
       </trans-unit>
     </body>
   </file>
