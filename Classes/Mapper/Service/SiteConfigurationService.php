@@ -19,8 +19,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SiteConfigurationService implements SingletonInterface, MapperServiceInterface
 {
-    protected ?SiteConfiguration $siteConfigurationManager;
-    protected ?Site $site;
+    protected ?SiteConfiguration $siteConfigurationManager = null;
+    protected ?Site $site = null;
     protected array $siteData = [];
 
     public function init(int $pageUid): self
