@@ -16,6 +16,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 class SiteConfigurationService implements SingletonInterface, MapperServiceInterface
 {
@@ -27,10 +28,17 @@ class SiteConfigurationService implements SingletonInterface, MapperServiceInter
     {
         $this->siteConfigurationManager = GeneralUtility::makeInstance(SiteConfiguration::class);
         $sites = $this->siteConfigurationManager->getAllExistingSites();
+        $indexedSites = [];
         foreach ($sites as $site) {
-            if ($site->getRootPageId() === $pageUid) {
-                $this->site = $site;
-                $this->siteData = $this->siteConfigurationManager->load($site->getIdentifier());
+            $indexedSites[$site->getRootPageId()] = $site;
+        }
+        // Get the first available site configuration in the root line
+        $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
+        foreach ($rootLine as $pageRecord) {
+            if (isset($indexedSites[$pageRecord['uid']])) {
+                $this->site = $indexedSites[$pageRecord['uid']];
+                $this->siteData = $this->siteConfigurationManager->load($this->site->getIdentifier());
+                return $this;
             }
         }
         return $this;
