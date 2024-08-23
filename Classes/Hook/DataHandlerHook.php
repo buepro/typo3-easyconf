@@ -103,7 +103,7 @@ class DataHandlerHook implements SingletonInterface
             ($columns = $GLOBALS['TCA']['tx_easyconf_configuration']['columns'] ?? null) !== null &&
             MathUtility::canBeInterpretedAsInteger($pageUid = GeneralUtility::makeInstance(DatabaseService::class)
                 ->getField('tx_easyconf_configuration', 'pid', ['uid' => $id])) &&
-            ($pageUid = MathUtility::convertToPositiveInteger($pageUid)) > 0 &&
+            ($pageUid = (int)max(0, $pageUid)) > 0 &&
             /** @extensionScannerIgnoreLine */
             GeneralUtility::makeInstance(ServiceManager::class)->init($pageUid)
         ) {
