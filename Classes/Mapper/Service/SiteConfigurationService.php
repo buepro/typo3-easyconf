@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Mapper\Service;
 
+use TYPO3\CMS\Core\Configuration\Exception\SiteConfigurationWriteException;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
+use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -20,14 +22,16 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 class SiteConfigurationService implements SingletonInterface, MapperServiceInterface
 {
-    protected ?SiteConfiguration $siteConfigurationManager = null;
+    protected ?SiteConfiguration $siteConfiguration = null;
+    protected ?SiteWriter $siteWriter = null;
     protected ?Site $site = null;
     protected array $siteData = [];
 
     public function init(int $pageUid): self
     {
-        $this->siteConfigurationManager = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $sites = $this->siteConfigurationManager->getAllExistingSites();
+        $this->siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+        $this->siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+        $sites = $this->siteConfiguration->getAllExistingSites();
         $indexedSites = [];
         foreach ($sites as $site) {
             $indexedSites[$site->getRootPageId()] = $site;
@@ -37,16 +41,16 @@ class SiteConfigurationService implements SingletonInterface, MapperServiceInter
         foreach ($rootLine as $pageRecord) {
             if (isset($indexedSites[$pageRecord['uid']])) {
                 $this->site = $indexedSites[$pageRecord['uid']];
-                $this->siteData = $this->siteConfigurationManager->load($this->site->getIdentifier());
+                $this->siteData = $this->siteConfiguration->load($this->site->getIdentifier());
                 return $this;
             }
         }
         return $this;
     }
 
-    public function getSiteConfigurationManager(): ?SiteConfiguration
+    public function getSiteConfiguration(): ?SiteConfiguration
     {
-        return $this->siteConfigurationManager;
+        return $this->siteConfiguration;
     }
 
     public function getSite(): ?Site
@@ -75,11 +79,14 @@ class SiteConfigurationService implements SingletonInterface, MapperServiceInter
         return '';
     }
 
+    /**
+     * @throws SiteConfigurationWriteException
+     */
     public function writeSiteData(array $siteData): void
     {
-        if ($this->siteConfigurationManager !== null && $this->getSite() !== null) {
-            $this->siteConfigurationManager->write($this->getSite()->getIdentifier(), $siteData);
-            $this->siteData = $this->siteConfigurationManager->load($this->getSite()->getIdentifier());
+        if ($this->siteWriter !== null && $this->siteConfiguration !== null && $this->getSite() !== null) {
+            $this->siteWriter->write($this->getSite()->getIdentifier(), $siteData);
+            $this->siteData = $this->siteConfiguration->load($this->getSite()->getIdentifier());
         }
     }
 }

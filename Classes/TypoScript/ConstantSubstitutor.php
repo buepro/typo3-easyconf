@@ -66,10 +66,8 @@ class ConstantSubstitutor
 
     private function substituteConstant(string $constant): string
     {
-        if (
-            (bool)preg_match_all('/{\$[^}]*}/', $constant, $matches) &&
-            is_array($items = $matches[0])
-        ) {
+        if ((bool)preg_match_all('/{\$[^}]*}/', $constant, $matches)) {
+            $items = $matches[0];
             $search = $replace = [];
             foreach ($items as $item) {
                 $path = trim($item, '{$}');

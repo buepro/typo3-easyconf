@@ -7,8 +7,11 @@ includes:
 
 parameters:
 	level: max
-	checkMissingIterableValueType: false
 	reportUnmatchedIgnoredErrors: false
+
+	ignoreErrors:
+	- identifier: missingType.iterableValue
+
 	paths:
 	- %currentWorkingDirectory%/Classes/
 	- %currentWorkingDirectory%/Tests/

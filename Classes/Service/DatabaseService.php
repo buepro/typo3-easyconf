@@ -57,6 +57,6 @@ class DatabaseService
             $fields,
             $types
         );
-        return $this->getRecord($table, ['uid' => (int)$connection->lastInsertId('pages')]);
+        return $this->getRecord($table, ['uid' => (int)$connection->lastInsertId()]);
     }
 }

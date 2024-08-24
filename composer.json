@@ -23,10 +23,10 @@
 	],
 	"homepage": "https://github.com/buepro/typo3-easyconf",
 	"require": {
-		"typo3/cms-core": "^12.4 || ^13.2 || dev-main"
+		"typo3/cms-core": "^13.2 || dev-main"
 	},
 	"require-dev": {
-		"buepro/typo3-pizpalue": "^15.1 || ^16.0",
+		"buepro/typo3-pizpalue": "^16.0 || ^17.0@dev",
 		"ergebnis/composer-normalize": "^2.43.0",
 		"friendsofphp/php-cs-fixer": "^3.0.0",
 		"friendsoftypo3/phpstan-typo3": "^0.9.0",
@@ -36,9 +36,9 @@
 		"phpstan/phpstan-deprecation-rules": "^1.0.0",
 		"phpstan/phpstan-phpunit": "^1.1.1",
 		"phpstan/phpstan-strict-rules": "^1.4.3",
-		"typo3/cms-base-distribution": "^12.4 || ^13.2 || dev-main",
-		"typo3/cms-lowlevel": "^12.4 || ^13.2 || dev-main",
-		"typo3/cms-recycler": "^12.4 || ^13.2 || dev-main",
+		"typo3/cms-base-distribution": "^13.2 || dev-main",
+		"typo3/cms-lowlevel": "^13.2 || dev-main",
+		"typo3/cms-recycler": "^13.2 || dev-main",
 		"typo3/testing-framework": "^8.0.0"
 	},
 	"minimum-stability": "dev",
