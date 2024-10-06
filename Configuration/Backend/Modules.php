@@ -13,7 +13,7 @@ return [
     'web_Easyconf' => [
         'parent' => 'site',
         'position' => ['before' => 'site_configuration'],
-        'access' => 'user,group',
+        'access' => 'user',
         'workspaces' => 'live',
         'iconIdentifier' => 'easyconf-extension',
         'path' => '/module/web/easyconf',
