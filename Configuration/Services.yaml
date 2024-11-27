@@ -6,3 +6,8 @@ services:
 
   Buepro\Easyconf\:
     resource: '../Classes/*'
+
+  Buepro\Easyconf\Configuration\SiteConfiguration:
+    arguments:
+      $coreCache: '@cache.core'
+      $configPath: "%env(TYPO3:configPath)%/sites"
