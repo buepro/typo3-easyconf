@@ -11,9 +11,10 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Mapper\Service;
 
+use Buepro\Easyconf\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\Configuration\Exception\SiteConfigurationWriteException;
-use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\Configuration\SiteWriter;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -30,7 +31,9 @@ class SiteConfigurationService implements SingletonInterface, MapperServiceInter
     public function init(int $pageUid): self
     {
         $this->siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $this->siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+        if((new Typo3Version())->getMajorVersion() >= 13) {
+            $this->siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+        }
         $sites = $this->siteConfiguration->getAllExistingSites();
         $indexedSites = [];
         foreach ($sites as $site) {
@@ -84,9 +87,14 @@ class SiteConfigurationService implements SingletonInterface, MapperServiceInter
      */
     public function writeSiteData(array $siteData): void
     {
-        if ($this->siteWriter !== null && $this->siteConfiguration !== null && $this->getSite() !== null) {
-            $this->siteWriter->write($this->getSite()->getIdentifier(), $siteData);
-            $this->siteData = $this->siteConfiguration->load($this->getSite()->getIdentifier());
+        if ($this->siteConfiguration !== null && $this->getSite() !== null) {
+            if($this->siteWriter !== null) {
+                $this->siteWriter->write($this->getSite()->getIdentifier(), $siteData);
+                $this->siteData = $this->siteConfiguration->load($this->getSite()->getIdentifier());
+            } else {
+                $this->siteConfiguration->write_withNoProcessing($this->getSite()->getIdentifier(), $siteData);
+                $this->siteData = $this->siteConfiguration->load_withImportsNotProcessed($this->getSite()->getIdentifier());
+            }
         }
     }
 }
