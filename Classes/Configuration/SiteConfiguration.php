@@ -12,6 +12,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
 {
+    public function getSiteSettingsPublic($identifier, $siteData): \TYPO3\CMS\Core\Site\Entity\SiteSettings
+    {
+        return $this->getSiteSettings($identifier, $siteData);
+    }
+
     /**
      * @param string $siteIdentifier
      * @return array

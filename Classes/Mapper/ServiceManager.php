@@ -13,6 +13,7 @@ namespace Buepro\Easyconf\Mapper;
 
 use Buepro\Easyconf\Mapper\Service\EasyconfService;
 use Buepro\Easyconf\Mapper\Service\SiteConfigurationService;
+use Buepro\Easyconf\Mapper\Service\SiteSettingsService;
 use Buepro\Easyconf\Mapper\Service\TypoScriptService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -21,6 +22,7 @@ class ServiceManager implements SingletonInterface
 {
     protected ?TypoScriptService $typoScriptService;
     protected ?SiteConfigurationService $siteConfigurationService;
+    protected ?SiteSettingsService $siteSettingsService;
     protected ?EasyconfService $easyconfService;
 
     public function init(int $pageUid): bool
@@ -29,6 +31,8 @@ class ServiceManager implements SingletonInterface
         $this->typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class)->init($pageUid);
         /** @extensionScannerIgnoreLine */
         $this->siteConfigurationService = GeneralUtility::makeInstance(SiteConfigurationService::class)->init($pageUid);
+        /** @extensionScannerIgnoreLine */
+        $this->siteSettingsService = GeneralUtility::makeInstance(SiteSettingsService::class)->init($pageUid);
         /** @extensionScannerIgnoreLine */
         $this->easyconfService = GeneralUtility::makeInstance(EasyconfService::class)->init($pageUid);
         return $this->servicesAvailable();
