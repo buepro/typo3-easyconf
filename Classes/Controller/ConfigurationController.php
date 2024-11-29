@@ -67,6 +67,7 @@ class ConfigurationController extends ActionController
             'queryParams' => $this->request->getQueryParams(),
             'sites' => $this->getSitesData(),
             'agency' => $this->getAgencyData(),
+            'isAdmin' => $GLOBALS['BE_USER']->isAdmin(),
         ]);
         return $moduleTemplate->renderResponse('Info');
     }

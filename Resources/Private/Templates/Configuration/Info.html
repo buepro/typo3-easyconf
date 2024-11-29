@@ -22,7 +22,9 @@
                         <f:format.printf arguments="{pageTitle: site.rootPageTitle}">{f:translate(key: 'selectPage')}</f:format.printf>
                     </be:link.editRecord>
                 </f:for>
-                <a class="btn btn-primary mb-2" href="{be:moduleLink(route: 'web_ts', arguments: '{id: pageUid}')}">{f:translate(key: 'switchTemplateModule')}</a>
+                <f:if condition="{isAdmin}">
+                    <a class="btn btn-primary mb-2" href="{be:moduleLink(route: 'web_ts', arguments: '{id: pageUid}')}">{f:translate(key: 'switchTemplateModule')}</a>
+                </f:if>
             </f:be.infobox>
         </f:if>
         <f:if condition="{agency.url} || {agency.email} || {agency.phone}">
