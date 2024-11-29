@@ -4,6 +4,13 @@
 		  product-name="easyconf">
 		<header/>
 		<body>
+			<trans-unit id="tabTypoScript2" resname="tabTypoScript">
+				<source>3S</source>
+			</trans-unit>
+			<trans-unit id="tres_basecolors_color1" resname="cowner_ompany">
+				<source>Color 1</source>
+			</trans-unit>
+
 			<trans-unit id="tabTypoScript" resname="tabTypoScript">
 				<source>TypoScript</source>
 			</trans-unit>
@@ -18,6 +25,22 @@
 			</trans-unit>
 			<trans-unit id="owner_last_name" resname="owner_last_name">
 				<source>Lastname</source>
+			</trans-unit>
+
+			<trans-unit id="tabSiteSettings" resname="tabSiteSettings">
+				<source>Site settings</source>
+			</trans-unit>
+			<trans-unit id="settings_newsletter_popup" resname="settings_newsletter_popup">
+				<source>Newsletter Popup</source>
+			</trans-unit>
+			<trans-unit id="settings_hero_image" resname="settings_hero_image">
+				<source>Hero Image</source>
+			</trans-unit>
+			<trans-unit id="settings_slider" resname="settings_slider">
+				<source>Slider</source>
+			</trans-unit>
+			<trans-unit id="settings_special_offer" resname="settings_special_offer">
+				<source>Special offer box</source>
 			</trans-unit>
 
 			<trans-unit id="tabSiteConfiguration" resname="tabSiteConfiguration">

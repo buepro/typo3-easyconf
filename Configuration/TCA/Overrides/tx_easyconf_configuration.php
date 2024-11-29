@@ -8,6 +8,7 @@
  */
 
 use Buepro\Easyconf\Mapper\EasyconfMapper;
+use Buepro\Easyconf\Mapper\SiteSettingsMapper;
 use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
 use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Utility\TcaUtility;
@@ -27,6 +28,12 @@ defined('TYPO3') or die('Access denied.');
             'easyconf.demo',
             'company, domain, firstName, lastName',
             'owner'
+        ),
+        TcaUtility::getPropertyMap(
+            SiteSettingsMapper::class,
+            'features',
+            'newsletter.popup, heroImage, slider, specialOffer',
+            'settings'
         ),
         TcaUtility::getPropertyMap(
             SiteConfigurationMapper::class,
@@ -61,6 +68,7 @@ defined('TYPO3') or die('Access denied.');
             '--palette--;;paletteCompany',
             TcaUtility::getFieldList('firstName, lastName', 'owner'),
         ]),
+        'tabSiteSettings' => TcaUtility::getFieldList('newsletter.popup, heroImage, slider, specialOffer', 'settings'),
         'tabSiteConfiguration' => TcaUtility::getFieldList('company, contact, email, phone', 'agency'),
         'tabEasyconf' => TcaUtility::getFieldList('showAllProperties', 'easyconf'),
     ];
@@ -83,6 +91,14 @@ defined('TYPO3') or die('Access denied.');
         'firstName, lastName',
         ['displayCond' => 'FIELD:easyconf_show_all_properties:REQ:true'],
         'owner'
+    );
+    TcaUtility::modifyColumns(
+        $tca['columns'],
+        'newsletter.popup, heroImage, slider, specialOffer',
+        [
+            'config' => ['type' => 'check', 'renderType' => 'checkboxToggle'],
+        ],
+        'settings'
     );
 
     unset($tca);
