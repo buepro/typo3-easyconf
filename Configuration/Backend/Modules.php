@@ -9,6 +9,8 @@
 
 use Buepro\Easyconf\Controller\ConfigurationController;
 
+$hideNavigation = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('easyconf')['hidePageNavigation'] ?? false;
+
 return [
     'web_Easyconf' => [
         'parent' => 'site',
@@ -22,6 +24,6 @@ return [
         'controllerActions' => [
             ConfigurationController::class => ['edit', 'info'],
         ],
-        'navigationComponent' => '@typo3/backend/page-tree/page-tree-element',
+        'navigationComponent' => $hideNavigation ? '' : '@typo3/backend/page-tree/page-tree-element',
     ],
 ];

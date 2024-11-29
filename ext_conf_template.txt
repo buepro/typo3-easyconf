@@ -1,0 +1,2 @@
+# cat=basic/; type=boolean; label=Hide page navigation: If enabled page navigation is hidden (configuration will be auto-created for root pages)
+    hidePageNavigation = 0
