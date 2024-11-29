@@ -16,7 +16,9 @@ use Buepro\Easyconf\Service\DatabaseService;
 use Buepro\Easyconf\Service\UriService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -28,33 +30,35 @@ class ConfigurationController extends ActionController
     protected ModuleTemplateFactory $moduleTemplateFactory;
     protected ConfigurationRepository $configurationRepository;
     protected PageRepository $pageRepository;
+    protected DatabaseService $databaseService;
     protected ?int $pageUid;
     protected ?int $templateUid;
     protected ?array $configuration;
 
+    protected bool $hidePageNavigation = false;
+
     public function __construct(
         ModuleTemplateFactory $moduleTemplateFactory,
         ConfigurationRepository $configurationRepository,
-        PageRepository $pageRepository
+        PageRepository $pageRepository,
+        DatabaseService $databaseService
     ) {
         $this->moduleTemplateFactory = $moduleTemplateFactory;
         $this->configurationRepository = $configurationRepository;
         $this->pageRepository = $pageRepository;
+        $this->databaseService = $databaseService;
     }
 
     public function initializeAction(): void
     {
         parent::initializeAction();
-        $databaseService = GeneralUtility::makeInstance(DatabaseService::class);
+        $this->hidePageNavigation = (bool)\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('easyconf')['hidePageNavigation'] ?? false;
         $this->pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
-        $this->templateUid = intval($databaseService->getField('sys_template', 'uid', ['pid' => $this->pageUid]));
-        $this->configuration = $databaseService->getRecord('tx_easyconf_configuration', ['pid' => $this->pageUid]);
+        $this->templateUid = intval($this->databaseService->getField('sys_template', 'uid', ['pid' => $this->pageUid]));
+        $this->configuration = $this->databaseService->getRecord('tx_easyconf_configuration', ['pid' => $this->pageUid]);
+        $this->hiddenPageNavigationHandling();
         if ($this->pageUid > 0 && $this->templateUid > 0 && $this->configuration === null) {
-            $this->configuration = $databaseService->addRecord(
-                'tx_easyconf_configuration',
-                ['pid' => $this->pageUid],
-                [Connection::PARAM_INT]
-            );
+            $this->configuration = self::createConfiguration($this->pageUid);
         }
     }
 
@@ -84,10 +88,20 @@ class ConfigurationController extends ActionController
     {
         $configurationRepository = $this->configurationRepository;
         $pageRepository = $this->pageRepository;
+        $hidePageNavigation = $this->hidePageNavigation;
+
         $sites = array_map(
-            static function (Site $site) use ($configurationRepository, $pageRepository) {
+            static function (Site $site) use ($configurationRepository, $pageRepository, $hidePageNavigation) {
                 $configuration = $configurationRepository->getFirstByPid($site->getRootPageId());
-                if (($configurationUid = (int)($configuration['uid'] ?? 0)) === 0) {
+                $configurationUid = (int)($configuration['uid'] ?? 0);
+                if ($configurationUid === 0) {
+                    if($hidePageNavigation) {
+                        $configurationUid = (int)self::createConfiguration($site->getRootPageId())['uid'];
+                    } else {
+                        return [];
+                    }
+                }
+                if(!$GLOBALS['BE_USER']->isInWebMount($site->getRootPageId())) {
                     return [];
                 }
                 $page = $pageRepository->getPage($site->getRootPageId());
@@ -95,12 +109,46 @@ class ConfigurationController extends ActionController
                 $title = $title === '' ? $page['subtitle'] : $title;
                 return [
                     'configurationUid' => $configurationUid,
-                    'rootPageTitle' => $title
+                    'rootPageTitle' => $title,
+                    'rootPageUid' => $site->getRootPageId(),
                 ];
             },
             GeneralUtility::makeInstance(SiteFinder::class)->getAllSites()
         );
         return array_filter($sites, static fn (array $site): bool => $site !== []);
+    }
+
+    static function createConfiguration(int $pid)
+    {
+        return GeneralUtility::makeInstance(DatabaseService::class)
+            ->addRecord(
+                'tx_easyconf_configuration',
+                ['pid' => $pid],
+                [Connection::PARAM_INT]
+            );
+    }
+
+    /**
+     * Hidden page navigation
+     * If multiple pages accessible with root TS template, redirect to Info view
+     * If one page accessible, set this as the active one
+     * @return void
+     */
+    protected function hiddenPageNavigationHandling(): void
+    {
+        if($this->hidePageNavigation) {
+            $rootPageUids = array_column($this->getSitesData(), 'rootPageUid');
+            if($rootPageUids && !($this->templateUid && in_array($this->pageUid, $rootPageUids))) {
+                // if multiple pages with TS root accessible
+                if(count($rootPageUids) > 1) {
+                    $this->redirect('info');
+                } elseif (count($rootPageUids) === 1) {
+                    $this->pageUid = $rootPageUids[0];
+                    $this->templateUid = intval($this->databaseService->getField('sys_template', 'uid', ['pid' => $this->pageUid]));
+                    $this->configuration = $this->databaseService->getRecord('tx_easyconf_configuration', ['pid' => $this->pageUid]);
+                }
+            }
+        }
     }
 
     protected function getAgencyData(): array
@@ -120,7 +168,7 @@ class ConfigurationController extends ActionController
         $site = $this->request->getAttribute('site');
         if (
             $site instanceof Site &&
-            is_array($settings = $site->getAttribute('easyconf')) &&
+            is_array($settings = $site->getConfiguration()['easyconf'] ?? false) &&
             is_array($agency = $settings['data']['admin']['agency'] ?? false)
         ) {
             return $agency;

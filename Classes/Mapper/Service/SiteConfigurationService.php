@@ -23,6 +23,7 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 class SiteConfigurationService implements SingletonInterface, MapperServiceInterface
 {
+    /** @var SiteConfiguration|null  */
     protected ?SiteConfiguration $siteConfiguration = null;
     protected ?SiteWriter $siteWriter = null;
     protected ?Site $site = null;
@@ -44,7 +45,7 @@ class SiteConfigurationService implements SingletonInterface, MapperServiceInter
         foreach ($rootLine as $pageRecord) {
             if (isset($indexedSites[$pageRecord['uid']])) {
                 $this->site = $indexedSites[$pageRecord['uid']];
-                $this->siteData = $this->siteConfiguration->load($this->site->getIdentifier());
+                $this->siteData = $this->siteConfiguration->load_withImportsNotProcessed($this->site->getIdentifier());
                 return $this;
             }
         }
