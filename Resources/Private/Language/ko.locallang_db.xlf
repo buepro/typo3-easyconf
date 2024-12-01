@@ -3,6 +3,14 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z" product-name="easyconf" target-language="ko">
     <header/>
     <body>
+      <trans-unit id="tabTypoScript2" resname="tabTypoScript">
+        <source>3S</source>
+        <target state="needs-translation">3S</target>
+      </trans-unit>
+      <trans-unit id="tres_basecolors_color1" resname="cowner_ompany">
+        <source>Color 1</source>
+        <target state="needs-translation">Color 1</target>
+      </trans-unit>
       <trans-unit id="tabTypoScript" resname="tabTypoScript">
         <source>TypoScript</source>
         <target state="needs-translation">TypoScript</target>
@@ -22,6 +30,26 @@
       <trans-unit id="owner_last_name" resname="owner_last_name">
         <source>Lastname</source>
         <target state="needs-translation">Lastname</target>
+      </trans-unit>
+      <trans-unit id="tabSiteSettings" resname="tabSiteSettings">
+        <source>Site settings</source>
+        <target state="needs-translation">Site settings</target>
+      </trans-unit>
+      <trans-unit id="settings_newsletter_popup" resname="settings_newsletter_popup">
+        <source>Newsletter Popup</source>
+        <target state="needs-translation">Newsletter Popup</target>
+      </trans-unit>
+      <trans-unit id="settings_hero_image" resname="settings_hero_image">
+        <source>Hero Image</source>
+        <target state="needs-translation">Hero Image</target>
+      </trans-unit>
+      <trans-unit id="settings_slider" resname="settings_slider">
+        <source>Slider</source>
+        <target state="needs-translation">Slider</target>
+      </trans-unit>
+      <trans-unit id="settings_special_offer" resname="settings_special_offer">
+        <source>Special offer box</source>
+        <target state="needs-translation">Special offer box</target>
       </trans-unit>
       <trans-unit id="tabSiteConfiguration" resname="tabSiteConfiguration">
         <source>Site Configuration</source>
