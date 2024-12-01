@@ -1,8 +1,14 @@
 <?php
 
+/*
+ * This file is part of the composer package buepro/typo3-easyconf.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file that was distributed with this source code.
+ */
+
 namespace Buepro\Easyconf\Configuration;
 
-use DKM\SiteConfiguration\Utility;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Configuration\Event\SiteConfigurationBeforeWriteEvent;
 use TYPO3\CMS\Core\Configuration\Exception\SiteConfigurationWriteException;
@@ -49,18 +55,18 @@ class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
             $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
             // load without any processing to have the unprocessed base to modify
             $newConfiguration = $loader->load(GeneralUtility::fixWindowsFilePath($fileName), 0);
-// Out commented:
-/*            // load the processed configuration to diff changed values
-            $processed = $loader->load(GeneralUtility::fixWindowsFilePath($fileName));
-            // find properties that were modified via GUI
-            $newModified = array_replace_recursive(
-                self::findRemoved($processed, $configuration),
-                self::findModified($processed, $configuration)
-            );
-            if ($protectPlaceholders && $newModified !== []) {
-                $newModified = $this->protectPlaceholders($newConfiguration, $newModified);
-            }*/
-// 1 line added
+            // Out commented:
+            /*            // load the processed configuration to diff changed values
+                        $processed = $loader->load(GeneralUtility::fixWindowsFilePath($fileName));
+                        // find properties that were modified via GUI
+                        $newModified = array_replace_recursive(
+                            self::findRemoved($processed, $configuration),
+                            self::findModified($processed, $configuration)
+                        );
+                        if ($protectPlaceholders && $newModified !== []) {
+                            $newModified = $this->protectPlaceholders($newConfiguration, $newModified);
+                        }*/
+            // 1 line added
             $newModified = $configuration;
             // change _only_ the modified keys, leave the original non-changed areas alone
             ArrayUtility::mergeRecursiveWithOverrule($newConfiguration, $newModified);

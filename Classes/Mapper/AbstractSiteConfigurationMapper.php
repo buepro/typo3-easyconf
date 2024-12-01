@@ -12,14 +12,12 @@ declare(strict_types=1);
 namespace Buepro\Easyconf\Mapper;
 
 use Buepro\Easyconf\Mapper\Service\AbstractSiteConfigurationService;
-use Buepro\Easyconf\Mapper\Service\SiteConfigurationService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 abstract class AbstractSiteConfigurationMapper extends AbstractMapper implements SingletonInterface
 {
     protected AbstractSiteConfigurationService $siteConfigurationService;
-
 
     public function getProperty(string $path): string|int|float
     {

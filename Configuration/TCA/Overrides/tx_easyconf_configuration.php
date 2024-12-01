@@ -8,8 +8,8 @@
  */
 
 use Buepro\Easyconf\Mapper\EasyconfMapper;
-use Buepro\Easyconf\Mapper\SiteSettingsMapper;
 use Buepro\Easyconf\Mapper\SiteConfigurationMapper;
+use Buepro\Easyconf\Mapper\SiteSettingsMapper;
 use Buepro\Easyconf\Mapper\TypoScriptConstantMapper;
 use Buepro\Easyconf\Utility\TcaUtility;
 

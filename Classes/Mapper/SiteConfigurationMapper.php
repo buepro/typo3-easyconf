@@ -11,10 +11,8 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Mapper;
 
-use Buepro\Easyconf\Mapper\Service\AbstractSiteConfigurationService;
 use Buepro\Easyconf\Mapper\Service\SiteConfigurationService;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 class SiteConfigurationMapper extends AbstractSiteConfigurationMapper implements SingletonInterface
 {

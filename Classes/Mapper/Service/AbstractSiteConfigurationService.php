@@ -12,8 +12,6 @@ declare(strict_types=1);
 namespace Buepro\Easyconf\Mapper\Service;
 
 use Buepro\Easyconf\Configuration\SiteConfiguration;
-use Buepro\Easyconf\Mapper\SiteSettingsMapper;
-use TYPO3\CMS\Core\Configuration\Exception\SiteConfigurationWriteException;
 use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\SingletonInterface;

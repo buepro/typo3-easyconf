@@ -16,9 +16,7 @@ use Buepro\Easyconf\Service\DatabaseService;
 use Buepro\Easyconf\Service\UriService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -118,7 +116,7 @@ class ConfigurationController extends ActionController
         return array_filter($sites, static fn (array $site): bool => $site !== []);
     }
 
-    static function createConfiguration(int $pid)
+    public static function createConfiguration(int $pid)
     {
         return GeneralUtility::makeInstance(DatabaseService::class)
             ->addRecord(
