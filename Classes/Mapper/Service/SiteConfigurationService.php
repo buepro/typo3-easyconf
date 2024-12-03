@@ -14,12 +14,12 @@ namespace Buepro\Easyconf\Mapper\Service;
 class SiteConfigurationService extends AbstractSiteConfigurationService
 {
 
-    public function load($identifier): array
+    public function load(): array
     {
-        return $this->siteConfiguration->load_withImportsNotProcessed($identifier);
+        return $this->siteConfiguration->load_withImportsNotProcessed($this->getSite()->getIdentifier());
     }
 
-    public function write($identifier, $siteData): void
+    public function write($siteData): void
     {
         if($this->siteWriter !== null) {
             $this->siteWriter->write($this->getSite()->getIdentifier(), $siteData);

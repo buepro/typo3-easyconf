@@ -18,7 +18,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
 {
-    public function getSiteSettingsPublic($identifier, $siteData): \TYPO3\CMS\Core\Site\Entity\SiteSettings
+
+    protected string $configFileName = 'config.yaml';
+
+    public function getSiteSettingsPublic(string $identifier, array $siteData): \TYPO3\CMS\Core\Site\Entity\SiteSettings
     {
         return $this->getSiteSettings($identifier, $siteData);
     }
