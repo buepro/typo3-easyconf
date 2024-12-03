@@ -14,17 +14,21 @@ use TYPO3\CMS\Core\Site\Entity\Site;
 class SiteSettingsService extends AbstractSiteConfigurationService
 {
 
-    public function load(string $identifier): array
+    public function load(): array
     {
         /** @var Site|null $site */
-        if($site = $this->siteConfiguration->resolveAllExistingSites(false)[$identifier] ?? null) {
+        if($site = $this->siteConfiguration->resolveAllExistingSites(false)[$this->getSite()->getIdentifier()] ?? null) {
             return $site->getSettings()->getAll();
         }
         return [];
     }
 
-    public function write(string $identifier, array $siteData): void
+    public function write(array $siteData): void
     {
-        $this->siteConfiguration->writeSettings($identifier, $siteData);
+        if($this->siteWriter !== null) {
+            $this->siteWriter->writeSettings($this->getSite()->getIdentifier(), $siteData);
+        } else {
+            $this->siteConfiguration->write_withNoProcessing($this->getSite()->getIdentifier(), $siteData);
+        }
     }
 }
