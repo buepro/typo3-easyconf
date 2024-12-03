@@ -22,24 +22,21 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 abstract class AbstractSiteConfigurationService implements SingletonInterface, MapperServiceInterface
 {
-    abstract public function load(string $identifier): array;
-    abstract public function write(string $identifier, array $siteData): void;
+    abstract public function load(): array;
+    abstract public function write(array $siteData): void;
 
     /** @var SiteConfiguration|null  */
     protected ?SiteConfiguration $siteConfiguration = null;
+    // @phpstan-ignore class.notFound
     protected ?SiteWriter $siteWriter = null;
     protected ?Site $site = null;
     protected array $siteData = [];
-
-    public function setSiteConfigurationDataType(string $siteConfigurationDataType): void
-    {
-        $this->siteConfigurationDataType = $siteConfigurationDataType;
-    }
 
     public function init(int $pageUid): self
     {
         $this->siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
         if((new Typo3Version())->getMajorVersion() >= 13) {
+            // @phpstan-ignore class.notFound
             $this->siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
         }
         $sites = $this->siteConfiguration->getAllExistingSites();
@@ -97,8 +94,8 @@ abstract class AbstractSiteConfigurationService implements SingletonInterface, M
     public function writeSiteData(array $siteData): void
     {
         if ($this->siteConfiguration !== null && $this->getSite() !== null) {
-            $this->write($this->getSite()->getIdentifier(), $siteData);
-            $this->siteData = $this->load($this->getSite()->getIdentifier());
+            $this->write($siteData);
+            $this->siteData = $this->load();
         }
     }
 }
