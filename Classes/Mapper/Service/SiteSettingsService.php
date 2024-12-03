@@ -28,7 +28,7 @@ class SiteSettingsService extends AbstractSiteConfigurationService
         if($this->siteWriter !== null) {
             $this->siteWriter->writeSettings($this->getSite()->getIdentifier(), $siteData);
         } else {
-            $this->siteConfiguration->write_withNoProcessing($this->getSite()->getIdentifier(), $siteData);
+            $this->siteConfiguration->writeSettings($this->getSite()->getIdentifier(), $siteData);
         }
     }
 }
