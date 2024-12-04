@@ -1,2 +1,5 @@
 # cat=basic/; type=boolean; label=Hide page navigation: If enabled page navigation is hidden (configuration will be auto-created for root pages)
     hidePageNavigation = 0
+
+# cat=basic/; type=boolean; label=Load demo configuration: If disabled, you need to provide your own configuration.
+    loadDemoConfiguration = 1
