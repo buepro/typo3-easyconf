@@ -66,7 +66,9 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
             // @phpstan-ignore-next-line
             $result['databaseRow'] = $this->eventDispatcher->dispatch($event)->getFormFields();
         }
-        $result['recordTypeValue'] = $result['databaseRow']['group'] ?: 0;
+        if($result['databaseRow']['group'] ?? false) {
+            $result['recordTypeValue'] = $result['databaseRow']['group'] ?: 0;
+        }
         return $result;
     }
 }
