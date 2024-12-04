@@ -77,7 +77,7 @@ class ConfigurationController extends ActionController
             'multipleTypes' => $this->multipleTypes,
             'hidePageNavigation' => $this->hidePageNavigation,
         ]);
-        return $moduleTemplate->renderResponse('Info');
+        return $moduleTemplate->renderResponse('Configuration/Info');
     }
 
     public function editAction(): ResponseInterface
