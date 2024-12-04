@@ -35,6 +35,8 @@ class ConfigurationController extends ActionController
 
     protected bool $hidePageNavigation = false;
 
+    protected bool $multipleTypes = false;
+
     public function __construct(
         ModuleTemplateFactory $moduleTemplateFactory,
         ConfigurationRepository $configurationRepository,
@@ -51,6 +53,7 @@ class ConfigurationController extends ActionController
     {
         parent::initializeAction();
         $this->hidePageNavigation = (bool)\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('easyconf')['hidePageNavigation'] ?? false;
+        $this->multipleTypes = count($GLOBALS['TCA']['tx_easyconf_configuration']['types']) > 1;
         $this->pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
         $this->templateUid = intval($this->databaseService->getField('sys_template', 'uid', ['pid' => $this->pageUid]));
         $this->configuration = $this->databaseService->getRecord('tx_easyconf_configuration', ['pid' => $this->pageUid]);
@@ -70,14 +73,21 @@ class ConfigurationController extends ActionController
             'sites' => $this->getSitesData(),
             'agency' => $this->getAgencyData(),
             'isAdmin' => $GLOBALS['BE_USER']->isAdmin(),
+            'types' => $GLOBALS['TCA']['tx_easyconf_configuration']['types'],
+            'multipleTypes' => $this->multipleTypes,
+            'hidePageNavigation' => $this->hidePageNavigation,
         ]);
-        return $moduleTemplate->renderResponse('Info');
+        return $moduleTemplate->renderResponse('Configuration/Info');
     }
 
     public function editAction(): ResponseInterface
     {
         if ($this->pageUid > 0 && $this->templateUid > 0 && $this->configuration !== null) {
-            return $this->redirectToUri((new UriService())->getEditUri($this->configuration, false));
+            if($this->multipleTypes) {
+                return $this->redirect('info');
+            } else {
+                return $this->redirectToUri((new UriService())->getEditUri($this->configuration, false));
+            }
         }
         return $this->redirect('info');
     }

@@ -57,12 +57,17 @@ class FormDataProvider implements FormDataProviderInterface, SingletonInterface
                 ) {
                     /** @var EasyconfMapper|SiteSettingsMapper|TypoScriptConstantMapper $mapper */
                     $value = $mapper->getProperty($path);
-                    $result['databaseRow'][$columnName] = TcaUtility::mapMapperToFormValue($columnName, $value);
+                    if($columnName != 'group') {
+                        $result['databaseRow'][$columnName] = TcaUtility::mapMapperToFormValue($columnName, $value);
+                    }
                 }
             }
             $event = new AfterReadingPropertiesEvent($result['databaseRow']);
             // @phpstan-ignore-next-line
             $result['databaseRow'] = $this->eventDispatcher->dispatch($event)->getFormFields();
+        }
+        if($result['databaseRow']['group'] ?? false) {
+            $result['recordTypeValue'] = $result['databaseRow']['group'] ?: 0;
         }
         return $result;
     }

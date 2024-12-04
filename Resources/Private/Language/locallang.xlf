@@ -19,6 +19,9 @@
 					or switch to the template module to create one for the current page.
 				</source>
 			</trans-unit>
+			<trans-unit id="editGroup" resname="editGroup">
+				<source>Edit %s</source>
+			</trans-unit>
 			<trans-unit id="selectPage" resname="selectPage">
 				<source>Select page "%s"</source>
 			</trans-unit>
