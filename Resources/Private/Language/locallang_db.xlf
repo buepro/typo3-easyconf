@@ -4,6 +4,25 @@
 		  product-name="easyconf">
 		<header/>
 		<body>
+			<trans-unit id="type_0_title" resname="type_0_title">
+				<source>Static information</source>
+			</trans-unit>
+			<trans-unit id="type_0_subtitle" resname="type_0_subtitle">
+				<source>settings</source>
+			</trans-unit>
+			<trans-unit id="type_0_description" resname="type_0_description">
+				<source>Configure static information. For example information like company name, address and phone number.</source>
+			</trans-unit>
+			<trans-unit id="type_1_title" resname="type_1_title">
+				<source>Site features</source>
+			</trans-unit>
+			<trans-unit id="type_1_subtitle" resname="type_1_subtitle">
+				<source>settings</source>
+			</trans-unit>
+			<trans-unit id="type_1_description" resname="type_1_description">
+				<source>Toggle activation of features, such as hero image and newsletter popup.</source>
+			</trans-unit>
+
 			<trans-unit id="tabTypoScript2" resname="tabTypoScript">
 				<source>3S</source>
 			</trans-unit>

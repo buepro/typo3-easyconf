@@ -2,6 +2,7 @@
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
     xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+    xmlns:easyconf="http://typo3.org/ns/Buepro/Easyconf/ViewHelpers"
     data-namespace-typo3-fluid="true">
 
 <f:layout name="Module" />
@@ -9,31 +10,94 @@
 <f:section name="Content">
     <h1>{f:translate(key: 'index.title')}</h1>
     <div class="col-md-8 col-lg-7 col-xl-6">
-        <f:if condition="{templateUid} == 0">
-            <f:be.infobox state="-2" title="{f:translate(key: 'noTemplate.title')}">
-                <p>{f:translate(key: 'noTemplate.description')}</p>
-                <f:for each="{sites}" as="site">
-                    <be:link.editRecord
-                        class="btn btn-success me-2 mb-2"
-                        returnUrl="{f:be.uri(route: 'web_Easyconf')}"
-                        table="tx_easyconf_configuration"
-                        uid="{site.configurationUid}"
-                    >
-                        <f:format.printf arguments="{pageTitle: site.rootPageTitle}">{f:translate(key: 'selectPage')}</f:format.printf>
-                    </be:link.editRecord>
-                </f:for>
-                <f:if condition="{isAdmin}">
-                    <a class="btn btn-primary mb-2" href="{be:moduleLink(route: 'web_ts', arguments: '{id: pageUid}')}">{f:translate(key: 'switchTemplateModule')}</a>
-                </f:if>
-            </f:be.infobox>
+        <f:if condition="{templateUid} == 0 || {multipleTypes} >= 2">
+            <f:if condition="{hidePageNavigation}">
+                <f:then>
+                    <f:render section="options" arguments="{_all}" />
+                </f:then>
+                <f:else>
+                    <f:be.infobox state="-2" title="{f:translate(key: 'noTemplate.title')}">
+                        <f:render section="options" arguments="{_all}" />
+                    </f:be.infobox>
+                </f:else>
+            </f:if>
         </f:if>
         <f:if condition="{agency.url} || {agency.email} || {agency.phone}">
             <f:render section="Support" arguments="{_all}" />
         </f:if>
         <f:be.infobox state="-1" title="{f:translate(key: 'info.restoreFieldValue.title')}">
+            <p>{f:translate(key: 'noTemplate.description')}</p>
             {f:translate(key: 'info.restoreFieldValue.description')}
         </f:be.infobox>
     </div>
+</f:section>
+
+<f:section name="options">
+    <f:for each="{sites}" as="site">
+        <f:if condition="{types -> f:count()} > 1">
+            <f:then>
+                <h2>{site.rootPageTitle}</h2>
+                <div class="card-container">
+                    <f:for each="{types}" as="typeData" key="typeKey">
+                        <div class="card card-size-fixed-small">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <f:render section="groupIcon" arguments="{_all}" />
+                                </div>
+                                <div class="card-header-body">
+                                    <h2 class="card-title">{f:translate(key: '{typeData.title}')}</h2>
+                                    <span class="card-subtitle">{f:translate(key: '{typeData.subtitle}')}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">{f:translate(key: '{typeData.description}')}</p>
+                            </div>
+                            <div class="card-footer">
+                                <easyconf:link.editRecord
+                                    class="btn btn-primary"
+                                    data="{inline:1}"
+                                    returnUrl="{f:be.uri(route: 'web_Easyconf')}"
+                                    table="tx_easyconf_configuration"
+                                    uid="{site.configurationUid}"
+                                    group="{typeKey}"
+                                >
+                                 <f:variable name="groupTitle"><f:translate key="{typeData.title}" /></f:variable>
+                                    <f:format.printf arguments="{groupTitle: groupTitle}">{f:translate(key: 'editGroup')}</f:format.printf>
+                                </easyconf:link.editRecord>
+                            </div>
+                        </div>
+                    </f:for>
+                </div>
+            </f:then>
+            <f:else>
+                <be:link.editRecord
+                    class="btn btn-success me-2 mb-2"
+                    returnUrl="{f:be.uri(route: 'web_Easyconf')}"
+                    table="tx_easyconf_configuration"
+                    uid="{site.configurationUid}"
+                >
+                    <f:format.printf arguments="{pageTitle: site.rootPageTitle}">{f:translate(key: 'selectPage')}</f:format.printf>
+                </be:link.editRecord>
+            </f:else>
+        </f:if>
+
+    </f:for>
+    <f:if condition="{isAdmin}">
+        <a class="btn btn-primary mb-2" href="{be:moduleLink(route: 'web_ts', arguments: '{id: pageUid}')}">{f:translate(key: 'switchTemplateModule')}</a>
+    </f:if>
+</f:section>
+
+<f:section name="groupIcon">
+    <f:variable name="defaultIcon">EXT:easyconf/Resources/Public/Icons/Extension.svg</f:variable>
+    <f:variable name="icon"><f:split separator=":" value="{typeData.cardIcon ? typeData.cardIcon : defaultIcon}" limit="2"/></f:variable>
+    <f:if condition="{icon.0} == 'icon'">
+        <f:then>
+            <core:icon identifier="{icon.1}" size="mega"></core:icon>
+        </f:then>
+        <f:else>
+            <f:image src="{icon.0}:{icon.1}" width="64" height="64" />
+        </f:else>
+    </f:if>
 </f:section>
 
 <f:section name="Support">

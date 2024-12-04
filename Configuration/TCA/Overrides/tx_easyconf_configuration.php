@@ -18,6 +18,7 @@ defined('TYPO3') or die('Access denied.');
 (static function () {
     $l10nFile = 'LLL:EXT:easyconf/Resources/Private/Language/locallang_db.xlf';
     $tca = &$GLOBALS['TCA']['tx_easyconf_configuration'];
+    $tca['ctrl']['type'] = 'group';
 
     /**
      * Define columns
@@ -47,6 +48,12 @@ defined('TYPO3') or die('Access denied.');
             'showAllProperties',
             'easyconf'
         ),
+        TcaUtility::getPropertyMap(
+            EasyconfMapper::class,
+            'group',
+            'group',
+            ''
+        )
     ];
     $tca['columns'] = TcaUtility::getColumns($propertyMaps, $l10nFile);
 
@@ -61,18 +68,24 @@ defined('TYPO3') or die('Access denied.');
     ];
 
     /**
-     * Define type
+     * Define types for groups of tabs
      */
     $tabs = [
         'tabTypoScript' => implode(', ', [
             '--palette--;;paletteCompany',
             TcaUtility::getFieldList('firstName, lastName', 'owner'),
         ]),
-        'tabSiteSettings' => TcaUtility::getFieldList('newsletter.popup, heroImage, slider, specialOffer', 'settings'),
         'tabSiteConfiguration' => TcaUtility::getFieldList('company, contact, email, phone', 'agency'),
         'tabEasyconf' => TcaUtility::getFieldList('showAllProperties', 'easyconf'),
     ];
-    $tca['types'][0] = TcaUtility::getType($tabs, $l10nFile);
+    TcaUtility::addType('0', $tabs, $l10nFile, 'icon:module-list');
+
+    TcaUtility::addType('1',
+        ['tabSiteSettings' => TcaUtility::getFieldList('newsletter.popup, heroImage, slider, specialOffer', 'settings')],
+        $l10nFile,
+        'EXT:easyconf/Resources/Public/Icons/CardToggle.svg');
+
+
 
     /**
      * Modify columns

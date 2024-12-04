@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Buepro\Easyconf\Utility;
 
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -72,20 +73,32 @@ class TcaUtility
         ));
     }
 
+    /**
+     * @param string $mapper
+     * @param string $path
+     * @param string $propertyList
+     * @param string $fieldPrefix
+     * @param string $fieldList
+     * @param string $labelList optional - if present, then overrides LLL path
+     * @return array
+     */
     public static function getPropertyMap(
         string $mapper,
         string $path,
         string $propertyList,
         string $fieldPrefix = '',
-        string $fieldList = ''
+        string $fieldList = '',
+        string $labelList = ''
     ): array {
         $properties = GeneralUtility::trimExplode(',', $propertyList);
         $fields = self::getFields($properties, $fieldPrefix, $fieldList);
+        $fieldLabelMap = $labelList ? array_combine($fields, GeneralUtility::trimExplode(',', $labelList)) : [];
         return [
             'mapper' => $mapper,
             'path' => $path,
             'propertyFieldMap' => array_combine($properties, $fields),
             'fieldPropertyMap' => array_combine($fields, $properties),
+            'fieldLabelMap' => $fieldLabelMap,
         ];
     }
 
@@ -95,7 +108,7 @@ class TcaUtility
         foreach ($propertyMaps as $propertyMap) {
             foreach ($propertyMap['fieldPropertyMap'] as $field => $property) {
                 $result[$field] = [
-                    'label' => $l10nFile . ':' . $field,
+                    'label' => $propertyMap['fieldLabelMap'][$field] ?? $l10nFile . ':' . $field,
                     'tx_easyconf' => [
                         'mapper' => $propertyMap['mapper'],
                         'path' => $propertyMap['path'] . '.' . $property,
@@ -129,13 +142,25 @@ class TcaUtility
         return ['showitem' => self::getFieldList($propertyList, $fieldPrefix, $fieldList)];
     }
 
-    public static function getType(array $tabs, string $l10nFile): array
+    public static function getType(array $tabs, string $l10nFile, string $type = '0', $cardIcon = ''): array
     {
         $localizedTabs = [];
         foreach ($tabs as $tabName => $tabItemList) {
             $localizedTabs[] = '--div--;' . $l10nFile . ':' . $tabName . ', ' . $tabItemList;
         }
-        return ['showitem' => implode(', ', $localizedTabs)];
+        return [
+            'showitem' => implode(', ', $localizedTabs),
+            'title' => $l10nFile . ':type_' . $type . '_title',
+            'subtitle' => $l10nFile . ':type_' . $type . '_subtitle',
+            'description' => $l10nFile . ':type_' . $type . '_description',
+            'cardIcon' => $cardIcon,
+        ];
+    }
+
+    public static function addType(string $type, array $tabs, string $l10nFile, string $cardIcon = ''): void
+    {
+        $configuration = self::getType($tabs, $l10nFile, $type, $cardIcon);
+        $GLOBALS['TCA']['tx_easyconf_configuration']['types'][$type] = $configuration;
     }
 
     public static function modifyColumns(
