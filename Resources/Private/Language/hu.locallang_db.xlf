@@ -5,79 +5,79 @@
     <body>
       <trans-unit id="tabTypoScript2" resname="tabTypoScript">
         <source>3S</source>
-        <target state="needs-translation">3S</target>
+        <target state="translated">3S</target>
       </trans-unit>
       <trans-unit id="tres_basecolors_color1" resname="cowner_ompany">
         <source>Color 1</source>
-        <target state="needs-translation">Color 1</target>
+        <target state="translated">Szín 1</target>
       </trans-unit>
       <trans-unit id="tabTypoScript" resname="tabTypoScript">
         <source>TypoScript</source>
-        <target state="needs-translation">TypoScript</target>
+        <target state="translated">TypoScript</target>
       </trans-unit>
       <trans-unit id="owner_company" resname="cowner_ompany">
         <source>Company</source>
-        <target state="needs-translation">Company</target>
+        <target state="translated">Cég</target>
       </trans-unit>
       <trans-unit id="owner_domain" resname="owner_domain">
         <source>Domain</source>
-        <target state="needs-translation">Domain</target>
+        <target state="translated">Domain</target>
       </trans-unit>
       <trans-unit id="owner_first_name" resname="owner_first_name">
         <source>Firstname</source>
-        <target state="needs-translation">Firstname</target>
+        <target state="translated">Keresztnév</target>
       </trans-unit>
       <trans-unit id="owner_last_name" resname="owner_last_name">
         <source>Lastname</source>
-        <target state="needs-translation">Lastname</target>
+        <target state="translated">Vezetéknév</target>
       </trans-unit>
       <trans-unit id="tabSiteSettings" resname="tabSiteSettings">
         <source>Site settings</source>
-        <target state="needs-translation">Site settings</target>
+        <target state="translated">Oldal beállításai</target>
       </trans-unit>
       <trans-unit id="settings_newsletter_popup" resname="settings_newsletter_popup">
         <source>Newsletter Popup</source>
-        <target state="needs-translation">Newsletter Popup</target>
+        <target state="translated">Hírlevél felugró ablak</target>
       </trans-unit>
       <trans-unit id="settings_hero_image" resname="settings_hero_image">
         <source>Hero Image</source>
-        <target state="needs-translation">Hero Image</target>
+        <target state="translated">Főkép</target>
       </trans-unit>
       <trans-unit id="settings_slider" resname="settings_slider">
         <source>Slider</source>
-        <target state="needs-translation">Slider</target>
+        <target state="translated">Csúszka</target>
       </trans-unit>
       <trans-unit id="settings_special_offer" resname="settings_special_offer">
         <source>Special offer box</source>
-        <target state="needs-translation">Special offer box</target>
+        <target state="translated">Akciós ajánlat doboz</target>
       </trans-unit>
       <trans-unit id="tabSiteConfiguration" resname="tabSiteConfiguration">
         <source>Site Configuration</source>
-        <target state="needs-translation">Site Configuration</target>
+        <target state="translated">Oldal konfigurációja</target>
       </trans-unit>
       <trans-unit id="agency_company" resname="agency_company">
         <source>Company</source>
-        <target state="needs-translation">Company</target>
+        <target state="translated">Cég</target>
       </trans-unit>
       <trans-unit id="agency_contact" resname="agency_contact">
         <source>Contact</source>
-        <target state="needs-translation">Contact</target>
+        <target state="translated">Kapcsolat</target>
       </trans-unit>
       <trans-unit id="agency_phone" resname="agency_phone">
         <source>Phone</source>
-        <target state="needs-translation">Phone</target>
+        <target state="translated">Telefon</target>
       </trans-unit>
       <trans-unit id="agency_email" resname="agency_email">
         <source>Email</source>
-        <target state="needs-translation">Email</target>
+        <target state="translated">E-mail</target>
       </trans-unit>
       <trans-unit id="tabEasyconf" resname="tabEasyconf">
         <source>Easyconf</source>
-        <target state="needs-translation">Easyconf</target>
+        <target state="translated">Easyconf</target>
       </trans-unit>
       <trans-unit id="easyconf_show_all_properties" resname="easyconf_show_all_properties">
         <source>Show all properties</source>
-        <target state="needs-translation">Show all properties</target>
+        <target state="translated">Összes tulajdonság megjelenítése</target>
       </trans-unit>
     </body>
   </file>
