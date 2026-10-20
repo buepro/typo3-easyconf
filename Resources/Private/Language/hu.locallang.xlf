@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z" product-name="easyconf" target-language="hu">
+    <header/>
+    <body>
+      <trans-unit id="index.title" resname="index.title">
+        <source>Website configuration</source>
+        <target state="translated">Weboldal beállításai</target>
+      </trans-unit>
+      <trans-unit id="index.description" resname="index.description">
+        <source/>
+      </trans-unit>
+      <trans-unit id="noTemplate.title" resname="noTemplate.title">
+        <source>Template required</source>
+        <target state="translated">Sablon szükséges</target>
+      </trans-unit>
+      <trans-unit id="noTemplate.description" resname="noTemplate.description">
+        <source>
+					For the selected page no template record is available. Select a page having a template record
+					or switch to the template module to create one for the current page.
+				</source>
+        <target state="translated">
+					A kijelölt oldalhoz nem érhető el sablonrekord. Válasszon olyan oldalt, amelyhez tartozik sablonrekord,
+					vagy váltson a sablon modulra, hogy létrehozzon egyet az aktuális oldalhoz.
+				</target>
+      </trans-unit>
+      <trans-unit id="selectPage" resname="selectPage">
+        <source>Select page "%s"</source>
+        <target state="translated">Oldal "%s" kiválasztása</target>
+      </trans-unit>
+      <trans-unit id="switchTemplateModule" resname="switchTemplateModule">
+        <source>Switch to template module</source>
+        <target state="translated">Váltás a sablon modulra</target>
+      </trans-unit>
+      <trans-unit id="support.title" resname="support.title">
+        <source>Need help?</source>
+        <target state="translated">Segítségre van szüksége?</target>
+      </trans-unit>
+      <trans-unit id="support.description" resname="support.description">
+        <source>
+					TYPO3 is known for its flexibility. Almost all is possible...! This flexibility
+					increases as well the complexity and therefore more detailed adjustments require deeper
+					understanding. Don't lose precious time on further configuration and let the experts help you.
+				</source>
+        <target state="translated">
+					A TYPO3 a rugalmasságáról ismert. Szinte minden lehetséges...! Ez a rugalmasság
+					növeli a komplexitást is, ezért a részletesebb beállítások mélyebb megértést igényelnek.
+					Ne pazarolja drága idejét további konfigurációra, és hagyja, hogy a szakértők segítsenek.
+				</target>
+      </trans-unit>
+      <trans-unit id="support.action.info" resname="support.action.info">
+        <source>Get more information</source>
+        <target state="translated">További információ</target>
+      </trans-unit>
+      <trans-unit id="support.action.call" resname="support.action.call">
+        <source>Call us</source>
+        <target state="translated">Hívjon minket</target>
+      </trans-unit>
+      <trans-unit id="support.action.email" resname="support.action.email">
+        <source>Send an email</source>
+        <target state="translated">E-mail küldése</target>
+      </trans-unit>
+      <trans-unit id="info.restoreFieldValue.title" resname="info.restoreFieldValue.title">
+        <source>Restore field values</source>
+        <target state="translated">Mezőértékek visszaállítása</target>
+      </trans-unit>
+      <trans-unit id="info.restoreFieldValue.description" resname="info.restoreFieldValue.description">
+        <source>Inherited field values can be restored by saving double question marks (`??`) as field value.</source>
+        <target state="translated">Az örökölt mezőértékek visszaállíthatók a dupla kérdőjel (`??`) mezőértékként történő mentésével.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
