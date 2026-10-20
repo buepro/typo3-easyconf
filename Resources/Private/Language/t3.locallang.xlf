@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2022-04-04T09:11:39Z" product-name="easyconf" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="index.title" resname="index.title">
+        <source>Website configuration</source>
+        <target>crwdns167522:0crwdne167522:0</target>
+      </trans-unit>
+      <trans-unit id="index.description" resname="index.description">
+        <source/>
+      </trans-unit>
+      <trans-unit id="noTemplate.title" resname="noTemplate.title">
+        <source>Template required</source>
+        <target>crwdns167524:0crwdne167524:0</target>
+      </trans-unit>
+      <trans-unit id="noTemplate.description" resname="noTemplate.description">
+        <source>
+					For the selected page no template record is available. Select a page having a template record
+					or switch to the template module to create one for the current page.
+				</source>
+        <target>crwdns167526:0crwdne167526:0</target>
+      </trans-unit>
+      <trans-unit id="selectPage" resname="selectPage">
+        <source>Select page "%s"</source>
+        <target>crwdns167528:0%scrwdne167528:0</target>
+      </trans-unit>
+      <trans-unit id="switchTemplateModule" resname="switchTemplateModule">
+        <source>Switch to template module</source>
+        <target>crwdns167530:0crwdne167530:0</target>
+      </trans-unit>
+      <trans-unit id="support.title" resname="support.title">
+        <source>Need help?</source>
+        <target>crwdns167532:0crwdne167532:0</target>
+      </trans-unit>
+      <trans-unit id="support.description" resname="support.description">
+        <source>
+					TYPO3 is known for its flexibility. Almost all is possible...! This flexibility
+					increases as well the complexity and therefore more detailed adjustments require deeper
+					understanding. Don't lose precious time on further configuration and let the experts help you.
+				</source>
+        <target>crwdns167534:0crwdne167534:0</target>
+      </trans-unit>
+      <trans-unit id="support.action.info" resname="support.action.info">
+        <source>Get more information</source>
+        <target>crwdns167536:0crwdne167536:0</target>
+      </trans-unit>
+      <trans-unit id="support.action.call" resname="support.action.call">
+        <source>Call us</source>
+        <target>crwdns167538:0crwdne167538:0</target>
+      </trans-unit>
+      <trans-unit id="support.action.email" resname="support.action.email">
+        <source>Send an email</source>
+        <target>crwdns167540:0crwdne167540:0</target>
+      </trans-unit>
+      <trans-unit id="info.restoreFieldValue.title" resname="info.restoreFieldValue.title">
+        <source>Restore field values</source>
+        <target>crwdns210926:0crwdne210926:0</target>
+      </trans-unit>
+      <trans-unit id="info.restoreFieldValue.description" resname="info.restoreFieldValue.description">
+        <source>Inherited field values can be restored by saving double question marks (`??`) as field value.</source>
+        <target>crwdns210928:0crwdne210928:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
